@@ -22,7 +22,7 @@ public class CategoryDaoImpl implements CategoryDao {
         if (category == null || category.getId() == null) {
             throw new IllegalArgumentException("Category or id null");
         }
-        em.persist(category);
+        em.merge(category);
     }
 
     public void deleteCategory(CategoryEntity category) throws IllegalArgumentException {
