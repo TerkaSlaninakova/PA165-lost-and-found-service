@@ -14,29 +14,29 @@ public interface CategoryDao {
      *
      * @param category
      */
-    public void addCategory(CategoryEntity category);
+    public void addCategory(CategoryEntity category) throws IllegalArgumentException;
 
     /**
      *
      * @param category
      */
-    public void updateCategory(CategoryEntity category);
+    public void updateCategory(CategoryEntity category) throws IllegalArgumentException;
 
     /**
      *
      * @param category
      */
-    public void deleteCategory(CategoryEntity category);
+    public void deleteCategory(CategoryEntity category) throws IllegalArgumentException;
 
     /**
      *
      * @param id
      * @return
      */
-    public CategoryEntity getCategoryById(Long id);
+    public CategoryEntity getCategoryById(Long id) throws IllegalArgumentException;
 
     /**
-     * 
+     *
      * @return
      */
     public List<CategoryEntity> getAllCategories();
