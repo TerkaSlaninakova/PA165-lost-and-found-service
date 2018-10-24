@@ -1,10 +1,13 @@
-package cz.muni.fi.Entity;
+package cz.muni.fi.entity;
 
 import com.sun.istack.internal.NotNull;
-
 import javax.persistence.*;
 
-@Entity
+/**
+ *
+ * @author Jakub Polacek
+ */
+@Entity(name = "Category")
 public class CategoryEntity {
 
     @Id

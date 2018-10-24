@@ -1,6 +1,6 @@
-package cz.muni.fi.Dao;
+package cz.muni.fi.dao;
 
-import cz.muni.fi.Entity.CategoryEntity;
+import cz.muni.fi.entity.CategoryEntity;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

@@ -1,6 +1,8 @@
-package cz.muni.fi.Dao;
+package cz.muni.fi.dao;
 
-import cz.muni.fi.Entity.UserEntity;
+import cz.muni.fi.entity.UserEntity;
+
+import java.util.List;
 
 /**
  * @author TerkaSlaninakova
@@ -25,7 +27,7 @@ public interface UserDao {
     /**
      * @param id
      */
-    void findUser(Long id);
+    UserEntity getUserById(Long id);
 
-    void getAllUsers();
+    List<UserEntity> getAllUsers();
 }
