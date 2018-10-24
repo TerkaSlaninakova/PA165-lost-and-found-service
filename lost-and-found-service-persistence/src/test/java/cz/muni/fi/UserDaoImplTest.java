@@ -3,6 +3,7 @@ package cz.muni.fi;
 import cz.muni.fi.dao.UserDao;
 import cz.muni.fi.entity.UserEntity;
 import org.junit.*;
+import static org.assertj.core.api.Assertions.*;
 
 import javax.ejb.EJBException;
 import javax.ejb.NoSuchEJBException;
@@ -150,40 +151,22 @@ public class UserDaoImplTest
 
     @Test
     public void shouldFailOnAddNullUpdate() throws Exception {
-        // Have to catch EJBException to get to the real one
-        try {
-            userDao.updateUser(null);
-        }
-        catch(EJBException ex){
-            Exception causedByException = ex.getCausedByException();
-            assertTrue(causedByException instanceof  IllegalArgumentException);
-            assertEquals(causedByException.getMessage(), "Null user object or user id provided");
-        }
+        assertThatThrownBy(() -> userDao.updateUser(null))
+                .hasCauseInstanceOf(IllegalArgumentException.class)
+                .hasStackTraceContaining("Null user object or user id provided");
     }
 
     @Test
     public void shouldFailOnAddNullDelete() throws Exception {
-        // Have to catch EJBException to get to the real one
-        try {
-            userDao.deleteUser(null);
-        }
-        catch(EJBException ex){
-            Exception causedByException = ex.getCausedByException();
-            assertTrue(causedByException instanceof  IllegalArgumentException);
-            assertEquals(causedByException.getMessage(), "Null user object or user id provided");
-        }
+        assertThatThrownBy(() -> userDao.deleteUser(null))
+                .hasCauseInstanceOf(IllegalArgumentException.class)
+                .hasStackTraceContaining("Null user object or user id provided");
     }
 
     @Test
     public void shouldFailOnAddNullGetById() throws Exception {
-        // Have to catch EJBException to get to the real one
-        try {
-            userDao.getUserById(null);
-        }
-        catch(EJBException ex){
-            Exception causedByException = ex.getCausedByException();
-            assertTrue(causedByException instanceof  IllegalArgumentException);
-            assertEquals(causedByException.getMessage(), "Null id provided");
-        }
+        assertThatThrownBy(() -> userDao.getUserById(null))
+                .hasCauseInstanceOf(IllegalArgumentException.class)
+                .hasStackTraceContaining("Null id provided");
     }
 }
