@@ -1,24 +1,61 @@
 package cz.muni.fi.entity;
 
+import com.sun.istack.internal.NotNull;
+
+import javax.persistence.*;
 import java.awt.*;
 
 /**
- * Entity for Item
+ * Entity for ItemEntity
  *
  * @author Augustin Nemec
  */
-public class Item {
 
+@Entity(name = "Item")
+public class ItemEntity {
+
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    private String type;
-    private String characteristics;
-    private Image photo;
-    private Status status;
-    private String lostLocation;
-    private String foundLocation;
-    //private List<Category> categories - neviem ci moze mat item viac kategorii ale asi ano ked je vztah M...N
 
+    @NotNull
+    @Column
+    private String name;
+
+    @Column
+    private String type;
+
+    @Column
+    private String characteristics;
+
+    @Column
+    private String photo;
+
+    @Column
+    @NotNull
+    private Status status;
+
+    @Column
+    private String lostLocation;
+
+    @Column
+    private String foundLocation;
+
+    @ManyToOne
+    @NotNull
+    private UserEntity owner;
+
+    public UserEntity getOwner() {
+        return owner;
+    }
+
+    public void setOwner(UserEntity owner) {
+        this.owner = owner;
+    }
+
+    public Long getId() {
+        return id;
+    }
 
     public String getName() {
         return name;
@@ -44,11 +81,11 @@ public class Item {
         this.characteristics = characteristics;
     }
 
-    public Image getPhoto() {
+    public String getPhoto() {
         return photo;
     }
 
-    public void setPhoto(Image photo) {
+    public void setPhoto(String photo) {
         this.photo = photo;
     }
 
