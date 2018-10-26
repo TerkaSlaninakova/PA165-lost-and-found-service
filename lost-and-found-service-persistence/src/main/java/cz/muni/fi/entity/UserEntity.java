@@ -1,8 +1,12 @@
 package cz.muni.fi.entity;
 
-import com.sun.istack.internal.NotNull;
+//import com.sun.istack.internal.NotNull;
+import org.jetbrains.annotations.NotNull;
+
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author TerkaSlaninakova
@@ -27,6 +31,9 @@ public class UserEntity {
 
     @Column
     private boolean isAdmin;
+
+    @OneToMany(mappedBy = "owner")
+    private Set<ItemEntity> items = new HashSet<>();
 
     public Long getId(){
         return id;
