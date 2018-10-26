@@ -1,6 +1,8 @@
 package cz.muni.fi.entity;
 
-import com.sun.istack.internal.NotNull;
+//import com.sun.istack.internal.NotNull;
+import org.jetbrains.annotations.NotNull;
+
 
 import javax.persistence.*;
 import java.util.HashSet;

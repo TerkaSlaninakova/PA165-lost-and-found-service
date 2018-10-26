@@ -3,10 +3,7 @@ package cz.muni.fi.dao;
 import cz.muni.fi.entity.ItemEntity;
 import cz.muni.fi.exceptions.*;
 
-import java.sql.SQLException;
 import java.util.List;
-
-// Neviem ci budeme pouzivat SQL databazu, kedtak nahradime SQLException niecim inym
 
 /**
  * Data Access Object for {@link ItemEntity}.
