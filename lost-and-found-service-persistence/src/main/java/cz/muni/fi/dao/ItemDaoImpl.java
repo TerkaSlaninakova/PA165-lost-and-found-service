@@ -3,18 +3,21 @@ package cz.muni.fi.dao;
 import cz.muni.fi.entity.Item;
 import cz.muni.fi.exceptions.ItemDaoException;
 
+import javax.ejb.Stateful;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import java.util.List;
 
 /**
  *
  * @author Augustin Nemec
  */
+@Stateful
 public class ItemDaoImpl implements ItemDao {
 
-    @PersistenceContext
+    @PersistenceContext(unitName = "item-unit", type = PersistenceContextType.EXTENDED)
     private EntityManager em;
 
     @Override
