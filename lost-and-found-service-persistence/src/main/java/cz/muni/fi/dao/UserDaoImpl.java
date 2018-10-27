@@ -1,6 +1,6 @@
 package cz.muni.fi.dao;
 
-import cz.muni.fi.entity.UserEntity;
+import cz.muni.fi.entity.User;
 
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
@@ -17,36 +17,36 @@ public class UserDaoImpl implements UserDao {
     @PersistenceContext(unitName = "user-unit", type = PersistenceContextType.EXTENDED)
     private EntityManager em;
 
-    public void addUser(UserEntity user) throws IllegalArgumentException {
+    public void addUser(User user) throws IllegalArgumentException {
         if (user == null) {
             throw new IllegalArgumentException("Null user object provided");
         }
         em.persist(user);
     }
 
-    public void updateUser(UserEntity user) throws IllegalArgumentException {
+    public void updateUser(User user) throws IllegalArgumentException {
         if (user == null || user.getId() == null) {
             throw new IllegalArgumentException("Null user object or user id provided");
         }
         em.merge(user);
     }
 
-    public void deleteUser(UserEntity user) throws IllegalArgumentException {
+    public void deleteUser(User user) throws IllegalArgumentException {
         if (user == null || user.getId() == null) {
             throw new IllegalArgumentException("Null user object or user id provided");
         }
         em.remove(user);
     }
 
-    public UserEntity getUserById(Long id) throws IllegalArgumentException {
+    public User getUserById(Long id) throws IllegalArgumentException {
         if (id == null) {
             throw new IllegalArgumentException("Null id provided");
         }
-        return em.find(UserEntity.class, id);
+        return em.find(User.class, id);
     }
 
-    public List<UserEntity> getAllUsers() {
-        return em.createQuery("select e from User e", UserEntity.class)
+    public List<User> getAllUsers() {
+        return em.createQuery("select e from User e", User.class)
                 .getResultList();
     }
 }

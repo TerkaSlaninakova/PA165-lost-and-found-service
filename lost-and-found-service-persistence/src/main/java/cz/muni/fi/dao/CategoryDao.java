@@ -1,6 +1,6 @@
 package cz.muni.fi.dao;
 
-import cz.muni.fi.entity.CategoryEntity;
+import cz.muni.fi.entity.Category;
 
 import java.util.List;
 
@@ -11,34 +11,39 @@ import java.util.List;
 public interface CategoryDao {
 
     /**
-     *
-     * @param category
+     * Save category to DB
+     * @param category object to be saved
+     * @throws IllegalArgumentException if category is null
      */
-    public void addCategory(CategoryEntity category) throws IllegalArgumentException;
+    public void addCategory(Category category) throws IllegalArgumentException;
 
     /**
-     *
-     * @param category
+     * Update category in DB
+     * @param category object to update
+     * @throws IllegalArgumentException if category or category.id is null
      */
-    public void updateCategory(CategoryEntity category) throws IllegalArgumentException;
+    public void updateCategory(Category category) throws IllegalArgumentException;
 
     /**
-     *
-     * @param category
+     * Delete category from db
+     * @param category object to delete
+     * @throws IllegalArgumentException if category or category.id is null
      */
-    public void deleteCategory(CategoryEntity category) throws IllegalArgumentException;
+    public void deleteCategory(Category category) throws IllegalArgumentException;
 
     /**
-     *
-     * @param id
-     * @return
+     * Get category by given id
+     * @param id id of category
+     * @return Category if found by id otherwise null
+     * @throws IllegalArgumentException if id is null
      */
-    public CategoryEntity getCategoryById(Long id) throws IllegalArgumentException;
+    public Category getCategoryById(Long id) throws IllegalArgumentException;
 
     /**
-     *
-     * @return
+     * Get a list of all categories in DB
+     * @return lits of all categories in DB
      */
-    public List<CategoryEntity> getAllCategories();
+
+    public List<Category> getAllCategories();
 
 }

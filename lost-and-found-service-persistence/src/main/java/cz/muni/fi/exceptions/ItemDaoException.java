@@ -1,7 +1,7 @@
 package cz.muni.fi.exceptions;
 
 /**
- * The base exception for the ItemEntity DAO layer.
+ * The base exception for the Item DAO layer.
  *
  * @author Augustin Nemec
  */

@@ -4,7 +4,7 @@
   <persistence-unit name="user-unit">
     <jta-data-source>userDatabase</jta-data-source>
     <non-jta-data-source>userDatabaseUnmanaged</non-jta-data-source>
-    <class>cz.muni.fi.entity.UserEntity</class>
+    <class>cz.muni.fi.entity.User</class>
 
     <properties>
       <property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(ForeignKeys=true)"/>

@@ -1,19 +1,18 @@
 package cz.muni.fi.entity;
 
-//import com.sun.istack.internal.NotNull;
 import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.*;
-import java.awt.*;
+import java.util.List;
 
 /**
- * Entity for ItemEntity
+ * Entity for Item
  *
  * @author Augustin Nemec
  */
 
 @Entity(name = "Item")
-public class ItemEntity {
+public class Item {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -36,21 +35,24 @@ public class ItemEntity {
     @NotNull
     private Status status;
 
-    @Column
-    private String lostLocation;
+    @ManyToOne
+    private Location lostLocation;
 
-    @Column
-    private String foundLocation;
+    @ManyToOne
+    private Location foundLocation;
 
     @ManyToOne
     @NotNull
-    private UserEntity owner;
+    private User owner;
 
-    public UserEntity getOwner() {
+    @ManyToMany
+    private List<Category> categories;
+
+    public User getOwner() {
         return owner;
     }
 
-    public void setOwner(UserEntity owner) {
+    public void setOwner(User owner) {
         this.owner = owner;
     }
 
@@ -98,19 +100,27 @@ public class ItemEntity {
         this.status = status;
     }
 
-    public String getLostLocation() {
+    public Location getLostLocation() {
         return lostLocation;
     }
 
-    public void setLostLocation(String lostLocation) {
+    public void setLostLocation(Location lostLocation) {
         this.lostLocation = lostLocation;
     }
 
-    public String getFoundLocation() {
+    public Location getFoundLocation() {
         return foundLocation;
     }
 
-    public void setFoundLocation(String foundLocation) {
+    public void setFoundLocation(Location foundLocation) {
         this.foundLocation = foundLocation;
+    }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
     }
 }
