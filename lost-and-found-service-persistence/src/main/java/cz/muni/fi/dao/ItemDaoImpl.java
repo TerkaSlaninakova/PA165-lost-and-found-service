@@ -21,7 +21,7 @@ public class ItemDaoImpl implements ItemDao {
     private EntityManager em;
 
     @Override
-    public void createItem(Item item) throws ItemDaoException {
+    public void addItem(Item item) throws ItemDaoException {
         if (item == null) {
             throw new IllegalArgumentException("Item is null");
         }
@@ -47,7 +47,7 @@ public class ItemDaoImpl implements ItemDao {
     }
 
     @Override
-    public Item findItembyId(Long id) throws ItemDaoException {
+    public Item getItembyId(Long id) throws ItemDaoException {
         if (id == null) {
             throw new IllegalArgumentException("Item's id is null");
         }

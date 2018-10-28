@@ -22,8 +22,8 @@
   </persistence-unit>
 
   <persistence-unit name="location-unit">
-    <jta-data-source>itemDatabase</jta-data-source>
-    <non-jta-data-source>itemDatabaseUnmanaged</non-jta-data-source>
+    <jta-data-source>locationDatabase</jta-data-source>
+    <non-jta-data-source>locationDatabaseUnmanaged</non-jta-data-source>
     <class>cz.muni.fi.entity.Location</class>
 
     <properties>
