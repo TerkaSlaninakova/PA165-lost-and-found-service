@@ -3,13 +3,14 @@ package cz.muni.fi.entity;
 //import com.sun.istack.internal.NotNull;
 import org.jetbrains.annotations.NotNull;
 import javax.persistence.*;
+import java.util.List;
 
 /**
  *
  * @author Jakub Polacek
  */
 @Entity(name = "Category")
-public class CategoryEntity {
+public class Category {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -21,6 +22,9 @@ public class CategoryEntity {
 
     @Column
     private String attribute;
+
+    @ManyToMany(mappedBy = "categories")
+    private List<Item> items;
 
     public Long getId() {
         return id;
@@ -40,5 +44,13 @@ public class CategoryEntity {
 
     public void setAttribute(String attribute) {
         this.attribute = attribute;
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
     }
 }

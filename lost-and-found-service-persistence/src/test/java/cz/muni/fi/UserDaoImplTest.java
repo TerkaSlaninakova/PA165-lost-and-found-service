@@ -1,7 +1,7 @@
 package cz.muni.fi;
 
 import cz.muni.fi.dao.UserDao;
-import cz.muni.fi.entity.UserEntity;
+import cz.muni.fi.entity.User;
 import org.junit.*;
 import static org.assertj.core.api.Assertions.*;
 
@@ -24,7 +24,7 @@ public class UserDaoImplTest
     private static Properties p;
 
     private static UserDao userDao;
-    private static UserEntity user, adminUser;
+    private static User user, adminUser;
 
     @BeforeClass
     public static void suiteSetup()
@@ -41,13 +41,13 @@ public class UserDaoImplTest
     public void testSetup() throws Exception {
         userDao = (UserDao) context.lookup("java:global/lost-and-found-service-persistence/UserDaoImpl");
 
-        user = new UserEntity();
+        user = new User();
         user.setName("UserName UserSurname");
         user.setEmail("user@gmail.com");
         user.setPassword("ultraSecretPassword");
         user.setIsAdmin(false);
 
-        adminUser = new UserEntity();
+        adminUser = new User();
         user.setName("AdminUserName AdminUserSurname");
         user.setEmail("adminUser@gmail.com");
         user.setPassword("ultraSecretPasswordButThisTimeForAdmin");
@@ -59,8 +59,8 @@ public class UserDaoImplTest
     {
         // make sure that userDao is cleaned after every test (to make tests independent of one another)
         try {
-            List<UserEntity> users = userDao.getAllUsers();
-            for (UserEntity user: users) {
+            List<User> users = userDao.getAllUsers();
+            for (User user: users) {
                 userDao.deleteUser(user);
             }
         }
@@ -87,7 +87,7 @@ public class UserDaoImplTest
         userDao.addUser(user);
         assertEquals(userDao.getAllUsers().size(), 1);
         userDao.deleteUser(user);
-        userDao.addUser(new UserEntity());
+        userDao.addUser(new User());
         assertEquals(userDao.getAllUsers().size(), 1);
     }
 
@@ -106,7 +106,7 @@ public class UserDaoImplTest
 
         userDao.updateUser(user);
 
-        UserEntity updatedUser = userDao.getUserById(user.getId());
+        User updatedUser = userDao.getUserById(user.getId());
 
         assertEquals(updatedUser.getEmail(), newEmail);
         assertEquals(updatedUser.getName(), newName);
@@ -119,7 +119,7 @@ public class UserDaoImplTest
         userDao.addUser(user);
         userDao.updateUser(user);
 
-        UserEntity updatedUser = userDao.getUserById(user.getId());
+        User updatedUser = userDao.getUserById(user.getId());
 
         assertEquals(user, updatedUser);
     }

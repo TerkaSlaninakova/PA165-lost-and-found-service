@@ -1,24 +1,27 @@
 package cz.muni.fi.dao;
 
-import cz.muni.fi.entity.ItemEntity;
+import cz.muni.fi.entity.Item;
 import cz.muni.fi.exceptions.ItemDaoException;
 
+import javax.ejb.Stateful;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import java.util.List;
 
 /**
  *
  * @author Augustin Nemec
  */
+@Stateful
 public class ItemDaoImpl implements ItemDao {
 
-    @PersistenceContext
+    @PersistenceContext(unitName = "item-unit", type = PersistenceContextType.EXTENDED)
     private EntityManager em;
 
     @Override
-    public void createItem(ItemEntity item) throws ItemDaoException {
+    public void createItem(Item item) throws ItemDaoException {
         if (item == null) {
             throw new IllegalArgumentException("Item is null");
         }
@@ -31,7 +34,7 @@ public class ItemDaoImpl implements ItemDao {
     }
 
     @Override
-    public void deleteItem(ItemEntity item) throws ItemDaoException {
+    public void deleteItem(Item item) throws ItemDaoException {
         if (item == null || item.getId() == null) {
             throw new IllegalArgumentException("Item is null");
         }
@@ -44,21 +47,21 @@ public class ItemDaoImpl implements ItemDao {
     }
 
     @Override
-    public ItemEntity findItembyId(Long id) throws ItemDaoException {
+    public Item findItembyId(Long id) throws ItemDaoException {
         if (id == null) {
             throw new IllegalArgumentException("Item's id is null");
         }
-        return em.find(ItemEntity.class, id);
+        return em.find(Item.class, id);
     }
 
     @Override
-    public List<ItemEntity> getAllItems() {
-        return em.createQuery("select i from Item i", ItemEntity.class)
+    public List<Item> getAllItems() {
+        return em.createQuery("select i from Item i", Item.class)
                 .getResultList();
     }
 
     @Override
-    public void updateItem(ItemEntity item) throws ItemDaoException {
+    public void updateItem(Item item) throws ItemDaoException {
         if (item == null || item.getId() == null) {
             throw new IllegalArgumentException("Item is null");
         }

@@ -4,7 +4,37 @@
   <persistence-unit name="user-unit">
     <jta-data-source>userDatabase</jta-data-source>
     <non-jta-data-source>userDatabaseUnmanaged</non-jta-data-source>
-    <class>cz.muni.fi.entity.UserEntity</class>
+    <class>cz.muni.fi.entity.User</class>
+
+    <properties>
+      <property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(ForeignKeys=true)"/>
+    </properties>
+  </persistence-unit>
+
+  <persistence-unit name="item-unit">
+    <jta-data-source>itemDatabase</jta-data-source>
+    <non-jta-data-source>itemDatabaseUnmanaged</non-jta-data-source>
+    <class>cz.muni.fi.entity.Item</class>
+
+    <properties>
+      <property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(ForeignKeys=true)"/>
+    </properties>
+  </persistence-unit>
+
+  <persistence-unit name="location-unit">
+    <jta-data-source>itemDatabase</jta-data-source>
+    <non-jta-data-source>itemDatabaseUnmanaged</non-jta-data-source>
+    <class>cz.muni.fi.entity.Location</class>
+
+    <properties>
+      <property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(ForeignKeys=true)"/>
+    </properties>
+  </persistence-unit>
+
+  <persistence-unit name="category-unit">
+    <jta-data-source>itemDatabase</jta-data-source>
+    <non-jta-data-source>itemDatabaseUnmanaged</non-jta-data-source>
+    <class>cz.muni.fi.entity.Category</class>
 
     <properties>
       <property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(ForeignKeys=true)"/>

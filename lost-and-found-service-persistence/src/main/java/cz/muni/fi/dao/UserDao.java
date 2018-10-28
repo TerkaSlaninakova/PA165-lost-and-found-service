@@ -1,6 +1,6 @@
 package cz.muni.fi.dao;
 
-import cz.muni.fi.entity.UserEntity;
+import cz.muni.fi.entity.User;
 
 import java.util.List;
 
@@ -12,22 +12,22 @@ public interface UserDao {
     /**
      * @param user
      */
-    void addUser(UserEntity user);
+    void addUser(User user);
 
     /**
      * @param user
      */
-    void updateUser(UserEntity user);
+    void updateUser(User user);
 
     /**
      * @param user
      */
-    void deleteUser(UserEntity user);
+    void deleteUser(User user);
 
     /**
      * @param id
      */
-    UserEntity getUserById(Long id);
+    User getUserById(Long id);
 
-    List<UserEntity> getAllUsers();
+    List<User> getAllUsers();
 }

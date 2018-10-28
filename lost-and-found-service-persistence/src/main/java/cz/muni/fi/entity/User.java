@@ -12,7 +12,7 @@ import java.util.Set;
  * @author TerkaSlaninakova
  */
 @Entity(name = "User")
-public class UserEntity {
+public class User {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -33,7 +33,7 @@ public class UserEntity {
     private boolean isAdmin;
 
     @OneToMany(mappedBy = "owner")
-    private Set<ItemEntity> items = new HashSet<>();
+    private Set<Item> items = new HashSet<>();
 
     public Long getId(){
         return id;
