@@ -6,6 +6,7 @@ import cz.muni.fi.entity.Item;
 import cz.muni.fi.entity.Location;
 import cz.muni.fi.entity.Location;
 import cz.muni.fi.entity.Status;
+import cz.muni.fi.exceptions.ItemDaoException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -66,20 +67,22 @@ public class LocationDaoImplTest {
         notebook.setCharacteristics("white, macbook");
         notebook.setPhoto("photo");
         notebook.setStatus(Status.IN_PROGRESS);
-        itemDao.addItem(notebook);
 
         locationWithItems = new Location();
         locationWithItems.setDescription("At a bus station");
-        locationWithItems.setItems(itemDao.getAllItems());
     }
 
     @After
-    public void testTeardown() {
+    public void testTeardown() throws ItemDaoException {
         // make sure that locationDao is cleaned after every test (to make tests independent of one another)
         try {
             List<Location> locations = locationDao.getAllLocations();
             for (Location location : locations) {
                 locationDao.deleteLocation(location);
+            }
+            List<Item> items = itemDao.getAllItems();
+            for (Item item : items) {
+                itemDao.deleteItem(item);
             }
 
         } catch (
@@ -103,6 +106,9 @@ public class LocationDaoImplTest {
     @Test
     public void shouldAddLocationWithItems() throws Exception {
         locationDao.addLocation(locationWithItems);
+        itemDao.addItem(notebook);
+        locationWithItems.getItems().add(notebook);
+        locationDao.updateLocation(locationWithItems);
         assertEquals(locationDao.getAllLocations().size(), 1);
         Location foundLocation = locationDao.getLocationById(locationWithItems.getId());
         assertEquals(foundLocation.getItems().size(), 1);

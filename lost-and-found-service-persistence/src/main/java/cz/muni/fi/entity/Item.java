@@ -35,13 +35,10 @@ public class Item {
     @NotNull
     private Status status;
 
-    @ManyToOne
-    private Location lostLocation;
+    @ManyToOne(fetch=FetchType.LAZY)
+    private Location location;
 
-    @ManyToOne
-    private Location foundLocation;
-
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.LAZY)
     @NotNull
     private User owner;
 
@@ -100,20 +97,12 @@ public class Item {
         this.status = status;
     }
 
-    public Location getLostLocation() {
-        return lostLocation;
+    public Location getLocation() {
+        return location;
     }
 
-    public void setLostLocation(Location lostLocation) {
-        this.lostLocation = lostLocation;
-    }
-
-    public Location getFoundLocation() {
-        return foundLocation;
-    }
-
-    public void setFoundLocation(Location foundLocation) {
-        this.foundLocation = foundLocation;
+    public void setLocation(Location lostLocation) {
+        this.location = lostLocation;
     }
 
     public List<Category> getCategories() {

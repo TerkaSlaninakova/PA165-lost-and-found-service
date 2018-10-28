@@ -1,6 +1,7 @@
 package cz.muni.fi.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,8 +19,8 @@ public class Location {
     @Column
     private String description;
 
-    @OneToMany
-    private List<Item> items;
+    @OneToMany(mappedBy="location", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Item> items = new ArrayList();
 
     public Long getId() {
         return id;
@@ -35,9 +36,5 @@ public class Location {
 
     public List<Item> getItems() {
         return items;
-    }
-
-    public void setItems(List<Item> items) {
-        this.items = items;
     }
 }

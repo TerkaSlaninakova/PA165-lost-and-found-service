@@ -32,7 +32,7 @@ public class User {
     @Column
     private boolean isAdmin;
 
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Item> items = new HashSet<>();
 
     public Long getId(){
