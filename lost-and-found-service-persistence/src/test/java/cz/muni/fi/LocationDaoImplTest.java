@@ -4,7 +4,6 @@ import cz.muni.fi.dao.ItemDao;
 import cz.muni.fi.dao.LocationDao;
 import cz.muni.fi.entity.Item;
 import cz.muni.fi.entity.Location;
-import cz.muni.fi.entity.Location;
 import cz.muni.fi.entity.Status;
 import cz.muni.fi.exceptions.ItemDaoException;
 import org.junit.After;
@@ -15,7 +14,6 @@ import org.junit.Test;
 import javax.ejb.NoSuchEJBException;
 import javax.ejb.embeddable.EJBContainer;
 import javax.naming.Context;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -57,7 +55,6 @@ public class LocationDaoImplTest {
     @Before
     public void testSetup() throws Exception {
         locationDao = (LocationDao) context.lookup("java:global/lost-and-found-service-persistence/LocationDaoImpl");
-        itemDao = (ItemDao) context.lookup("java:global/lost-and-found-service-persistence/ItemDaoImpl");
 
         location = new Location();
         location.setDescription("Found at a train station");
@@ -73,16 +70,12 @@ public class LocationDaoImplTest {
     }
 
     @After
-    public void testTeardown() throws ItemDaoException {
+    public void testTeardown() {
         // make sure that locationDao is cleaned after every test (to make tests independent of one another)
         try {
             List<Location> locations = locationDao.getAllLocations();
             for (Location location : locations) {
                 locationDao.deleteLocation(location);
-            }
-            List<Item> items = itemDao.getAllItems();
-            for (Item item : items) {
-                itemDao.deleteItem(item);
             }
 
         } catch (
@@ -105,13 +98,8 @@ public class LocationDaoImplTest {
 
     @Test
     public void shouldAddLocationWithItems() throws Exception {
-        locationDao.addLocation(locationWithItems);
-        itemDao.addItem(notebook);
         locationWithItems.getItems().add(notebook);
-        locationDao.updateLocation(locationWithItems);
-        assertEquals(locationDao.getAllLocations().size(), 1);
-        Location foundLocation = locationDao.getLocationById(locationWithItems.getId());
-        assertEquals(foundLocation.getItems().size(), 1);
+        locationDao.addLocation(locationWithItems);
     }
 
     @Test
@@ -147,6 +135,19 @@ public class LocationDaoImplTest {
         Location updatedLocation = locationDao.getLocationById(location.getId());
 
         assertEquals(location, updatedLocation);
+    }
+
+    @Test
+    public void ShouldUpdateLocationWithItems() throws Exception {
+        locationDao.addLocation(locationWithItems);
+        Location foundLocation = locationDao.getLocationById(locationWithItems.getId());
+        assertEquals(foundLocation.getItems().size(), 0);
+
+        locationWithItems.getItems().add(notebook);
+        locationDao.updateLocation(locationWithItems);
+        assertEquals(locationDao.getAllLocations().size(), 1);
+        foundLocation = locationDao.getLocationById(locationWithItems.getId());
+        assertEquals(foundLocation.getItems().size(), 1);
     }
 
     @Test
