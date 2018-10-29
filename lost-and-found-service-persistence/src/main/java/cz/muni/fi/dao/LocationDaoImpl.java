@@ -22,7 +22,9 @@ public class LocationDaoImpl implements LocationDao {
         if (location == null) {
             throw new IllegalArgumentException("Location");
         }
-        em.persist(location);
+        if (location.getId() == null) {
+            em.persist(location);
+        }
     }
 
     public void updateLocation(Location location) throws IllegalArgumentException {

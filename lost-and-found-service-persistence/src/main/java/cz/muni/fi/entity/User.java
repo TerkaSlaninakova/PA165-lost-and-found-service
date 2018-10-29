@@ -5,7 +5,9 @@ import org.jetbrains.annotations.NotNull;
 
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -32,8 +34,8 @@ public class User {
     @Column
     private boolean isAdmin;
 
-    @OneToMany(mappedBy = "owner")
-    private Set<Item> items = new HashSet<>();
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Item> items = new ArrayList();
 
     public Long getId(){
         return id;
@@ -66,4 +68,8 @@ public class User {
     public String getPassword() { return password; }
 
     public void setPassword(String password) { this.password = password; }
+
+    public List<Item> getItems() {
+        return items;
+    }
 }

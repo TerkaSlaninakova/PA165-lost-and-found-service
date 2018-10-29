@@ -19,7 +19,7 @@ public interface ItemDao {
      * @throws IllegalArgumentException when itemEntity is null
      * @throws ItemDaoException when itemEntity already exists
      * */
-    void createItem(Item item) throws ItemDaoException;
+    void addItem(Item item) throws ItemDaoException;
 
     /**
      * Delete an item.
@@ -37,7 +37,7 @@ public interface ItemDao {
      * @return - item that was found or null if no item was found
      * @throws IllegalArgumentException when id is null
      * */
-    Item findItembyId(Long id) throws ItemDaoException;
+    Item getItembyId(Long id) throws ItemDaoException;
 
     /**
      * Find all archived items.
