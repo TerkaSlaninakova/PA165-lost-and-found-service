@@ -32,7 +32,7 @@ public class User extends AbstractEntity {
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Item> items = new ArrayList();
-    
+
     public String getName(){
         return name;
     }
@@ -63,5 +63,33 @@ public class User extends AbstractEntity {
 
     public List<Item> getItems() {
         return items;
+    }
+
+
+    /**
+     * Adds item to items list if item not null, otherwise throws exception
+     * @param item
+     */
+    public void addItem(Item item) {
+        if (item == null) {
+            throw new IllegalArgumentException("Item is null");
+        }
+        items.add(item);
+    }
+
+    /**
+     * Removes item from items list, if item not null and exists in list, otherwise throws exception
+     * @param item
+     */
+    public void removeItem(Item item) {
+        if (item == null) {
+            throw new IllegalArgumentException("Item is null");
+        }
+        if (items.contains(item)) {
+            items.remove(item);
+        }
+        else {
+            throw new IllegalArgumentException("Item not in category");
+        }
     }
 }
