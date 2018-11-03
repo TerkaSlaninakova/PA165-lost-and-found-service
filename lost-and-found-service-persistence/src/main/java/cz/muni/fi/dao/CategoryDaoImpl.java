@@ -20,11 +20,14 @@ public class CategoryDaoImpl implements CategoryDao {
 
     public void addCategory(Category category) throws IllegalArgumentException {
         if (category == null) {
-            throw new IllegalArgumentException("Category");
+            throw new IllegalArgumentException("Category is null");
         }
-        if (category.getId() == null) {
-            em.persist(category);
+
+        if (category.getId() != null) {
+            throw new IllegalArgumentException("Category already persisted");
         }
+        em.persist(category);
+
     }
 
     public void updateCategory(Category category) throws IllegalArgumentException {

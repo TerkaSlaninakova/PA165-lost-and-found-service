@@ -10,21 +10,13 @@ import java.util.List;
  */
 
 @Entity(name = "Location")
-public class Location {
-
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Long id;
+public class Location extends AbstractEntity {
 
     @Column
     private String description;
 
     @OneToMany(mappedBy="location", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Item> items = new ArrayList();
-
-    public Long getId() {
-        return id;
-    }
 
     public String getDescription() {
         return description;

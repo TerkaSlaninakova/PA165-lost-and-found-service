@@ -14,11 +14,7 @@ import java.util.Set;
  * @author TerkaSlaninakova
  */
 @Entity(name = "User")
-public class User {
-
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Long id;
+public class User extends AbstractEntity {
 
     @NotNull
     @Column
@@ -36,11 +32,7 @@ public class User {
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Item> items = new ArrayList();
-
-    public Long getId(){
-        return id;
-    }
-
+    
     public String getName(){
         return name;
     }

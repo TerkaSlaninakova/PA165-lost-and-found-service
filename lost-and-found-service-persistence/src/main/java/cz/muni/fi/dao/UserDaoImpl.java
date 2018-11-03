@@ -21,6 +21,9 @@ public class UserDaoImpl implements UserDao {
         if (user == null) {
             throw new IllegalArgumentException("Null user object provided");
         }
+        if (user.getId() != null) {
+            throw new IllegalArgumentException("User already persited");
+        }
         em.persist(user);
     }
 

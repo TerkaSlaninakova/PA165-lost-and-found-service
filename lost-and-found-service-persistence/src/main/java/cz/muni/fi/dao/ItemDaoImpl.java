@@ -1,7 +1,6 @@
 package cz.muni.fi.dao;
 
 import cz.muni.fi.entity.Item;
-import cz.muni.fi.exceptions.ItemDaoException;
 
 import javax.ejb.Stateful;
 import javax.persistence.EntityExistsException;
@@ -21,33 +20,28 @@ public class ItemDaoImpl implements ItemDao {
     private EntityManager em;
 
     @Override
-    public void addItem(Item item) throws ItemDaoException {
+    public void addItem(Item item) {
         if (item == null) {
             throw new IllegalArgumentException("Item is null");
         }
-        try {
+        if (item.getId() != null) {
+            throw new IllegalArgumentException("Item already persisted");
+        }
             em.persist(item);
-        } catch (EntityExistsException e) {
-            throw new ItemDaoException("Item already exists");
-        }
-
     }
 
     @Override
-    public void deleteItem(Item item) throws ItemDaoException {
+    public void deleteItem(Item item) {
         if (item == null || item.getId() == null) {
-            throw new IllegalArgumentException("Item is null");
+            throw new IllegalArgumentException("Item or item id is null");
         }
-        try {
             em.remove(item);
-        } catch (IllegalArgumentException e) {
-            throw new ItemDaoException("Nothing to remove");
-        }
+
 
     }
 
     @Override
-    public Item getItembyId(Long id) throws ItemDaoException {
+    public Item getItembyId(Long id) {
         if (id == null) {
             throw new IllegalArgumentException("Item's id is null");
         }
@@ -61,14 +55,10 @@ public class ItemDaoImpl implements ItemDao {
     }
 
     @Override
-    public void updateItem(Item item) throws ItemDaoException {
+    public void updateItem(Item item) {
         if (item == null || item.getId() == null) {
-            throw new IllegalArgumentException("Item is null");
+            throw new IllegalArgumentException("Item or item id is null");
         }
-        try {
         em.merge(item);
-        } catch (IllegalArgumentException e) {
-            throw new ItemDaoException("Item does not exist");
-        }
     }
 }

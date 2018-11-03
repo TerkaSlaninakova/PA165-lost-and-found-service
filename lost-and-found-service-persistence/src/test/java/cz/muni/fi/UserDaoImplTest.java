@@ -2,9 +2,8 @@ package cz.muni.fi;
 
 import cz.muni.fi.dao.UserDao;
 import cz.muni.fi.entity.Item;
-import cz.muni.fi.entity.Status;
+import cz.muni.fi.enums.Status;
 import cz.muni.fi.entity.User;
-import cz.muni.fi.exceptions.ItemDaoException;
 import org.junit.*;
 import static org.assertj.core.api.Assertions.*;
 
@@ -92,11 +91,13 @@ public class UserDaoImplTest
         assertEquals(userDao.getAllUsers().size(), 1);
     }
 
+    /* TODO: Remove test, add separate tests for entity relationship managing
     @Test
     public void shouldAddUserWithItems() throws Exception {
         user.getItems().add(notebook);
         userDao.addUser(user);
     }
+    */
 
     @Test
     public void shouldNotCreateAdditionalUserIfTheSameOneAdded() throws Exception {
@@ -109,7 +110,7 @@ public class UserDaoImplTest
     }
 
     @Test
-    public void ShouldUpdateUser() throws Exception {
+    public void shouldUpdateUser() throws Exception {
         userDao.addUser(user);
         String newEmail = "newuser@gmail.com";
         String newName = "new UserName UserSurname";
@@ -131,8 +132,9 @@ public class UserDaoImplTest
         assertEquals(updatedUser.getIsAdmin(), newAdminState);
     }
 
+    /* TODO: Remove test, add separate tests for entity relationship managing
     @Test
-    public void ShouldUpdateUserWithItems() throws Exception {
+    public void shouldUpdateUserWithItems() throws Exception {
         userDao.addUser(user);
         String newEmail = "newuser@gmail.com";
         String newName = "new UserName UserSurname";
@@ -154,9 +156,10 @@ public class UserDaoImplTest
         assertEquals(updatedUser.getIsAdmin(), newAdminState);
         assertEquals(updatedUser.getItems().size(), 1);
     }
+    */
 
     @Test
-    public void ShouldUpdateUserWhenNoChange() throws Exception {
+    public void shouldUpdateUserWhenNoChange() throws Exception {
         userDao.addUser(user);
         userDao.updateUser(user);
 
@@ -166,7 +169,7 @@ public class UserDaoImplTest
     }
 
     @Test
-    public void ShouldDeleteUser() throws Exception {
+    public void shouldDeleteUser() throws Exception {
         userDao.addUser(user);
         userDao.addUser(adminUser);
         assertEquals(userDao.getAllUsers().size(), 2);

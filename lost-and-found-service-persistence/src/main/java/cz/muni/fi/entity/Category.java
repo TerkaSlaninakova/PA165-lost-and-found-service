@@ -10,11 +10,8 @@ import java.util.List;
  * @author Jakub Polacek
  */
 @Entity(name = "Category")
-public class Category {
+public class Category extends AbstractEntity {
 
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Long id;
 
     @NotNull
     @Column
@@ -25,10 +22,6 @@ public class Category {
 
     @ManyToMany(mappedBy = "categories")
     private List<Item> items;
-
-    public Long getId() {
-        return id;
-    }
 
     public String getName() {
         return name;

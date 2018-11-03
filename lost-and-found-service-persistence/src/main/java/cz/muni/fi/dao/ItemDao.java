@@ -15,29 +15,27 @@ public interface ItemDao {
     /**
      * Create a new item.
      *
-     * @param item - itemEntity to be added
-     * @throws IllegalArgumentException when itemEntity is null
-     * @throws ItemDaoException when itemEntity already exists
+     * @param item - item to be added
+     * @throws IllegalArgumentException when item is null or item already exists
      * */
-    void addItem(Item item) throws ItemDaoException;
+    void addItem(Item item);
 
     /**
      * Delete an item.
      *
-     * @param item - itemEntity to be deleted
-     * @throws IllegalArgumentException when itemEntity is null
-     * @throws ItemDaoException when itemEntity doesn't exist (nothing to delete)
+     * @param item - item to be deleted
+     * @throws IllegalArgumentException when item is null or item doesn't exist (nothing to delete)
      */
-    void deleteItem(Item item) throws ItemDaoException;
+    void deleteItem(Item item);
 
     /**
      * Find item with given id.
      *
-     * @param id - id of itemEntity to be found
+     * @param id - id of item to be found
      * @return - item that was found or null if no item was found
      * @throws IllegalArgumentException when id is null
      * */
-    Item getItembyId(Long id) throws ItemDaoException;
+    Item getItembyId(Long id);
 
     /**
      * Find all archived items.
@@ -49,10 +47,9 @@ public interface ItemDao {
     /**
      * Update given item.
      *
-     * @param item - itemEntity to be updated
-     * @throws IllegalArgumentException when itemEntity is null
-     * @throws ItemDaoException when item is not persisted yet
+     * @param item - item to be updated
+     * @throws IllegalArgumentException when item is null or  item is not persisted yet
      * */
-    void updateItem(Item item) throws ItemDaoException;
+    void updateItem(Item item);
 
 }

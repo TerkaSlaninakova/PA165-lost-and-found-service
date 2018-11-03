@@ -2,8 +2,7 @@ package cz.muni.fi;
 
 import cz.muni.fi.dao.ItemDao;
 import cz.muni.fi.entity.Item;
-import cz.muni.fi.entity.Status;
-import cz.muni.fi.exceptions.ItemDaoException;
+import cz.muni.fi.enums.Status;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -12,6 +11,7 @@ import org.junit.Test;
 import javax.ejb.NoSuchEJBException;
 import javax.ejb.embeddable.EJBContainer;
 import javax.naming.Context;
+import javax.naming.NamingException;
 import java.util.List;
 import java.util.Properties;
 
@@ -31,7 +31,6 @@ public class ItemDaoImplTest {
     private static Item phone, notebook;
 
     /**
-     *
      * Create database connection
      */
     @BeforeClass
@@ -46,10 +45,11 @@ public class ItemDaoImplTest {
 
     /**
      * Create mock objects for testing
-     * @throws Exception when something goes horribly wrong
+     *
+     * @ when something goes horribly wrong
      */
     @Before
-    public void testSetup() throws Exception {
+    public void testSetup() throws NamingException {
         itemDao = (ItemDao) context.lookup("java:global/lost-and-found-service-persistence/ItemDaoImpl");
 
         phone = new Item();
@@ -66,7 +66,7 @@ public class ItemDaoImplTest {
     }
 
     @After
-    public void testTeardown() throws ItemDaoException {
+    public void testTeardown() {
         // make sure that itemDao is cleaned after every test (to make tests independent of one another)
         try {
             List<Item> items = itemDao.getAllItems();
@@ -81,19 +81,19 @@ public class ItemDaoImplTest {
     }
 
     @Test
-    public void shouldReturn0ItemsWhenEmpty() throws Exception {
+    public void shouldReturn0ItemsWhenEmpty() {
         assertEquals(itemDao.getAllItems().size(), 0);
         assertNull(itemDao.getItembyId(0L));
     }
 
     @Test
-    public void shouldAddItem() throws Exception {
+    public void shouldAddItem() {
         itemDao.addItem(phone);
         assertEquals(itemDao.getAllItems().size(), 1);
     }
 
     @Test
-    public void shouldNotCreateAdditionalItemIfTheSameOneAdded() throws Exception {
+    public void shouldNotCreateAdditionalItemIfTheSameOneAdded() {
         itemDao.addItem(phone);
         itemDao.addItem(phone);
         assertEquals(itemDao.getAllItems().size(), 1);
@@ -104,7 +104,7 @@ public class ItemDaoImplTest {
     }
 
     @Test
-    public void ShouldUpdateItem() throws Exception {
+    public void shouldUpdateItem() {
         itemDao.addItem(phone);
         String newCharacteristics = "Huawei";
         Status newStatus = Status.FOUND;
@@ -124,7 +124,7 @@ public class ItemDaoImplTest {
     }
 
     @Test
-    public void ShouldUpdateItemWhenNoChange() throws Exception {
+    public void shouldUpdateItemWhenNoChange() {
         itemDao.addItem(phone);
         itemDao.updateItem(phone);
 
@@ -134,7 +134,7 @@ public class ItemDaoImplTest {
     }
 
     @Test
-    public void ShouldDeleteItem() throws Exception {
+    public void shouldDeleteItem() {
         itemDao.addItem(phone);
         itemDao.addItem(notebook);
         assertEquals(itemDao.getAllItems().size(), 2);
@@ -146,35 +146,35 @@ public class ItemDaoImplTest {
     }
 
     @Test
-    public void shouldFailOnAddNullItem() throws Exception {
+    public void shouldFailOnAddNullItem() {
         assertThatThrownBy(() -> itemDao.addItem(null)).hasCauseInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
-    public void shouldFailOnAddNullUpdate() throws Exception {
+    public void shouldFailOnAddNullUpdate() {
         assertThatThrownBy(() -> itemDao.updateItem(null))
                 .hasCauseInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
-    public void shouldFailOnAddNullDelete() throws Exception {
+    public void shouldFailOnAddNullDelete() {
         assertThatThrownBy(() -> itemDao.deleteItem(null))
                 .hasCauseInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
-    public void shouldFailOnAddNullGetById() throws Exception {
+    public void shouldFailOnAddNullGetById() {
         assertThatThrownBy(() -> itemDao.getItembyId(null))
                 .hasCauseInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
-    public void deleteNullIdItem() throws Exception {
+    public void deleteNullIdItem() {
         assertThatThrownBy(() -> itemDao.deleteItem(phone)).hasCauseInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
-    public void updateNullIdItem() throws Exception {
+    public void updateNullIdItem() {
         assertThatThrownBy(() -> itemDao.updateItem(phone)).hasCauseInstanceOf(IllegalArgumentException.class);
     }
 

@@ -4,8 +4,7 @@ import cz.muni.fi.dao.ItemDao;
 import cz.muni.fi.dao.LocationDao;
 import cz.muni.fi.entity.Item;
 import cz.muni.fi.entity.Location;
-import cz.muni.fi.entity.Status;
-import cz.muni.fi.exceptions.ItemDaoException;
+import cz.muni.fi.enums.Status;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -31,7 +30,6 @@ public class LocationDaoImplTest {
 
     private static LocationDao locationDao;
     private static Location location, locationWithItems;
-    private static ItemDao itemDao;
     private static Item notebook;
 
     /**
@@ -96,12 +94,13 @@ public class LocationDaoImplTest {
         assertEquals(locationDao.getAllLocations().size(), 1);
     }
 
+    /* TODO: Remove test, add separate tests for entity relationship managing
     @Test
     public void shouldAddLocationWithItems() throws Exception {
         locationWithItems.getItems().add(notebook);
         locationDao.addLocation(locationWithItems);
     }
-
+    */
     @Test
     public void shouldNotCreateAdditionalLocationIfTheSameOneAdded() throws Exception {
         locationDao.addLocation(location);
@@ -114,7 +113,7 @@ public class LocationDaoImplTest {
     }
 
     @Test
-    public void ShouldUpdateLocation() throws Exception {
+    public void shouldUpdateLocation() throws Exception {
         locationDao.addLocation(location);
         String newDescription = "Found near a swimming pool";
         location.setDescription(newDescription);
@@ -128,7 +127,7 @@ public class LocationDaoImplTest {
     }
 
     @Test
-    public void ShouldUpdateLocationWhenNoChange() throws Exception {
+    public void shouldUpdateLocationWhenNoChange() throws Exception {
         locationDao.addLocation(location);
         locationDao.updateLocation(location);
 
@@ -137,8 +136,9 @@ public class LocationDaoImplTest {
         assertEquals(location, updatedLocation);
     }
 
+    /* TODO: Remove test, add separate tests for entity relationship managing
     @Test
-    public void ShouldUpdateLocationWithItems() throws Exception {
+    public void shouldUpdateLocationWithItems() throws Exception {
         locationDao.addLocation(locationWithItems);
         Location foundLocation = locationDao.getLocationById(locationWithItems.getId());
         assertEquals(foundLocation.getItems().size(), 0);
@@ -149,9 +149,10 @@ public class LocationDaoImplTest {
         foundLocation = locationDao.getLocationById(locationWithItems.getId());
         assertEquals(foundLocation.getItems().size(), 1);
     }
+    */
 
     @Test
-    public void ShouldDeleteLocation() throws Exception {
+    public void shouldDeleteLocation() throws Exception {
         locationDao.addLocation(location);
         locationDao.addLocation(locationWithItems);
         assertEquals(locationDao.getAllLocations().size(), 2);

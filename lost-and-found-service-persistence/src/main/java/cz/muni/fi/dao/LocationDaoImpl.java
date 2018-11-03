@@ -22,11 +22,11 @@ public class LocationDaoImpl implements LocationDao {
         if (location == null) {
             throw new IllegalArgumentException("Location");
         }
-        if (location.getId() == null) {
-            em.persist(location);
+        if (location.getId() != null) {
+            throw new IllegalArgumentException("Loaction already persisted");
         }
+        em.persist(location);
     }
-
     public void updateLocation(Location location) throws IllegalArgumentException {
         if (location == null || location.getId() == null) {
             throw new IllegalArgumentException("Location or id null");

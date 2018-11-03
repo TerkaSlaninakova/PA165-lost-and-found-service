@@ -1,5 +1,6 @@
 package cz.muni.fi.entity;
 
+import cz.muni.fi.enums.Status;
 import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.*;
@@ -12,11 +13,7 @@ import java.util.List;
  */
 
 @Entity(name = "Item")
-public class Item {
-
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Long id;
+public class Item extends AbstractEntity {
 
     @NotNull
     @Column
@@ -51,10 +48,6 @@ public class Item {
 
     public void setOwner(User owner) {
         this.owner = owner;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public String getName() {
