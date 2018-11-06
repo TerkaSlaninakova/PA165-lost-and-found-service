@@ -7,14 +7,14 @@ The application allows to manage a Lost & Found service. Users can report their 
 ### Fixes for M1:
 * [ ] #1 equals/hashcode methods - @Gusto
 * [ ] #2 proper method for adding item / removing item to location
-* [ ] #3 JavaDoc for UserDao
-* [ ] #4 Replace JDBC by JPA - @Terka
-* [ ] #5 Adjust names of tests
+* [ ] #3 JavaDoc for UserDao - @Terka [In review [Pull 10](https://github.com/TerkaSlaninakova/PA165-lost-and-found-service/pull/10)]
+* [ ] #4 Replace JDBC by JPA - @Terka [In review [Pull 10](https://github.com/TerkaSlaninakova/PA165-lost-and-found-service/pull/10)]
+* [ ] #5 Adjust names of tests - @Terka for User [In review [Pull 10](https://github.com/TerkaSlaninakova/PA165-lost-and-found-service/pull/10)]
 * [ ] #6 Make tests independent of one another
-* [ ] #7 Improve cleaning of DB in teardowns
+* [ ] #7 Improve cleaning of DB in teardowns - @Terka not a problem anymore after [Pull 10](https://github.com/TerkaSlaninakova/PA165-lost-and-found-service/pull/10)
 * [ ] #8 Tests for when Item.status is null
 * [ ] #9 Fix diagrams - @Terka
 * [ ] #10 Missing @author annotations (CategoryDaoImplTest, Status)
-* [ ] #11 Add missing @NotNull annotations
-* [ ] #12 Move Status enum to separate package
-* [ ] #13 Unify declaration of exceptions for UserDaoImpl and UserDao
+* [ ] #11 Add missing @NotNull annotations - @Terka [for User [Pull 10](https://github.com/TerkaSlaninakova/PA165-lost-and-found-service/pull/10)]
+* [ ] #12 Move Status enum to separate package - @Terka [Pull 10](https://github.com/TerkaSlaninakova/PA165-lost-and-found-service/pull/10)
+* [ ] #13 Unify declaration of exceptions for UserDaoImpl and UserDao - @Terka [Pull 10](https://github.com/TerkaSlaninakova/PA165-lost-and-found-service/pull/10)
