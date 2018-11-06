@@ -5,16 +5,16 @@ The application allows to manage a Lost & Found service. Users can report their 
 ## TODOs
 
 ### Fixes for M1:
-* [ ] equals/hashcode methods - @Gusto
-* [ ] proper method for adding item / removing item to location
-* [ ] JavaDoc for UserDao
-* [ ] Replace JDBC by JPA - @Terka
-* [ ] Adjust names of tests
-* [ ] Make tests independent of one another
-* [ ] Improve cleaning of DB in teardowns
-* [ ] Tests for when Item.status is null
-* [ ] Fix diagrams - @Terka
-* [ ] Missing @author annotations (CategoryDaoImplTest, Status)
-* [ ] Add missing @NotNull annotations
-* [ ] Move Status enum to separate package
-* [ ] Unify declaration of exceptions for UserDaoImpl and UserDao
+* [ ] #1 equals/hashcode methods - @Gusto
+* [ ] #2 proper method for adding item / removing item to location
+* [ ] #3 JavaDoc for UserDao
+* [ ] #4 Replace JDBC by JPA - @Terka
+* [ ] #5 Adjust names of tests
+* [ ] #6 Make tests independent of one another
+* [ ] #7 Improve cleaning of DB in teardowns
+* [ ] #8 Tests for when Item.status is null
+* [ ] #9 Fix diagrams - @Terka
+* [ ] #10 Missing @author annotations (CategoryDaoImplTest, Status)
+* [ ] #11 Add missing @NotNull annotations
+* [ ] #12 Move Status enum to separate package
+* [ ] #13 Unify declaration of exceptions for UserDaoImpl and UserDao
