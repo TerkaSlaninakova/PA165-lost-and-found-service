@@ -1,57 +1,46 @@
 package cz.muni.fi;
 
 import cz.muni.fi.dao.UserDao;
-import cz.muni.fi.entity.Item;
-import cz.muni.fi.entity.Status;
 import cz.muni.fi.entity.User;
-import cz.muni.fi.exceptions.ItemDaoException;
-import org.junit.*;
-import static org.assertj.core.api.Assertions.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
+import org.springframework.transaction.annotation.Transactional;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
-import javax.ejb.EJBException;
-import javax.ejb.NoSuchEJBException;
-import javax.ejb.embeddable.EJBContainer;
-import javax.naming.Context;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.validation.ConstraintViolationException;
+
 import java.util.List;
-import java.util.Properties;
 
-import static junit.framework.TestCase.*;
+import static org.testng.Assert.assertTrue;
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertNotNull;
 
 /**
- * Unit tests for UserDao
- * @author TerkaSlaninakova
+ * Unit tests for userDao
+ * @author Terezia Slaninakova (445526)
  */
-public class UserDaoImplTest
+@ContextConfiguration(classes = PersistenceApplicationContext.class)
+@TestExecutionListeners(TransactionalTestExecutionListener.class)
+@Transactional
+public class UserDaoImplTest extends AbstractTestNGSpringContextTests
 {
-    private static Context context;
-    private static Properties p;
+    @PersistenceContext
+    private EntityManager entityManager;
 
-    private static UserDao userDao;
-    private static User user, adminUser;
+    @Autowired
+    private UserDao userDao;
 
-    private static Item notebook;
+    private User user, adminUser;
 
-    @BeforeClass
-    public static void suiteSetup()
+    @BeforeMethod
+    public void setup()
     {
-        p = new Properties();
-        p.put("userDatabase", "new://Resource?type=DataSource");
-        p.put("userDatabase.JdbcDriver", "org.hsqldb.jdbcDriver");
-        p.put("userDatabase.JdbcUrl", "jdbc:hsqldb:mem:userdb");
-
-        context = EJBContainer.createEJBContainer(p).getContext();
-    }
-
-    @Before
-    public void testSetup() throws Exception {
-        userDao = (UserDao) context.lookup("java:global/lost-and-found-service-persistence/UserDaoImpl");
-
-        notebook = new Item();
-        notebook.setName("notebook");
-        notebook.setCharacteristics("white, macbook");
-        notebook.setPhoto("photo");
-        notebook.setStatus(Status.IN_PROGRESS);
-
         user = new User();
         user.setName("UserName UserSurname");
         user.setEmail("user@gmail.com");
@@ -65,52 +54,63 @@ public class UserDaoImplTest
         adminUser.setIsAdmin(true);
     }
 
-    @After
-    public void testTeardown()
-    {
-        // make sure that userDao is cleaned after every test (to make tests independent of one another)
-        try {
-            List<User> users = userDao.getAllUsers();
-            for (User user: users) {
-                userDao.deleteUser(user);
-            }
-        }
-        catch (NoSuchEJBException ex){
-            // needed after negative test cases, userDao contains thrown exception and needs to be re-created
-        }
+    @Test
+    public void testAddUser() {
+        userDao.addUser(user);
+        User foundUser = entityManager.find(User.class, user.getId());
+        assertNotNull(foundUser);
+        //assertEquals(user, foundUser); - To uncomment when equals and hashcode are implemented
     }
 
     @Test
-    public void shouldReturn0UsersWhenEmpty() throws Exception {
-        assertEquals(userDao.getAllUsers().size(), 0);
-        assertNull(userDao.getUserById(new Long(0)));
+    public void testGetUserByName() {
+        entityManager.persist(user);
+        List<User> foundUsers = userDao.getUserByName(user.getName());
+        assertEquals(1,foundUsers.size());
+        //assertEquals(foundUsers.get(0), user); - To uncomment when equals and hashcode are implemented
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testAddNullUser() {
+        userDao.addUser(null);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testAddUserWithId() {
+        entityManager.persist(user);
+        user.setId(1L);
+        userDao.addUser(user);
+    }
+
+    @Test(expectedExceptions = {ConstraintViolationException.class})
+    public void testAddUserIncomplete(){
+        User tmpUser = new User();
+        userDao.addUser(tmpUser);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testGetNullUser(){
+        User tmpUser = new User();
+        tmpUser.setId(null);
+        userDao.getUserById(tmpUser.getId());
     }
 
     @Test
-    public void shouldAddUser() throws Exception {
-        userDao.addUser(user);
-        assertEquals(userDao.getAllUsers().size(), 1);
+    public void testGetAllUsers(){
+        entityManager.persist(user);
+        entityManager.persist(adminUser);
+        List<User> users = userDao.getAllUsers();
+        assertNotNull(users);
+        assertEquals(2, users.size());
+        assertTrue(users.contains(user));
+        assertTrue(users.contains(adminUser));
     }
 
     @Test
-    public void shouldAddUserWithItems() throws Exception {
-        user.getItems().add(notebook);
-        userDao.addUser(user);
-    }
-
-    @Test
-    public void shouldNotCreateAdditionalUserIfTheSameOneAdded() throws Exception {
-        userDao.addUser(user);
-        userDao.addUser(user);
-        assertEquals(userDao.getAllUsers().size(), 1);
-        userDao.deleteUser(user);
-        userDao.addUser(new User());
-        assertEquals(userDao.getAllUsers().size(), 1);
-    }
-
-    @Test
-    public void ShouldUpdateUser() throws Exception {
-        userDao.addUser(user);
+    public void testUpdateUser() {
+        entityManager.persist(user);
+        User foundUser = entityManager.find(User.class, user.getId());
+        assertNotNull(foundUser);
         String newEmail = "newuser@gmail.com";
         String newName = "new UserName UserSurname";
         String newPassword = "newultraSecretPassword";
@@ -132,82 +132,28 @@ public class UserDaoImplTest
     }
 
     @Test
-    public void ShouldUpdateUserWithItems() throws Exception {
+    public void testDeleteUser() {
         userDao.addUser(user);
-        String newEmail = "newuser@gmail.com";
-        String newName = "new UserName UserSurname";
-        String newPassword = "newultraSecretPassword";
-        Boolean newAdminState = true;
-
-        user.setName(newName);
-        user.setEmail(newEmail);
-        user.setPassword(newPassword);
-        user.setIsAdmin(newAdminState);
-        user.getItems().add(notebook);
-        userDao.updateUser(user);
-
-        User updatedUser = userDao.getUserById(user.getId());
-
-        assertEquals(updatedUser.getEmail(), newEmail);
-        assertEquals(updatedUser.getName(), newName);
-        assertEquals(updatedUser.getPassword(), newPassword);
-        assertEquals(updatedUser.getIsAdmin(), newAdminState);
-        assertEquals(updatedUser.getItems().size(), 1);
-    }
-
-    @Test
-    public void ShouldUpdateUserWhenNoChange() throws Exception {
-        userDao.addUser(user);
-        userDao.updateUser(user);
-
-        User updatedUser = userDao.getUserById(user.getId());
-
-        assertEquals(user, updatedUser);
-    }
-
-    @Test
-    public void ShouldDeleteUser() throws Exception {
-        userDao.addUser(user);
-        userDao.addUser(adminUser);
-        assertEquals(userDao.getAllUsers().size(), 2);
+        List<User> users = userDao.getAllUsers();
+        assertNotNull(users);
+        assertEquals(1, users.size());
         userDao.deleteUser(user);
-        assertEquals(userDao.getAllUsers().size(), 1);
-
-        assertNull(userDao.getUserById(user.getId()));
-        assertEquals(userDao.getUserById(adminUser.getId()), adminUser);
+        users = userDao.getAllUsers();
+        assertNotNull(users);
+        assertEquals(0, users.size());
     }
 
-    @Test
-    public void shouldFailOnAddNullUser() throws Exception {
-        // Have to catch EJBException to get to the real one
-        try {
-            userDao.addUser(null);
-        }
-        catch(EJBException ex){
-            Exception causedByException = ex.getCausedByException();
-            assertTrue(causedByException instanceof  IllegalArgumentException);
-            assertEquals(causedByException.getMessage(), "Null user object provided");
-        }
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testUpdateNullId(){
+        entityManager.persist(user);
+        user.setId(null);
+        userDao.updateUser(user);
     }
 
-    @Test
-    public void shouldFailOnAddNullUpdate() throws Exception {
-        assertThatThrownBy(() -> userDao.updateUser(null))
-                .hasCauseInstanceOf(IllegalArgumentException.class)
-                .hasStackTraceContaining("Null user object or user id provided");
-    }
-
-    @Test
-    public void shouldFailOnAddNullDelete() throws Exception {
-        assertThatThrownBy(() -> userDao.deleteUser(null))
-                .hasCauseInstanceOf(IllegalArgumentException.class)
-                .hasStackTraceContaining("Null user object or user id provided");
-    }
-
-    @Test
-    public void shouldFailOnAddNullGetById() throws Exception {
-        assertThatThrownBy(() -> userDao.getUserById(null))
-                .hasCauseInstanceOf(IllegalArgumentException.class)
-                .hasStackTraceContaining("Null id provided");
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testDeleteNullId(){
+        entityManager.persist(user);
+        user.setId(null);
+        userDao.deleteUser(user);
     }
 }

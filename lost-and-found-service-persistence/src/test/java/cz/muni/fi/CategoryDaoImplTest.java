@@ -2,20 +2,12 @@ package cz.muni.fi;
 
 import cz.muni.fi.dao.CategoryDao;
 import cz.muni.fi.entity.Category;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
 
-import javax.ejb.NoSuchEJBException;
-import javax.ejb.embeddable.EJBContainer;
+
 import javax.naming.Context;
 import java.util.List;
 import java.util.Properties;
 
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertNull;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class CategoryDaoImplTest {
 
@@ -24,7 +16,7 @@ public class CategoryDaoImplTest {
 
     private static CategoryDao categoryDao;
     private static Category electro, clothes;
-
+    /*
     @BeforeClass
     public static void suiteSetup() {
         p = new Properties();
@@ -132,7 +124,7 @@ public class CategoryDaoImplTest {
         assertEquals(categoryDao.getAllCategories().size(), 0);
         assertNull(categoryDao.getCategoryById(0L));
     }
-
+*/
 
 
 

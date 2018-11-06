@@ -1,52 +1,77 @@
 package cz.muni.fi.dao;
 
 import cz.muni.fi.entity.User;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
 import java.util.List;
 
 /**
- * @author TerkaSlaninakova
+ * @author Terezia Slaninakova (445526)
  */
-@Stateful
+@Repository
+@Transactional
 public class UserDaoImpl implements UserDao {
 
-    @PersistenceContext(unitName = "user-unit", type = PersistenceContextType.EXTENDED)
-    private EntityManager em;
+    @PersistenceContext
+    private EntityManager entityManager;
 
+    @Override
     public void addUser(User user) throws IllegalArgumentException {
         if (user == null) {
-            throw new IllegalArgumentException("Null user object provided");
+            throw new IllegalArgumentException("User is null");
         }
-        em.persist(user);
+        if (user.getId() != null) {
+            throw new IllegalArgumentException("User id is not null");
+        }
+        entityManager.persist(user);
     }
 
+    @Override
     public void updateUser(User user) throws IllegalArgumentException {
-        if (user == null || user.getId() == null) {
-            throw new IllegalArgumentException("Null user object or user id provided");
+        if (user == null) {
+            throw new IllegalArgumentException("User is null");
         }
-        em.merge(user);
+        if (user.getId() == null) {
+            throw new IllegalArgumentException("User id is null");
+        }
+        entityManager.merge(user);
     }
 
+    @Override
     public void deleteUser(User user) throws IllegalArgumentException {
-        if (user == null || user.getId() == null) {
-            throw new IllegalArgumentException("Null user object or user id provided");
+        if (user == null) {
+            throw new IllegalArgumentException("User is null");
         }
-        em.remove(user);
+        if (user.getId() == null) {
+            throw new IllegalArgumentException("User id is null");
+        }
+        entityManager.remove(user);
     }
 
+    @Override
     public User getUserById(Long id) throws IllegalArgumentException {
         if (id == null) {
-            throw new IllegalArgumentException("Null id provided");
+            throw new IllegalArgumentException("Id is null");
         }
-        return em.find(User.class, id);
+        return entityManager.find(User.class, id);
     }
 
+    @Override
+    public List<User> getUserByName(String name) throws IllegalArgumentException {
+        if (name == null) {
+            throw new IllegalArgumentException("Name is null");
+        }
+        return entityManager.createQuery("SELECT u FROM User u WHERE name=:name",
+                User.class).setParameter("name", name).getResultList();
+    }
+
+
+    @Override
     public List<User> getAllUsers() {
-        return em.createQuery("select e from User e", User.class)
+        return entityManager.createQuery("select e from User e", User.class)
                 .getResultList();
     }
 }

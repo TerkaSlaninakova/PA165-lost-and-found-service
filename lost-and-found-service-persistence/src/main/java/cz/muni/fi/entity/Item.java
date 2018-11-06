@@ -1,8 +1,9 @@
 package cz.muni.fi.entity;
 
-import org.jetbrains.annotations.NotNull;
+import cz.muni.fi.enums.Status;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -11,7 +12,7 @@ import java.util.List;
  * @author Augustin Nemec
  */
 
-@Entity(name = "Item")
+@Entity
 public class Item {
 
     @Id
@@ -38,7 +39,7 @@ public class Item {
     @ManyToOne(fetch=FetchType.LAZY)
     private Location location;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @NotNull
     private User owner;
 
