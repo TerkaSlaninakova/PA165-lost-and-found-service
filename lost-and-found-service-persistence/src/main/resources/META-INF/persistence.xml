@@ -1,43 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="1.0">
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
 
-  <persistence-unit name="user-unit">
-    <jta-data-source>userDatabase</jta-data-source>
-    <non-jta-data-source>userDatabaseUnmanaged</non-jta-data-source>
-    <class>cz.muni.fi.entity.User</class>
 
-    <properties>
-      <property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(ForeignKeys=true)"/>
-    </properties>
-  </persistence-unit>
+    <persistence-unit name="default" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <properties>
+            <property name="hibernate.connection.url" value="jdbc:derby:memory:testdb" />
+            <property name="hibernate.connection.driver_class" value="org.apache.derby.jdbc.EmbeddedDriver" />
+            <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider" />
+            <property name="hibernate.dialect" value="org.hibernate.dialect.DerbyTenSevenDialect" />
+            <property name="hibernate.hbm2ddl.auto" value="update" />
+            <property name="hibernate.show_sql" value="false" />
+            <property name="hibernate.format_sql" value="false" />
+        </properties>
+    </persistence-unit>
 
-  <persistence-unit name="item-unit">
-    <jta-data-source>itemDatabase</jta-data-source>
-    <non-jta-data-source>itemDatabaseUnmanaged</non-jta-data-source>
-    <class>cz.muni.fi.entity.Item</class>
-
-    <properties>
-      <property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(ForeignKeys=true)"/>
-    </properties>
-  </persistence-unit>
-
-  <persistence-unit name="location-unit">
-    <jta-data-source>locationDatabase</jta-data-source>
-    <non-jta-data-source>locationDatabaseUnmanaged</non-jta-data-source>
-    <class>cz.muni.fi.entity.Location</class>
-
-    <properties>
-      <property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(ForeignKeys=true)"/>
-    </properties>
-  </persistence-unit>
-
-  <persistence-unit name="category-unit">
-    <jta-data-source>itemDatabase</jta-data-source>
-    <non-jta-data-source>itemDatabaseUnmanaged</non-jta-data-source>
-    <class>cz.muni.fi.entity.Category</class>
-
-    <properties>
-      <property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(ForeignKeys=true)"/>
-    </properties>
-  </persistence-unit>
 </persistence>

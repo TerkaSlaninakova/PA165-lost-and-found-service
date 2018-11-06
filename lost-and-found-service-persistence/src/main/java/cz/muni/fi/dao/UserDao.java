@@ -1,33 +1,53 @@
 package cz.muni.fi.dao;
 
 import cz.muni.fi.entity.User;
-
 import java.util.List;
 
 /**
- * @author TerkaSlaninakova
+ * @author Terezia Slaninakova (445526)
  */
 public interface UserDao {
 
     /**
-     * @param user
+     * Save User to DB
+     * @param user user to be saved
+     * @throws IllegalArgumentException if User or User id is not null
      */
-    void addUser(User user);
+    void addUser(User user) throws IllegalArgumentException;
 
     /**
-     * @param user
+     * Update User
+     * @param user user to be updated
+     * @throws IllegalArgumentException if User or User id is null
      */
-    void updateUser(User user);
+    void updateUser(User user) throws IllegalArgumentException;
 
     /**
-     * @param user
+     * Delete User
+     * @param user user to be deleted
+     * @throws IllegalArgumentException if User or User id is null
      */
-    void deleteUser(User user);
+    void deleteUser(User user) throws IllegalArgumentException;;
 
     /**
-     * @param id
+     * Get user by his id
+     * @param id id of user
+     * @throws IllegalArgumentException if User id is null
+     * @return User object
      */
-    User getUserById(Long id);
+    User getUserById(Long id) throws IllegalArgumentException;
 
+    /**
+     * Get user by his name
+     * @param name name of user
+     * @throws IllegalArgumentException if User name is null
+     * @return list of User objects
+     */
+    List<User> getUserByName(String name) throws IllegalArgumentException;
+
+    /**
+     * Get all existing users
+     * @return list of User objects
+     */
     List<User> getAllUsers();
 }

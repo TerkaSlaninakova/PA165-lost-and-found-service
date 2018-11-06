@@ -2,22 +2,15 @@ package cz.muni.fi;
 
 import cz.muni.fi.dao.ItemDao;
 import cz.muni.fi.entity.Item;
-import cz.muni.fi.entity.Status;
+import cz.muni.fi.enums.Status;
 import cz.muni.fi.exceptions.ItemDaoException;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
 
-import javax.ejb.NoSuchEJBException;
-import javax.ejb.embeddable.EJBContainer;
+
 import javax.naming.Context;
 import java.util.List;
 import java.util.Properties;
 
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertNull;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 
 /**
  * @author Jakub Polacek
@@ -34,20 +27,7 @@ public class ItemDaoImplTest {
      *
      * Create database connection
      */
-    @BeforeClass
-    public static void suiteSetup() {
-        p = new Properties();
-        p.put("itemDatabase", "new://Resource?type=DataSource");
-        p.put("itemDatabase.JdbcDriver", "org.hsqldb.jdbcDriver");
-        p.put("itemDatabase.JdbcUrl", "jdbc:hsqldb:mem:itemdb");
-
-        context = EJBContainer.createEJBContainer(p).getContext();
-    }
-
-    /**
-     * Create mock objects for testing
-     * @throws Exception when something goes horribly wrong
-     */
+/*
     @Before
     public void testSetup() throws Exception {
         itemDao = (ItemDao) context.lookup("java:global/lost-and-found-service-persistence/ItemDaoImpl");
@@ -177,5 +157,6 @@ public class ItemDaoImplTest {
     public void updateNullIdItem() throws Exception {
         assertThatThrownBy(() -> itemDao.updateItem(phone)).hasCauseInstanceOf(IllegalArgumentException.class);
     }
+    */
 
 }   

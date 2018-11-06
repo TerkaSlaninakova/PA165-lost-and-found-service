@@ -1,4 +1,4 @@
-package cz.muni.fi.entity;
+package cz.muni.fi.enums;
 
 public enum Status {
     CLAIM_RECEIVED,

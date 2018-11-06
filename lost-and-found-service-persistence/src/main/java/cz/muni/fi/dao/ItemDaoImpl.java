@@ -2,8 +2,9 @@ package cz.muni.fi.dao;
 
 import cz.muni.fi.entity.Item;
 import cz.muni.fi.exceptions.ItemDaoException;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.ejb.Stateful;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -14,10 +15,11 @@ import java.util.List;
  *
  * @author Augustin Nemec
  */
-@Stateful
+@Repository
+@Transactional
 public class ItemDaoImpl implements ItemDao {
 
-    @PersistenceContext(unitName = "item-unit", type = PersistenceContextType.EXTENDED)
+    @PersistenceContext
     private EntityManager em;
 
     @Override
