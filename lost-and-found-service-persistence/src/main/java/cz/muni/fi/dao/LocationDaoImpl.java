@@ -1,6 +1,8 @@
 package cz.muni.fi.dao;
 
 import cz.muni.fi.entity.Location;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -12,11 +14,14 @@ import java.util.List;
  * @author Jakub Polacek
  */
 
+@Repository
+@Transactional
 public class LocationDaoImpl implements LocationDao {
 
-    @PersistenceContext(unitName = "location-unit", type = PersistenceContextType.EXTENDED)
+    @PersistenceContext
     private EntityManager em;
 
+    @Override
     public void addLocation(Location location) throws IllegalArgumentException {
         if (location == null) {
             throw new IllegalArgumentException("Location");
@@ -26,6 +31,7 @@ public class LocationDaoImpl implements LocationDao {
         }
     }
 
+    @Override
     public void updateLocation(Location location) throws IllegalArgumentException {
         if (location == null || location.getId() == null) {
             throw new IllegalArgumentException("Location or id null");
@@ -33,6 +39,7 @@ public class LocationDaoImpl implements LocationDao {
         em.merge(location);
     }
 
+    @Override
     public void deleteLocation(Location location) throws IllegalArgumentException {
         if (location == null || location.getId() == null) {
             throw new IllegalArgumentException("Location or id null");
@@ -40,6 +47,7 @@ public class LocationDaoImpl implements LocationDao {
         em.remove(location);
     }
 
+    @Override
     public Location getLocationById(Long id) throws IllegalArgumentException {
         if (id == null) {
             throw new IllegalArgumentException("Null id");
@@ -47,6 +55,7 @@ public class LocationDaoImpl implements LocationDao {
         return em.find(Location.class, id);
     }
 
+    @Override
     public List<Location> getAllLocations() {
         return em.createQuery("select l from Location l", Location.class)
                 .getResultList();

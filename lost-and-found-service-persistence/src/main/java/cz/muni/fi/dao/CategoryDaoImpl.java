@@ -1,6 +1,8 @@
 package cz.muni.fi.dao;
 
 import cz.muni.fi.entity.Category;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -11,11 +13,14 @@ import java.util.List;
  *
  * @author Jakub Polacek
  */
+@Repository
+@Transactional
 public class CategoryDaoImpl implements CategoryDao {
 
-    @PersistenceContext(unitName = "category-unit", type = PersistenceContextType.EXTENDED)
+    @PersistenceContext
     private EntityManager em;
 
+    @Override
     public void addCategory(Category category) throws IllegalArgumentException {
         if (category == null) {
             throw new IllegalArgumentException("Category");
@@ -25,6 +30,7 @@ public class CategoryDaoImpl implements CategoryDao {
         }
     }
 
+    @Override
     public void updateCategory(Category category) throws IllegalArgumentException {
         if (category == null || category.getId() == null) {
             throw new IllegalArgumentException("Category or id null");
@@ -32,6 +38,7 @@ public class CategoryDaoImpl implements CategoryDao {
         em.merge(category);
     }
 
+    @Override
     public void deleteCategory(Category category) throws IllegalArgumentException {
         if (category == null || category.getId() == null) {
             throw new IllegalArgumentException("Category or id null");
@@ -39,6 +46,7 @@ public class CategoryDaoImpl implements CategoryDao {
         em.remove(category);
     }
 
+    @Override
     public Category getCategoryById(Long id) throws IllegalArgumentException {
         if (id == null) {
             throw new IllegalArgumentException("Null id");
@@ -46,6 +54,7 @@ public class CategoryDaoImpl implements CategoryDao {
         return em.find(Category.class, id);
     }
 
+    @Override
     public List<Category> getAllCategories() {
         return em.createQuery("select c from Category c", Category.class)
                 .getResultList();

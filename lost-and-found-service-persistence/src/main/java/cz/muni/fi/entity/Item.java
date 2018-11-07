@@ -5,6 +5,7 @@ import cz.muni.fi.enums.Status;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Entity for Item
@@ -112,5 +113,25 @@ public class Item {
 
     public void setCategories(List<Category> categories) {
         this.categories = categories;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Item)) return false;
+        Item item = (Item) o;
+        return Objects.equals(id, item.getId()) &&
+                Objects.equals(name, item.getName()) &&
+                Objects.equals(type, item.getType()) &&
+                Objects.equals(characteristics, item.getCharacteristics()) &&
+                Objects.equals(photo, item.getPhoto()) &&
+                status == item.getStatus() &&
+                Objects.equals(location, item.getLocation()) &&
+                Objects.equals(owner, item.getOwner());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, type, characteristics, photo, status, location, owner);
     }
 }

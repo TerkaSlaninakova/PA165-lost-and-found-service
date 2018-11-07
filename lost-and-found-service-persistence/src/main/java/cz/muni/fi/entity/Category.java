@@ -3,6 +3,7 @@ package cz.muni.fi.entity;
 import javax.validation.constraints.NotNull;
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -29,6 +30,10 @@ public class Category {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
@@ -51,5 +56,20 @@ public class Category {
 
     public void setItems(List<Item> items) {
         this.items = items;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Category)) return false;
+        Category category = (Category) o;
+        return Objects.equals(id, category.getId()) &&
+                Objects.equals(name, category.getName()) &&
+                Objects.equals(attribute, category.getAttribute());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, attribute);
     }
 }

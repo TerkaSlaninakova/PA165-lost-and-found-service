@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Terezia Slaninakova (445526)
@@ -76,4 +77,21 @@ public class User {
     public void addItems(List<Item> items) { this.items = items; }
 
     public List<Item> getItems() { return items; }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return isAdmin == user.isAdmin &&
+                Objects.equals(id, user.getId()) &&
+                Objects.equals(name, user.getName()) &&
+                Objects.equals(password, user.getPassword()) &&
+                Objects.equals(email, user.getIsAdmin());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, password, email, isAdmin);
+    }
 }
