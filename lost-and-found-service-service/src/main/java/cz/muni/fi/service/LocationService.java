@@ -6,7 +6,7 @@ import org.springframework.dao.DataAccessException;
 import java.util.List;
 
 /**
- *
+ * Service layer interface for Location
  * @author Terezia Slaninakova (445526)
  */
 public interface LocationService {

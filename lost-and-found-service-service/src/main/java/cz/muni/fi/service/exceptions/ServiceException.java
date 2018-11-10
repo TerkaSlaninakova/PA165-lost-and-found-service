@@ -1,6 +1,6 @@
-package cz.muni.fi.exceptions;
+package cz.muni.fi.service.exceptions;
 
-import cz.muni.fi.service.ItemServiceImpl;
+import cz.muni.fi.service.ItemService;
 import org.springframework.dao.DataAccessException;
 import java.util.logging.Logger;
 import java.util.logging.Level;
@@ -10,11 +10,10 @@ import java.util.logging.Level;
  * @author Terezia Slaninakova (445526)
  */
 public class ServiceException extends DataAccessException {
-    private Logger logger = Logger.getLogger(ItemServiceImpl.class.getName());
+    private Logger logger = Logger.getLogger(ItemService.class.getName());
 
     public ServiceException(String msg, Throwable cause) {
         super(msg, cause);
-        logger.log(Level.SEVERE, msg, cause);
-
+        logger.log(Level.WARNING, msg, cause);
     }
 }

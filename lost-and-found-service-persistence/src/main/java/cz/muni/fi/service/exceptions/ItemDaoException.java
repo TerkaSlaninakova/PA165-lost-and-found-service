@@ -1,4 +1,4 @@
-package cz.muni.fi.exceptions;
+package cz.muni.fi.service.exceptions;
 
 /**
  * The base exception for the Item DAO layer.

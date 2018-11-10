@@ -1,7 +1,7 @@
 package cz.muni.fi.dao;
 
 import cz.muni.fi.entity.Item;
-import cz.muni.fi.exceptions.*;
+import cz.muni.fi.service.exceptions.ItemDaoException;
 
 import java.util.List;
 
