@@ -18,3 +18,15 @@ The application allows to manage a Lost & Found service. Users can report their 
 * [ ] #11 Add missing @NotNull annotations - @Terka [for User [Pull 10](https://github.com/TerkaSlaninakova/PA165-lost-and-found-service/pull/10)]
 * [ ] #12 Move Status enum to separate package - @Terka [Pull 10](https://github.com/TerkaSlaninakova/PA165-lost-and-found-service/pull/10)
 * [ ] #13 Unify declaration of exceptions for UserDaoImpl and UserDao - @Terka [Pull 10](https://github.com/TerkaSlaninakova/PA165-lost-and-found-service/pull/10)
+
+### M2:
+* [ ] Service layer
+    * [ ] User  
+    * [ ] Location
+    * [ ] Category
+    * [ ] Items
+* [ ] Facade layer
+    * [ ] User  
+    * [ ] Location
+    * [ ] Category
+    * [ ] Items
