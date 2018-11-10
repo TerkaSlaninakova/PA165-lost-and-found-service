@@ -20,13 +20,14 @@ The application allows to manage a Lost & Found service. Users can report their 
 * [ ] #13 Unify declaration of exceptions for UserDaoImpl and UserDao - @Terka [Pull 10](https://github.com/TerkaSlaninakova/PA165-lost-and-found-service/pull/10)
 
 ### M2:
+* [x] Create template for service, facade, api layer
+* [x] Set up dozer framework to map entity instances to transfer objects
 * [ ] Service layer
-    * [ ] User  
-    * [ ] Location
-    * [ ] Category
-    * [ ] Items
+    * [x] Custom exception class (inh. from DataAccessException) to be thrown in case of any exception on a the DAO layer;
+    * [ ] Add bean-mapping service (see [fi-muni/PA165](https://github.com/fi-muni/PA165/blob/master/eshop-service/src/main/java/cz/fi/muni/pa165/service/BeanMappingService.java))
+    * [ ] Add methods specific to service layer
+    * [ ] Create template for service tests
 * [ ] Facade layer
-    * [ ] User  
-    * [ ] Location
-    * [ ] Category
-    * [ ] Items
+    * TBD
+* [ ] API layer
+    * TBD
