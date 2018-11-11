@@ -45,19 +45,19 @@ public class LocationDaoImplTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void shouldReturn0LocationsWhenEmpty()  {
+    public void return0LocationsWhenEmpty()  {
         assertEquals(locationDao.getAllLocations().size(), 0);
         assertNull(locationDao.getLocationById(0L));
     }
 
     @Test
-    public void shouldAddLocation()  {
+    public void addLocation()  {
         em.persist(trainStation);
         assertEquals(locationDao.getAllLocations().size(), 1);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void shouldNotCreateAdditionalLocationIfTheSameOneAdded()  {
+    public void dontCreateAdditionalLocationIfTheSameOneAdded()  {
         em.persist(trainStation);
         locationDao.addLocation(trainStation);
         assertEquals(em.createQuery("select l from Location l", Location.class)
@@ -70,7 +70,7 @@ public class LocationDaoImplTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void ShouldUpdateLocation()  {
+    public void updateLocation()  {
         em.persist(trainStation);
         String newDescription = "Found near a swimming pool";
         trainStation.setDescription(newDescription);
@@ -83,7 +83,7 @@ public class LocationDaoImplTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void ShouldUpdateLocationWhenNoChange()  {
+    public void updateLocationWhenNoChange()  {
         em.persist(trainStation);
         locationDao.updateLocation(trainStation);
 
@@ -93,7 +93,7 @@ public class LocationDaoImplTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void ShouldDeleteLocation()  {
+    public void deleteLocation()  {
         em.persist(trainStation);
         em.persist(busStation);
         assertEquals(em.createQuery("select l from Location l", Location.class)
@@ -108,22 +108,22 @@ public class LocationDaoImplTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void shouldFailOnAddNullLocation()  {
+    public void failOnAddNullLocation()  {
          locationDao.addLocation(null);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void shouldFailOnAddNullUpdate()  {
+    public void failOnAddNullUpdate()  {
          locationDao.updateLocation(null);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void shouldFailOnAddNullDelete()  {
+    public void failOnAddNullDelete()  {
          locationDao.deleteLocation(null);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void shouldFailOnAddNullGetById()  {
+    public void failOnAddNullGetById()  {
          locationDao.getLocationById(null);
     }
 

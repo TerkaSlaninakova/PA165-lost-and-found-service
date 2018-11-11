@@ -2,7 +2,6 @@ package cz.muni.fi;
 
 import cz.muni.fi.dao.ItemDao;
 import cz.muni.fi.entity.Item;
-
 import cz.muni.fi.enums.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -15,9 +14,11 @@ import org.testng.annotations.Test;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNull;
+import static org.testng.AssertJUnit.assertTrue;
 
 
 /**
@@ -53,20 +54,20 @@ public class ItemDaoImplTest extends AbstractTestNGSpringContextTests {
 
 
     @Test
-    public void shouldReturn0ItemsWhenEmpty() {
+    public void return0ItemsWhenEmpty() {
         assertEquals(itemDao.getAllItems().size(), 0);
         assertNull(itemDao.getItembyId(0L));
     }
 
     @Test
-    public void shouldAddItem() {
+    public void addItem() {
         itemDao.addItem(phone);
         assertEquals(em.createQuery("select i from Item i", Item.class)
                 .getResultList().size(), 1);
     }
 
     @Test
-    public void shouldNotCreateAdditionalItemIfTheSameOneAdded() {
+    public void notCreateAdditionalItemIfTheSameOneAdded() {
         itemDao.addItem(phone);
         itemDao.addItem(phone);
         assertEquals((em.createQuery("select i from Item i", Item.class)
@@ -80,7 +81,7 @@ public class ItemDaoImplTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void ShouldUpdateItem() {
+    public void updateItem() {
         em.persist(phone);
         String newCharacteristics = "Huawei";
         Status newStatus = Status.FOUND;
@@ -100,7 +101,7 @@ public class ItemDaoImplTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void ShouldUpdateItemWhenNoChange() {
+    public void updateItemWhenNoChange() {
         em.persist(phone);
         itemDao.updateItem(phone);
 
@@ -110,7 +111,7 @@ public class ItemDaoImplTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void ShouldDeleteItem() {
+    public void deleteItem() {
         em.persist(phone);
         em.persist(notebook);
         itemDao.deleteItem(phone);
@@ -121,23 +122,41 @@ public class ItemDaoImplTest extends AbstractTestNGSpringContextTests {
         assertEquals(em.find(Item.class, notebook.getId()), notebook);
     }
 
+    @Test
+    public void getItemById() {
+        em.persist(phone);
+        em.persist(notebook);
+        assertEquals(phone, itemDao.getItembyId(phone.getId()));
+        assertEquals(notebook, itemDao.getItembyId(notebook.getId()));
+    }
+
+    @Test
+    public void getAllItems() {
+        em.persist(phone);
+        em.persist(notebook);
+        List<Item> itemList = itemDao.getAllItems();
+        assertEquals(itemList.size(), 2);
+        assertTrue(itemList.contains(phone));
+        assertTrue(itemList.contains(notebook));
+    }
+
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void shouldFailOnAddNullItem() {
+    public void failOnAddNullItem() {
         itemDao.addItem(null);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void shouldFailOnAddNullUpdate() {
+    public void failOnAddNullUpdate() {
         itemDao.updateItem(null);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void shouldFailOnAddNullDelete() {
+    public void failOnAddNullDelete() {
         itemDao.deleteItem(null);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void shouldFailOnAddNullGetById() {
+    public void failOnAddNullGetById() {
         itemDao.getItembyId(null);
     }
 
@@ -150,4 +169,7 @@ public class ItemDaoImplTest extends AbstractTestNGSpringContextTests {
     public void updateNullIdItem() {
         itemDao.updateItem(phone);
     }
-}   
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void failOnNullIdLookup() { itemDao.getItembyId(null); }
+}
