@@ -20,6 +20,7 @@ import java.util.Properties;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNull;
+import static org.testng.AssertJUnit.assertTrue;
 
 /**
  *
@@ -37,7 +38,7 @@ public class CategoryDaoImplTest  extends AbstractTestNGSpringContextTests {
     @Autowired
     private CategoryDao categoryDao;
 
-    private static Category electro;
+    private static Category electro, kitchen;
 
 
     @BeforeMethod
@@ -46,6 +47,10 @@ public class CategoryDaoImplTest  extends AbstractTestNGSpringContextTests {
         electro = new Category();
         electro.setName("Electro");
         electro.setAttribute("something");
+
+        kitchen = new Category();
+        kitchen.setName("Kitchen");
+        kitchen.setAttribute("something");
 
     }
 
@@ -102,14 +107,34 @@ public class CategoryDaoImplTest  extends AbstractTestNGSpringContextTests {
         entityManager.persist(electro);
         Category modified = electro;
         modified.setName("Electronics");
+        modified.setAttribute("Something else");
         categoryDao.updateCategory(modified);
         assertEquals(electro, modified);
-
+        assertEquals(electro.getName(), "Electronics");
+        assertEquals(electro.getAttribute(), "Something else");
     }
 
     @Test
     public void testGetAllCategoriesWhenEmpty() {
         assertEquals(categoryDao.getAllCategories().size(), 0);
+    }
+
+    @Test
+    public void testGetAllCategories() {
+        entityManager.persist(electro);
+        entityManager.persist(kitchen);
+
+        List<Category> result = categoryDao.getAllCategories();
+        assertEquals(2, result.size());
+        assertTrue(result.contains(electro));
+        assertTrue(result.contains(kitchen));
+
+    }
+
+    @Test
+    public void testGetCategoryById() {
+        entityManager.persist(electro);
+        assertEquals(electro, categoryDao.getCategoryById(electro.getId()));
     }
 
 

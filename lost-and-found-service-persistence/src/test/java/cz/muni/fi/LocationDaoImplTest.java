@@ -23,6 +23,7 @@ import java.util.Properties;
 
 import static org.testng.Assert.assertNull;
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
 
 
 /**
@@ -39,7 +40,7 @@ public class LocationDaoImplTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
     private LocationDao locationDao;
-    private static Location location;
+    private static Location location, anotherLocation;
 
 
 
@@ -48,6 +49,9 @@ public class LocationDaoImplTest extends AbstractTestNGSpringContextTests {
 
         location = new Location();
         location.setDescription("Found at a train station");
+
+        anotherLocation = new Location();
+        anotherLocation.setDescription("Found at a bus station");
     }
 
 
@@ -73,6 +77,7 @@ public class LocationDaoImplTest extends AbstractTestNGSpringContextTests {
         locationDao.updateLocation(location);
 
         assertEquals(location, entityManager.find(Location.class, location.getId()));
+        assertEquals(location.getDescription(),"Found near a swimming pool");
     }
 
 
@@ -117,6 +122,26 @@ public class LocationDaoImplTest extends AbstractTestNGSpringContextTests {
         location.setId(null);
         locationDao.updateLocation(location);
     }
+
+
+    @Test
+    public void testGetAllCategories() {
+        entityManager.persist(location);
+        entityManager.persist(anotherLocation);
+
+        List<Location> result = locationDao.getAllLocations();
+        assertEquals(2, result.size());
+        assertTrue(result.contains(location));
+        assertTrue(result.contains(anotherLocation));
+
+    }
+
+    @Test
+    public void testGetCategoryById() {
+        entityManager.persist(location);
+        assertEquals(location, locationDao.getLocationById(location.getId()));
+    }
+
 
 
 }
