@@ -2,6 +2,8 @@ package cz.muni.fi;
 
 import cz.muni.fi.dao.LocationDao;
 import cz.muni.fi.entity.Location;
+import cz.muni.fi.enums.Status;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -14,8 +16,16 @@ import org.testng.annotations.Test;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+
+import javax.naming.Context;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.util.List;
+import java.util.Properties;
+
+import static org.testng.Assert.assertNull;
 import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNull;
+import static org.testng.AssertJUnit.assertTrue;
 
 
 /**
@@ -25,117 +35,109 @@ import static org.testng.AssertJUnit.assertNull;
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
 @Transactional
 public class LocationDaoImplTest extends AbstractTestNGSpringContextTests {
-    
+
     @PersistenceContext
-    private EntityManager em;
+    private EntityManager entityManager;
 
     @Autowired
     private LocationDao locationDao;
+    private static Location location, anotherLocation;
 
-    private static Location trainStation, busStation;
 
 
     @BeforeMethod
-    public void testSetup()  {
-        trainStation = new Location();
-        trainStation.setDescription("Found at a train station");
+    public void setup() {
 
-        busStation = new Location();
-        busStation.setDescription("At a bus station");
+        location = new Location();
+        location.setDescription("Found at a train station");
+
+        anotherLocation = new Location();
+        anotherLocation.setDescription("Found at a bus station");
     }
 
+
     @Test
-    public void return0LocationsWhenEmpty()  {
+    public void testGetAllLocationsWhenEmpty() {
         assertEquals(locationDao.getAllLocations().size(), 0);
-        assertNull(locationDao.getLocationById(0L));
     }
 
     @Test
-    public void addLocation()  {
-        em.persist(trainStation);
-        assertEquals(locationDao.getAllLocations().size(), 1);
+    public void testAddLocation() {
+        locationDao.addLocation(location);
+        assertEquals(location, entityManager.find(Location.class, location.getId()));
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void dontCreateAdditionalLocationIfTheSameOneAdded()  {
-        em.persist(trainStation);
-        locationDao.addLocation(trainStation);
-        assertEquals(em.createQuery("select l from Location l", Location.class)
-                .getResultList().size(), 1);
-        em.remove(trainStation);
-        assertEquals(em.createQuery("select l from Location l", Location.class)
-                .getResultList().size(), 0);
-        locationDao.addLocation(new Location());
-        assertEquals(locationDao.getAllLocations().size(), 1);
-    }
 
     @Test
-    public void updateLocation()  {
-        em.persist(trainStation);
+    public void testUpdateLocation() {
+        entityManager.persist(location);
+        Location modified = location;
         String newDescription = "Found near a swimming pool";
-        trainStation.setDescription(newDescription);
-
+        modified.setDescription(newDescription);
         locationDao.updateLocation(trainStation);
+        assertEquals(location, entityManager.find(Location.class, location.getId()));
+        assertEquals(location.getDescription(),"Found near a swimming pool");
+    }
 
-        Location updatedLocation = em.find(Location.class, trainStation.getId());
 
-        assertEquals(updatedLocation.getDescription(), newDescription);
+
+    @Test
+    public void testDeleteLocation() {
+        entityManager.persist(location);
+        locationDao.deleteLocation(location);
+        assertNull(entityManager.find(Location.class, location.getId()));
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testAddNullLocation() {
+        locationDao.addLocation(null);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testUpdateNullLocation() {
+        locationDao.updateLocation(null);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testDeleteNullLocation() {
+        locationDao.deleteLocation(null);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testGetNullLocationById() {
+        locationDao.getLocationById(null);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testDeleteNullIdLocation() {
+        entityManager.persist(location);
+        location.setId(null);
+        locationDao.deleteLocation(location);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void updateNullIdLocation() {
+        entityManager.persist(location);
+        location.setId(null);
+        locationDao.updateLocation(location);
+    }
+
+
+    @Test
+    public void testGetAllCategories() {
+        entityManager.persist(location);
+        entityManager.persist(anotherLocation);
+
+        List<Location> result = locationDao.getAllLocations();
+        assertEquals(2, result.size());
+        assertTrue(result.contains(location));
+        assertTrue(result.contains(anotherLocation));
+
     }
 
     @Test
-    public void updateLocationWhenNoChange()  {
-        em.persist(trainStation);
-        locationDao.updateLocation(trainStation);
-
-        Location updatedLocation = em.find(Location.class, trainStation.getId());
-
-        assertEquals(trainStation, updatedLocation);
+    public void testGetCategoryById() {
+        entityManager.persist(location);
+        assertEquals(location, locationDao.getLocationById(location.getId()));
     }
-
-    @Test
-    public void deleteLocation()  {
-        em.persist(trainStation);
-        em.persist(busStation);
-        assertEquals(em.createQuery("select l from Location l", Location.class)
-                .getResultList().size(), 2);
-
-        locationDao.deleteLocation(busStation);
-        assertEquals(em.createQuery("select l from Location l", Location.class)
-                .getResultList().size(), 1);
-
-        assertNull(em.find(Location.class, busStation.getId()));
-        assertEquals(em.find(Location.class, trainStation.getId()), trainStation);
-    }
-
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void failOnAddNullLocation()  {
-         locationDao.addLocation(null);
-    }
-
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void failOnAddNullUpdate()  {
-         locationDao.updateLocation(null);
-    }
-
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void failOnAddNullDelete()  {
-         locationDao.deleteLocation(null);
-    }
-
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void failOnAddNullGetById()  {
-         locationDao.getLocationById(null);
-    }
-
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void deleteNullIdLocation()  {
-         locationDao.deleteLocation(trainStation);
-    }
-
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void updateNullIdLocation()  {
-         locationDao.updateLocation(trainStation);
-    }
-    
-
 }

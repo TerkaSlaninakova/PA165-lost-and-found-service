@@ -2,129 +2,140 @@ package cz.muni.fi;
 
 import cz.muni.fi.dao.CategoryDao;
 import cz.muni.fi.entity.Category;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
+import org.springframework.transaction.annotation.Transactional;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 
 import javax.naming.Context;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Properties;
 
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertNull;
+import static org.testng.AssertJUnit.assertTrue;
 
-public class CategoryDaoImplTest {
+/**
+ *
+ * @author Augustin Nemec
+ */
 
-    private static Context context;
-    private static Properties p;
+@ContextConfiguration(classes = PersistenceApplicationContext.class)
+@TestExecutionListeners(TransactionalTestExecutionListener.class)
+@Transactional
+public class CategoryDaoImplTest  extends AbstractTestNGSpringContextTests {
 
-    private static CategoryDao categoryDao;
-    private static Category electro, clothes;
-    /*
-    @BeforeClass
-    public static void suiteSetup() {
-        p = new Properties();
-        p.put("categoryDatabase", "new://Resource?type=DataSource");
-        p.put("categoryDatabase.JdbcDriver", "org.hsqldb.jdbcDriver");
-        p.put("categoryDatabase.JdbcUrl", "jdbc:hsqldb:mem:itemdb");
+    @PersistenceContext
+    private EntityManager entityManager;
 
-        context = EJBContainer.createEJBContainer(p).getContext();
-    }
+    @Autowired
+    private CategoryDao categoryDao;
 
-    @Before
-    public void testSetup() throws Exception {
-        categoryDao = (CategoryDao) context.lookup("java:global/lost-and-found-service-persistence/CategoryDaoImpl");
+    private static Category electro, kitchen;
+
+
+    @BeforeMethod
+    public void setup() {
 
         electro = new Category();
         electro.setName("Electro");
         electro.setAttribute("something");
 
-        clothes = new Category();
-        electro.setName("Clothes");
-        electro.setAttribute("something");
+        kitchen = new Category();
+        kitchen.setName("Kitchen");
+        kitchen.setAttribute("something");
 
     }
 
-    @After
-    public void testTeardown() {
-        // make sure that categoryDao is cleaned after every test (to make tests independent of one another)
-        try {
-            List<Category> categories = categoryDao.getAllCategories();
-            for (Category c : categories) {
-                categoryDao.deleteCategory(c);
-            }
 
-        } catch (
-                NoSuchEJBException ex) {
-            // needed after negative test cases, userDao contains thrown exception and needs to be re-created
-        }
-    }
-
-
-
-    @Test
+    @Test(expectedExceptions = IllegalArgumentException.class)
     public void addNullCategory() {
-        assertThatThrownBy(() -> categoryDao.addCategory(null)).hasCauseInstanceOf(IllegalArgumentException.class);
+        categoryDao.addCategory(null);
     }
 
-    @Test
+    @Test(expectedExceptions = IllegalArgumentException.class)
     public void updateNullCategory() {
-        assertThatThrownBy(() -> categoryDao.updateCategory(null)).hasCauseInstanceOf(IllegalArgumentException.class);
+        categoryDao.updateCategory(null);
     }
 
-    @Test
+    @Test(expectedExceptions = IllegalArgumentException.class)
     public void updateNullIdCategory() {
-        assertThatThrownBy(() -> categoryDao.updateCategory(electro)).hasCauseInstanceOf(IllegalArgumentException.class);
-    }
-
-    @Test
-    public void deleteNullCategory() {
-        assertThatThrownBy(() -> categoryDao.deleteCategory(null)).hasCauseInstanceOf(IllegalArgumentException.class);
-    }
-
-    @Test
-    public void deleteNullIdCategory() {
-        assertThatThrownBy(() -> categoryDao.deleteCategory(electro)).hasCauseInstanceOf(IllegalArgumentException.class);
-    }
-
-    @Test
-    public void getNullCategoryById() {
-        assertThatThrownBy(() -> categoryDao.getCategoryById(null)).hasCauseInstanceOf(IllegalArgumentException.class);
-    }
-
-    @Test
-    public void shouldAddCategory() {
-        categoryDao.addCategory(electro);
-        assertEquals(categoryDao.getAllCategories().size(), 1);
-    }
-
-    @Test
-    public void shouldDeleteCategory() {
-        categoryDao.addCategory(electro);
-        categoryDao.addCategory(clothes);
-        assertEquals(categoryDao.getAllCategories().size(), 2);
-        categoryDao.deleteCategory(electro);
-        assertEquals(categoryDao.getAllCategories().size(), 1);
-
-        assertNull(categoryDao.getCategoryById(electro.getId()));
-        assertEquals(categoryDao.getCategoryById(clothes.getId()), clothes);
-    }
-
-    @Test
-    public void shouldUpdateCategory() {
-        categoryDao.addCategory(electro);
-        String newName = "Electronics";
-
-        electro.setName(newName);
+        entityManager.persist(electro);
+        electro.setId(null);
         categoryDao.updateCategory(electro);
+    }
 
-        Category updatedCategory = categoryDao.getCategoryById(electro.getId());
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void deleteNullCategory() {
+        categoryDao.deleteCategory(null);
+    }
 
-        assertEquals(updatedCategory.getName(), newName);
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void deleteNullIdCategory() {
+        entityManager.persist(electro);
+        electro.setId(null);
+        categoryDao.deleteCategory(electro);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void getNullCategoryById() {
+        categoryDao.getCategoryById(null);
     }
 
     @Test
-    public void shouldReturn0CategoriesWhenEmpty() {
-        assertEquals(categoryDao.getAllCategories().size(), 0);
-        assertNull(categoryDao.getCategoryById(0L));
+    public void testAddCategory() {
+        categoryDao.addCategory(electro);
+        assertEquals(electro, entityManager.find(Category.class, electro.getId()));
     }
-*/
+
+    @Test
+    public void testDeleteCategory() {
+        entityManager.persist(electro);
+        categoryDao.deleteCategory(electro);
+        assertNull(entityManager.find(Category.class, electro.getId()));
+    }
+
+    @Test
+    public void testUpdateCategory() {
+        entityManager.persist(electro);
+        Category modified = electro;
+        modified.setName("Electronics");
+        modified.setAttribute("Something else");
+        categoryDao.updateCategory(modified);
+        assertEquals(electro, modified);
+        assertEquals(electro.getName(), "Electronics");
+        assertEquals(electro.getAttribute(), "Something else");
+    }
+
+    @Test
+    public void testGetAllCategoriesWhenEmpty() {
+        assertEquals(categoryDao.getAllCategories().size(), 0);
+    }
+
+    @Test
+    public void testGetAllCategories() {
+        entityManager.persist(electro);
+        entityManager.persist(kitchen);
+
+        List<Category> result = categoryDao.getAllCategories();
+        assertEquals(2, result.size());
+        assertTrue(result.contains(electro));
+        assertTrue(result.contains(kitchen));
+
+    }
+
+    @Test
+    public void testGetCategoryById() {
+        entityManager.persist(electro);
+        assertEquals(electro, categoryDao.getCategoryById(electro.getId()));
+    }
 
 
 
