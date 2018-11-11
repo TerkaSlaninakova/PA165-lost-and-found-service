@@ -2,34 +2,43 @@ package cz.muni.fi;
 
 import cz.muni.fi.dao.ItemDao;
 import cz.muni.fi.entity.Item;
-import cz.muni.fi.service.exceptions.ItemDaoException;
+import cz.muni.fi.enums.Status;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
+import org.springframework.transaction.annotation.Transactional;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.util.List;
 
-import javax.naming.Context;
-import java.util.Properties;
-
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertNull;
+import static org.testng.AssertJUnit.assertTrue;
 
 
 /**
  * @author Jakub Polacek
  */
-public class ItemDaoImplTest {
+@ContextConfiguration(classes = PersistenceApplicationContext.class)
+@TestExecutionListeners(TransactionalTestExecutionListener.class)
+@Transactional
+public class ItemDaoImplTest extends AbstractTestNGSpringContextTests {
 
-    private static Context context;
-    private static Properties p;
+    @Autowired
+    private ItemDao itemDao;
 
-    private static ItemDao itemDao;
+    @PersistenceContext
+    private EntityManager em;
+
     private static Item phone, notebook;
 
-    /**
-     *
-     * Create database connection
-     */
-/*
-    @Before
-    public void testSetup() throws Exception {
-        itemDao = (ItemDao) context.lookup("java:global/lost-and-found-service-persistence/ItemDaoImpl");
-
+    @BeforeMethod
+    public void testSetup() {
         phone = new Item();
         phone.setName("phone");
         phone.setCharacteristics("black, small, samsung model");
@@ -43,47 +52,37 @@ public class ItemDaoImplTest {
         notebook.setStatus(Status.IN_PROGRESS);
     }
 
-    @After
-    public void testTeardown() throws ItemDaoException {
-        // make sure that itemDao is cleaned after every test (to make tests independent of one another)
-        try {
-            List<Item> items = itemDao.getAllItems();
-            for (Item item : items) {
-                itemDao.deleteItem(item);
-            }
-
-        } catch (
-                NoSuchEJBException ex) {
-            // needed after negative test cases, userDao contains thrown exception and needs to be re-created
-        }
-    }
 
     @Test
-    public void shouldReturn0ItemsWhenEmpty() throws Exception {
+    public void return0ItemsWhenEmpty() {
         assertEquals(itemDao.getAllItems().size(), 0);
         assertNull(itemDao.getItembyId(0L));
     }
 
     @Test
-    public void shouldAddItem() throws Exception {
+    public void addItem() {
         itemDao.addItem(phone);
-        assertEquals(itemDao.getAllItems().size(), 1);
+        assertEquals(em.createQuery("select i from Item i", Item.class)
+                .getResultList().size(), 1);
     }
 
     @Test
-    public void shouldNotCreateAdditionalItemIfTheSameOneAdded() throws Exception {
+    public void notCreateAdditionalItemIfTheSameOneAdded() {
         itemDao.addItem(phone);
         itemDao.addItem(phone);
-        assertEquals(itemDao.getAllItems().size(), 1);
-        itemDao.deleteItem(phone);
-        assertEquals(itemDao.getAllItems().size(), 0);
-        itemDao.addItem(new Item());
-        assertEquals(itemDao.getAllItems().size(), 1);
+        assertEquals((em.createQuery("select i from Item i", Item.class)
+                .getResultList().size()), 1);
+        em.remove(phone);
+        assertEquals((em.createQuery("select i from Item i", Item.class)
+                .getResultList().size()), 0);
+        itemDao.addItem(notebook);
+        assertEquals((em.createQuery("select i from Item i", Item.class)
+                .getResultList().size()), 1);
     }
 
     @Test
-    public void ShouldUpdateItem() throws Exception {
-        itemDao.addItem(phone);
+    public void updateItem() {
+        em.persist(phone);
         String newCharacteristics = "Huawei";
         Status newStatus = Status.FOUND;
         String newType = "best type";
@@ -94,7 +93,7 @@ public class ItemDaoImplTest {
 
         itemDao.updateItem(phone);
 
-        Item updatedItem = itemDao.getItembyId(phone.getId());
+        Item updatedItem = em.find(Item.class, phone.getId());
 
         assertEquals(updatedItem.getCharacteristics(), newCharacteristics);
         assertEquals(updatedItem.getStatus(), newStatus);
@@ -102,59 +101,75 @@ public class ItemDaoImplTest {
     }
 
     @Test
-    public void ShouldUpdateItemWhenNoChange() throws Exception {
-        itemDao.addItem(phone);
+    public void updateItemWhenNoChange() {
+        em.persist(phone);
         itemDao.updateItem(phone);
 
-        Item updatedItem = itemDao.getItembyId(phone.getId());
+        Item updatedItem = em.find(Item.class, phone.getId());
 
         assertEquals(phone, updatedItem);
     }
 
     @Test
-    public void ShouldDeleteItem() throws Exception {
-        itemDao.addItem(phone);
-        itemDao.addItem(notebook);
-        assertEquals(itemDao.getAllItems().size(), 2);
+    public void deleteItem() {
+        em.persist(phone);
+        em.persist(notebook);
         itemDao.deleteItem(phone);
-        assertEquals(itemDao.getAllItems().size(), 1);
+        assertEquals((em.createQuery("select i from Item i", Item.class)
+                .getResultList().size()), 1);
 
-        assertNull(itemDao.getItembyId(phone.getId()));
-        assertEquals(itemDao.getItembyId(notebook.getId()), notebook);
+        assertNull(em.find(Item.class, phone.getId()));
+        assertEquals(em.find(Item.class, notebook.getId()), notebook);
     }
 
     @Test
-    public void shouldFailOnAddNullItem() throws Exception {
-        assertThatThrownBy(() -> itemDao.addItem(null)).hasCauseInstanceOf(IllegalArgumentException.class);
+    public void getItemById() {
+        em.persist(phone);
+        em.persist(notebook);
+        assertEquals(phone, itemDao.getItembyId(phone.getId()));
+        assertEquals(notebook, itemDao.getItembyId(notebook.getId()));
     }
 
     @Test
-    public void shouldFailOnAddNullUpdate() throws Exception {
-        assertThatThrownBy(() -> itemDao.updateItem(null))
-                .hasCauseInstanceOf(IllegalArgumentException.class);
+    public void getAllItems() {
+        em.persist(phone);
+        em.persist(notebook);
+        List<Item> itemList = itemDao.getAllItems();
+        assertEquals(itemList.size(), 2);
+        assertTrue(itemList.contains(phone));
+        assertTrue(itemList.contains(notebook));
     }
 
-    @Test
-    public void shouldFailOnAddNullDelete() throws Exception {
-        assertThatThrownBy(() -> itemDao.deleteItem(null))
-                .hasCauseInstanceOf(IllegalArgumentException.class);
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void failOnAddNullItem() {
+        itemDao.addItem(null);
     }
 
-    @Test
-    public void shouldFailOnAddNullGetById() throws Exception {
-        assertThatThrownBy(() -> itemDao.getItembyId(null))
-                .hasCauseInstanceOf(IllegalArgumentException.class);
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void failOnAddNullUpdate() {
+        itemDao.updateItem(null);
     }
 
-    @Test
-    public void deleteNullIdItem() throws Exception {
-        assertThatThrownBy(() -> itemDao.deleteItem(phone)).hasCauseInstanceOf(IllegalArgumentException.class);
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void failOnAddNullDelete() {
+        itemDao.deleteItem(null);
     }
 
-    @Test
-    public void updateNullIdItem() throws Exception {
-        assertThatThrownBy(() -> itemDao.updateItem(phone)).hasCauseInstanceOf(IllegalArgumentException.class);
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void failOnAddNullGetById() {
+        itemDao.getItembyId(null);
     }
-    */
 
-}   
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void deleteNullIdItem() {
+        itemDao.deleteItem(phone);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void updateNullIdItem() {
+        itemDao.updateItem(phone);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void failOnNullIdLookup() { itemDao.getItembyId(null); }
+}

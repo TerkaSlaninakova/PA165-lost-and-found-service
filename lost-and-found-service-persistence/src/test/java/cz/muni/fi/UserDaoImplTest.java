@@ -14,7 +14,6 @@ import org.testng.annotations.Test;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.validation.ConstraintViolationException;
-
 import java.util.List;
 
 import static org.testng.Assert.assertTrue;
@@ -23,13 +22,13 @@ import static org.testng.AssertJUnit.assertNotNull;
 
 /**
  * Unit tests for userDao
+ *
  * @author Terezia Slaninakova (445526)
  */
 @ContextConfiguration(classes = PersistenceApplicationContext.class)
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
 @Transactional
-public class UserDaoImplTest extends AbstractTestNGSpringContextTests
-{
+public class UserDaoImplTest extends AbstractTestNGSpringContextTests {
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -39,8 +38,7 @@ public class UserDaoImplTest extends AbstractTestNGSpringContextTests
     private User user, adminUser;
 
     @BeforeMethod
-    public void setup()
-    {
+    public void setup() {
         user = new User();
         user.setName("UserName UserSurname");
         user.setEmail("user@gmail.com");
@@ -66,7 +64,7 @@ public class UserDaoImplTest extends AbstractTestNGSpringContextTests
     public void testGetUserByName() {
         entityManager.persist(user);
         List<User> foundUsers = userDao.getUserByName(user.getName());
-        assertEquals(1,foundUsers.size());
+        assertEquals(1, foundUsers.size());
         //assertEquals(foundUsers.get(0), user); - To uncomment when equals and hashcode are implemented
     }
 
@@ -78,25 +76,23 @@ public class UserDaoImplTest extends AbstractTestNGSpringContextTests
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testAddUserWithId() {
         entityManager.persist(user);
-        user.setId(1L);
         userDao.addUser(user);
     }
 
     @Test(expectedExceptions = {ConstraintViolationException.class})
-    public void testAddUserIncomplete(){
+    public void testAddUserIncomplete() {
         User tmpUser = new User();
         userDao.addUser(tmpUser);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testGetNullUser(){
+    public void testGetNullUser() {
         User tmpUser = new User();
-        tmpUser.setId(null);
         userDao.getUserById(tmpUser.getId());
     }
 
     @Test
-    public void testGetAllUsers(){
+    public void testGetAllUsers() {
         entityManager.persist(user);
         entityManager.persist(adminUser);
         List<User> users = userDao.getAllUsers();
@@ -123,7 +119,7 @@ public class UserDaoImplTest extends AbstractTestNGSpringContextTests
 
         userDao.updateUser(user);
 
-        User updatedUser = userDao.getUserById(user.getId());
+        User updatedUser = entityManager.find(User.class, user.getId());
 
         assertEquals(updatedUser.getEmail(), newEmail);
         assertEquals(updatedUser.getName(), newName);
@@ -134,23 +130,25 @@ public class UserDaoImplTest extends AbstractTestNGSpringContextTests
     @Test
     public void testDeleteUser() {
         entityManager.persist(user);
+        List<User> users = entityManager.createQuery("select e from User e", User.class)
+                .getResultList();
+        assertNotNull(users);
+        assertEquals(1, users.size());
         userDao.deleteUser(user);
-        List<User> users = userDao.getAllUsers();
+        users = entityManager.createQuery("select e from User e", User.class)
+                .getResultList();
+
         assertNotNull(users);
         assertEquals(0, users.size());
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testUpdateNullId(){
-        entityManager.persist(user);
-        user.setId(null);
+    public void testUpdateNullId() {
         userDao.updateUser(user);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testDeleteNullId(){
-        entityManager.persist(user);
-        user.setId(null);
+    public void testDeleteNullId() {
         userDao.deleteUser(user);
     }
 }

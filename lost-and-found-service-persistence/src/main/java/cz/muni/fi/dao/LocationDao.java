@@ -13,7 +13,7 @@ public interface LocationDao {
     /**
      * Save Location to DB
      * @param location object to be saved
-     * @throws IllegalArgumentException if Location is null
+     * @throws IllegalArgumentException if Location is null or already persisted
      */
     public void addLocation(Location location) throws IllegalArgumentException;
 
