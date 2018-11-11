@@ -2,11 +2,9 @@ package cz.muni.fi.dao;
 
 import cz.muni.fi.entity.Category;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
 import java.util.List;
 
 /**
@@ -14,7 +12,6 @@ import java.util.List;
  * @author Jakub Polacek
  */
 @Repository
-@Transactional
 public class CategoryDaoImpl implements CategoryDao {
 
     @PersistenceContext
@@ -27,6 +24,8 @@ public class CategoryDaoImpl implements CategoryDao {
         }
         if (category.getId() == null) {
             em.persist(category);
+        } else {
+            throw new IllegalArgumentException("Location already exists.");
         }
     }
 

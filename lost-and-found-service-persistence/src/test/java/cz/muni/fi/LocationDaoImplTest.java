@@ -1,10 +1,9 @@
 package cz.muni.fi;
 
-import cz.muni.fi.dao.ItemDao;
 import cz.muni.fi.dao.LocationDao;
-import cz.muni.fi.entity.Item;
 import cz.muni.fi.entity.Location;
 import cz.muni.fi.enums.Status;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -13,6 +12,9 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
 import org.springframework.transaction.annotation.Transactional;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 
 import javax.naming.Context;
@@ -29,7 +31,6 @@ import static org.testng.AssertJUnit.assertTrue;
 /**
  * @author TerkaSlaninakova
  */
-
 @ContextConfiguration(classes = PersistenceApplicationContext.class)
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
 @Transactional
@@ -73,9 +74,7 @@ public class LocationDaoImplTest extends AbstractTestNGSpringContextTests {
         Location modified = location;
         String newDescription = "Found near a swimming pool";
         modified.setDescription(newDescription);
-
-        locationDao.updateLocation(location);
-
+        locationDao.updateLocation(trainStation);
         assertEquals(location, entityManager.find(Location.class, location.getId()));
         assertEquals(location.getDescription(),"Found near a swimming pool");
     }
@@ -141,7 +140,4 @@ public class LocationDaoImplTest extends AbstractTestNGSpringContextTests {
         entityManager.persist(location);
         assertEquals(location, locationDao.getLocationById(location.getId()));
     }
-
-
-
 }

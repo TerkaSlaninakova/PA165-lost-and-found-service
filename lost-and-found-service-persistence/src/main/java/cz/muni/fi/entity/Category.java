@@ -9,7 +9,7 @@ import java.util.Objects;
  *
  * @author Jakub Polacek
  */
-@Entity(name = "Category")
+@Entity
 public class Category {
 
     @Id

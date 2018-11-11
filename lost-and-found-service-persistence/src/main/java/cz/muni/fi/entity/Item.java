@@ -33,15 +33,14 @@ public class Item {
     @Column
     private String photo;
 
-    @Column
     @NotNull
+    @Column
     private Status status;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne
     private Location location;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @NotNull
+    @ManyToOne
     private User owner;
 
     @ManyToMany

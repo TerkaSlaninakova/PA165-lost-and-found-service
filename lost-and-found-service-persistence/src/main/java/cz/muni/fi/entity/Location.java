@@ -5,12 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+
 /**
  *
  * @author Jakub Polacek
  */
 
-@Entity(name = "Location")
+@Entity
 public class Location {
 
     @Id
@@ -19,9 +20,6 @@ public class Location {
 
     @Column
     private String description;
-
-    @OneToMany(mappedBy="location", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Item> items = new ArrayList();
 
     public Long getId() {
         return id;
@@ -37,10 +35,6 @@ public class Location {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public List<Item> getItems() {
-        return items;
     }
 
     @Override

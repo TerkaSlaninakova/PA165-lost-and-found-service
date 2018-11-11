@@ -13,7 +13,7 @@ public interface CategoryDao {
     /**
      * Save category to DB
      * @param category object to be saved
-     * @throws IllegalArgumentException if category is null
+     * @throws IllegalArgumentException if category is null or category already exists
      */
     public void addCategory(Category category) throws IllegalArgumentException;
 
