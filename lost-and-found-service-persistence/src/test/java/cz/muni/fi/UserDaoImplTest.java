@@ -133,12 +133,9 @@ public class UserDaoImplTest extends AbstractTestNGSpringContextTests
 
     @Test
     public void testDeleteUser() {
-        userDao.addUser(user);
-        List<User> users = userDao.getAllUsers();
-        assertNotNull(users);
-        assertEquals(1, users.size());
+        entityManager.persist(user);
         userDao.deleteUser(user);
-        users = userDao.getAllUsers();
+        List<User> users = userDao.getAllUsers();
         assertNotNull(users);
         assertEquals(0, users.size());
     }

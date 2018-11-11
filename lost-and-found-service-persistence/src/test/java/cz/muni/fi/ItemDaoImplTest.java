@@ -2,12 +2,10 @@ package cz.muni.fi;
 
 import cz.muni.fi.dao.ItemDao;
 import cz.muni.fi.entity.Item;
-import cz.muni.fi.enums.Status;
-import cz.muni.fi.exceptions.ItemDaoException;
+import cz.muni.fi.service.exceptions.ItemDaoException;
 
 
 import javax.naming.Context;
-import java.util.List;
 import java.util.Properties;
 
 
