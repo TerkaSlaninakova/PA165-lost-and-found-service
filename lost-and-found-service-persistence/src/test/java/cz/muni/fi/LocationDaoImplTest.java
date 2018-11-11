@@ -2,7 +2,6 @@ package cz.muni.fi;
 
 import cz.muni.fi.dao.LocationDao;
 import cz.muni.fi.entity.Location;
-import cz.muni.fi.enums.Status;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -17,11 +16,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 
-import javax.naming.Context;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
-import java.util.Properties;
 
 import static org.testng.Assert.assertNull;
 import static org.testng.AssertJUnit.assertEquals;
@@ -41,18 +36,18 @@ public class LocationDaoImplTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
     private LocationDao locationDao;
-    private static Location location, anotherLocation;
+    private static Location trainStation, busStation;
 
 
 
     @BeforeMethod
     public void setup() {
 
-        location = new Location();
-        location.setDescription("Found at a train station");
+        trainStation = new Location();
+        trainStation.setDescription("Found at a train station");
 
-        anotherLocation = new Location();
-        anotherLocation.setDescription("Found at a bus station");
+        busStation = new Location();
+        busStation.setDescription("Found at a bus station");
     }
 
 
@@ -63,29 +58,29 @@ public class LocationDaoImplTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testAddLocation() {
-        locationDao.addLocation(location);
-        assertEquals(location, entityManager.find(Location.class, location.getId()));
+        locationDao.addLocation(trainStation);
+        assertEquals(trainStation, entityManager.find(Location.class, trainStation.getId()));
     }
 
 
     @Test
     public void testUpdateLocation() {
-        entityManager.persist(location);
-        Location modified = location;
+        entityManager.persist(trainStation);
+        Location modified = trainStation;
         String newDescription = "Found near a swimming pool";
         modified.setDescription(newDescription);
         locationDao.updateLocation(trainStation);
-        assertEquals(location, entityManager.find(Location.class, location.getId()));
-        assertEquals(location.getDescription(),"Found near a swimming pool");
+        assertEquals(trainStation, entityManager.find(Location.class, trainStation.getId()));
+        assertEquals(trainStation.getDescription(),"Found near a swimming pool");
     }
 
 
 
     @Test
     public void testDeleteLocation() {
-        entityManager.persist(location);
-        locationDao.deleteLocation(location);
-        assertNull(entityManager.find(Location.class, location.getId()));
+        entityManager.persist(trainStation);
+        locationDao.deleteLocation(trainStation);
+        assertNull(entityManager.find(Location.class, trainStation.getId()));
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
@@ -110,34 +105,34 @@ public class LocationDaoImplTest extends AbstractTestNGSpringContextTests {
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testDeleteNullIdLocation() {
-        entityManager.persist(location);
-        location.setId(null);
-        locationDao.deleteLocation(location);
+        entityManager.persist(trainStation);
+        trainStation.setId(null);
+        locationDao.deleteLocation(trainStation);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void updateNullIdLocation() {
-        entityManager.persist(location);
-        location.setId(null);
-        locationDao.updateLocation(location);
+        entityManager.persist(trainStation);
+        trainStation.setId(null);
+        locationDao.updateLocation(trainStation);
     }
 
 
     @Test
     public void testGetAllCategories() {
-        entityManager.persist(location);
-        entityManager.persist(anotherLocation);
+        entityManager.persist(trainStation);
+        entityManager.persist(busStation);
 
         List<Location> result = locationDao.getAllLocations();
         assertEquals(2, result.size());
-        assertTrue(result.contains(location));
-        assertTrue(result.contains(anotherLocation));
+        assertTrue(result.contains(trainStation));
+        assertTrue(result.contains(busStation));
 
     }
 
     @Test
     public void testGetCategoryById() {
-        entityManager.persist(location);
-        assertEquals(location, locationDao.getLocationById(location.getId()));
+        entityManager.persist(trainStation);
+        assertEquals(trainStation, locationDao.getLocationById(trainStation.getId()));
     }
 }
