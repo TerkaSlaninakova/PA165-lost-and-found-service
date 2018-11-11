@@ -27,7 +27,7 @@ public interface UserDao {
      * @param user user to be deleted
      * @throws IllegalArgumentException if User or User id is null
      */
-    void deleteUser(User user) throws IllegalArgumentException;;
+    void deleteUser(User user) throws IllegalArgumentException;
 
     /**
      * Get user by his id
