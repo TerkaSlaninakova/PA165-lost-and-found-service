@@ -2,6 +2,7 @@ package cz.muni.fi;
 
 import cz.muni.fi.dao.ItemDao;
 import cz.muni.fi.entity.Item;
+
 import cz.muni.fi.enums.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
