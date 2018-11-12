@@ -4,21 +4,6 @@ The application allows to manage a Lost & Found service. Users can report their 
 
 ## TODOs
 
-### Fixes for M1:
-* [ ] #1 equals/hashcode methods - @Gusto
-* [ ] #2 proper method for adding item / removing item to location
-* [ ] #3 JavaDoc for UserDao - @Terka [In review [Pull 10](https://github.com/TerkaSlaninakova/PA165-lost-and-found-service/pull/10)]
-* [ ] #4 Replace JDBC by JPA - @Terka [In review [Pull 10](https://github.com/TerkaSlaninakova/PA165-lost-and-found-service/pull/10)]
-* [ ] #5 Adjust names of tests - @Terka for User [In review [Pull 10](https://github.com/TerkaSlaninakova/PA165-lost-and-found-service/pull/10)]
-* [ ] #6 Make tests independent of one another
-* [ ] #7 Improve cleaning of DB in teardowns - @Terka not a problem anymore after [Pull 10](https://github.com/TerkaSlaninakova/PA165-lost-and-found-service/pull/10)
-* [ ] #8 Tests for when Item.status is null
-* [ ] #9 Fix diagrams - @Terka
-* [ ] #10 Missing @author annotations (CategoryDaoImplTest, Status)
-* [ ] #11 Add missing @NotNull annotations - @Terka [for User [Pull 10](https://github.com/TerkaSlaninakova/PA165-lost-and-found-service/pull/10)]
-* [ ] #12 Move Status enum to separate package - @Terka [Pull 10](https://github.com/TerkaSlaninakova/PA165-lost-and-found-service/pull/10)
-* [ ] #13 Unify declaration of exceptions for UserDaoImpl and UserDao - @Terka [Pull 10](https://github.com/TerkaSlaninakova/PA165-lost-and-found-service/pull/10)
-
 ### M2:
 * [x] Create template for service, facade, api layer
 * [x] Set up dozer framework to map entity instances to transfer objects
@@ -26,8 +11,25 @@ The application allows to manage a Lost & Found service. Users can report their 
     * [x] Custom exception class (inh. from DataAccessException) to be thrown in case of any exception on a the DAO layer;
     * [ ] Add bean-mapping service (see [fi-muni/PA165](https://github.com/fi-muni/PA165/blob/master/eshop-service/src/main/java/cz/fi/muni/pa165/service/BeanMappingService.java))
     * [ ] Add methods specific to service layer
-    * [ ] Create template for service tests
+    * [ ] Create template for service tests - Terka [In progress]
+    * [ ] Create implementations for interfaces
+    * [ ] Create tests for implementations
 * [ ] Facade layer
     * TBD
 * [ ] API layer
     * TBD
+
+### Fixes for M1:
+* [x] #1 equals/hashcode methods - @Gusto
+* [x] #2 proper method for adding item / removing item to location
+* [x] #3 JavaDoc for UserDao - @Terka [In review [Pull 10](https://github.com/TerkaSlaninakova/PA165-lost-and-found-service/pull/10)]
+* [x] #4 Replace JDBC by JPA - @Terka [In review [Pull 10](https://github.com/TerkaSlaninakova/PA165-lost-and-found-service/pull/10)]
+* [x] #5 Adjust names of tests - @Terka for User [In review [Pull 10](https://github.com/TerkaSlaninakova/PA165-lost-and-found-service/pull/10)]
+* [x] #6 Make tests independent of one another
+* [x] #7 Improve cleaning of DB in teardowns - @Terka not a problem anymore after [Pull 10](https://github.com/TerkaSlaninakova/PA165-lost-and-found-service/pull/10)
+* [x] #8 Tests for when Item.status is null
+* [ ] #9 Fix diagrams - @Terka [In progress]
+* [x] #10 Missing @author annotations (CategoryDaoImplTest, Status)
+* [x] #11 Add missing @NotNull annotations - @Terka [for User [Pull 10](https://github.com/TerkaSlaninakova/PA165-lost-and-found-service/pull/10)]
+* [x] #12 Move Status enum to separate package - @Terka [Pull 10](https://github.com/TerkaSlaninakova/PA165-lost-and-found-service/pull/10)
+* [x] #13 Unify declaration of exceptions [Pull 10](https://github.com/TerkaSlaninakova/PA165-lost-and-found-service/pull/10)
