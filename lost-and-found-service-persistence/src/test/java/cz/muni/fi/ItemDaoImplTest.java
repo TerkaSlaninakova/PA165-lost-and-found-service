@@ -14,6 +14,7 @@ import org.testng.annotations.Test;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.validation.ConstraintViolationException;
 import java.util.List;
 
 import static org.testng.AssertJUnit.assertEquals;
@@ -54,20 +55,20 @@ public class ItemDaoImplTest extends AbstractTestNGSpringContextTests {
 
 
     @Test
-    public void return0ItemsWhenEmpty() {
+    public void testReturn0ItemsWhenEmpty() {
         assertEquals(itemDao.getAllItems().size(), 0);
         assertNull(itemDao.getItembyId(0L));
     }
 
     @Test
-    public void addItem() {
+    public void testAddItem() {
         itemDao.addItem(phone);
         assertEquals(em.createQuery("select i from Item i", Item.class)
                 .getResultList().size(), 1);
     }
 
     @Test
-    public void notCreateAdditionalItemIfTheSameOneAdded() {
+    public void testNotCreateAdditionalItemIfTheSameOneAdded() {
         itemDao.addItem(phone);
         itemDao.addItem(phone);
         assertEquals((em.createQuery("select i from Item i", Item.class)
@@ -81,7 +82,7 @@ public class ItemDaoImplTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void updateItem() {
+    public void testUpdateItem() {
         em.persist(phone);
         String newCharacteristics = "Huawei";
         Status newStatus = Status.FOUND;
@@ -101,7 +102,7 @@ public class ItemDaoImplTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void updateItemWhenNoChange() {
+    public void testUpdateItemWhenNoChange() {
         em.persist(phone);
         itemDao.updateItem(phone);
 
@@ -111,7 +112,7 @@ public class ItemDaoImplTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void deleteItem() {
+    public void testDeleteItem() {
         em.persist(phone);
         em.persist(notebook);
         itemDao.deleteItem(phone);
@@ -123,7 +124,7 @@ public class ItemDaoImplTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void getItemById() {
+    public void testGetItemById() {
         em.persist(phone);
         em.persist(notebook);
         assertEquals(phone, itemDao.getItembyId(phone.getId()));
@@ -131,7 +132,7 @@ public class ItemDaoImplTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void getAllItems() {
+    public void testGetAllItems() {
         em.persist(phone);
         em.persist(notebook);
         List<Item> itemList = itemDao.getAllItems();
@@ -140,36 +141,45 @@ public class ItemDaoImplTest extends AbstractTestNGSpringContextTests {
         assertTrue(itemList.contains(notebook));
     }
 
+
+    @Test(expectedExceptions = {ConstraintViolationException.class})
+    public void testAddItemWithNullStatus() {
+        phone.setStatus(null);
+        itemDao.addItem(phone);
+        assertEquals(em.createQuery("select i from Item i", Item.class)
+                .getResultList().size(), 1);
+    }
+
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void failOnAddNullItem() {
+    public void testAddNullItem() {
         itemDao.addItem(null);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void failOnAddNullUpdate() {
+    public void testNullUpdate() {
         itemDao.updateItem(null);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void failOnAddNullDelete() {
+    public void testAddNullDelete() {
         itemDao.deleteItem(null);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void failOnAddNullGetById() {
+    public void testAddNullGetById() {
         itemDao.getItembyId(null);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void deleteNullIdItem() {
+    public void testDeleteNullIdItem() {
         itemDao.deleteItem(phone);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void updateNullIdItem() {
+    public void testUpdateNullIdItem() {
         itemDao.updateItem(phone);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void failOnNullIdLookup() { itemDao.getItembyId(null); }
+    public void testNullIdLookup() { itemDao.getItembyId(null); }
 }
