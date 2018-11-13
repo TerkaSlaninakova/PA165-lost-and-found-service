@@ -14,10 +14,20 @@ The application allows to manage a Lost & Found service. Users can report their 
     * [ ] Create template for service tests - Terka [In progress]
     * [ ] Create implementations for interfaces
     * [ ] Create tests for implementations
+    * [ ] Create Category Service  and Tests @Terka
+    * [ ] Create Item Service and Tests @Terka
+    * [ ] Create Location Service  and Tests @Gusto
+    * [ ] Create User Service  and Tests @Jakub
 * [ ] Facade layer
-    * TBD
+    * [ ] Create Category Facade  and Tests @Jakub
+    * [ ] Create Item Facade  and Tests @Jakub
+    * [ ] Create Location Facade  and Tests @Terka
+    * [ ] Create User Facade  and Tests @Gusto
 * [ ] API layer
-    * TBD
+    * [ ] Create Category DTO  and Tests @Gusto
+    * [ ] Create Item DTO  and Tests @Gusto
+    * [ ] Create Location DTO  and Tests @Jakub
+    * [ ] Create User DTO and Tests @Terka
 
 ### Fixes for M1:
 * [x] #1 equals/hashcode methods - @Gusto
