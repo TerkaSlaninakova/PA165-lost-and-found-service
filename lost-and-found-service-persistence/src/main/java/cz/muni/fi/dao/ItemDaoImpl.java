@@ -18,7 +18,7 @@ public class ItemDaoImpl implements ItemDao {
     private EntityManager em;
 
     @Override
-    public void addItem(Item item) {
+    public Item addItem(Item item) {
         if (item == null) {
             throw new IllegalArgumentException("Item is null");
         }
@@ -27,11 +27,11 @@ public class ItemDaoImpl implements ItemDao {
         } catch (EntityExistsException e) {
             throw new IllegalArgumentException("Item already exists");
         }
-
+        return item;
     }
 
     @Override
-    public void deleteItem(Item item) {
+    public Item deleteItem(Item item) {
         if (item == null || item.getId() == null) {
             throw new IllegalArgumentException("Item is null");
         }
@@ -40,7 +40,7 @@ public class ItemDaoImpl implements ItemDao {
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Nothing to remove");
         }
-
+        return item;
     }
 
     @Override
@@ -58,7 +58,7 @@ public class ItemDaoImpl implements ItemDao {
     }
 
     @Override
-    public void updateItem(Item item) {
+    public Item updateItem(Item item) {
         if (item == null || item.getId() == null) {
             throw new IllegalArgumentException("Item is null");
         }
@@ -67,5 +67,6 @@ public class ItemDaoImpl implements ItemDao {
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Item does not exist");
         }
+        return item;
     }
 }

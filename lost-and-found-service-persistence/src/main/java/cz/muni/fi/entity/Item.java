@@ -4,6 +4,7 @@ import cz.muni.fi.enums.Status;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
@@ -33,12 +34,21 @@ public class Item {
     @Column
     private String photo;
 
+    @Column
+    private LocalDate foundDate;
+
+    @Column
+    private String archive;
+
     @NotNull
     @Column
     private Status status;
 
     @ManyToOne
-    private Location location;
+    private Location foundLocation;
+
+    @ManyToOne
+    private Location lostLocation;
 
     @ManyToOne
     private User owner;
@@ -52,6 +62,10 @@ public class Item {
 
     public void setOwner(User owner) {
         this.owner = owner;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getId() {
@@ -98,12 +112,20 @@ public class Item {
         this.status = status;
     }
 
-    public Location getLocation() {
-        return location;
+    public Location getLostLocation() {
+        return this.lostLocation;
     }
 
-    public void setLocation(Location lostLocation) {
-        this.location = lostLocation;
+    public void setLostLocation(Location lostLocation) {
+        this.lostLocation = lostLocation;
+    }
+
+    public Location getFoundLocation() {
+        return this.foundLocation;
+    }
+
+    public void setFoundLocation(Location foundLocation) {
+        this.foundLocation = foundLocation;
     }
 
     public List<Category> getCategories() {
@@ -112,6 +134,22 @@ public class Item {
 
     public void setCategories(List<Category> categories) {
         this.categories = categories;
+    }
+
+    public LocalDate getFoundDate() {
+        return this.foundDate;
+    }
+
+    public void setFoundDate(LocalDate foundDate) {
+        this.foundDate = foundDate;
+    }
+
+    public String getArchive() {
+        return this.archive;
+    }
+
+    public void setArchive(String archive) {
+        this.archive = archive;
     }
 
     @Override
@@ -125,12 +163,13 @@ public class Item {
                 Objects.equals(characteristics, item.getCharacteristics()) &&
                 Objects.equals(photo, item.getPhoto()) &&
                 status == item.getStatus() &&
-                Objects.equals(location, item.getLocation()) &&
+                Objects.equals(lostLocation, item.getLostLocation()) &&
+                Objects.equals(foundLocation, item.getFoundLocation()) &&
                 Objects.equals(owner, item.getOwner());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, type, characteristics, photo, status, location, owner);
+        return Objects.hash(id, name, type, characteristics, photo, status, foundLocation, lostLocation, archive, owner);
     }
 }
