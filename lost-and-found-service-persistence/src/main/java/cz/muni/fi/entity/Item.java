@@ -165,6 +165,7 @@ public class Item {
                 status == item.getStatus() &&
                 Objects.equals(lostLocation, item.getLostLocation()) &&
                 Objects.equals(foundLocation, item.getFoundLocation()) &&
+                Objects.equals(archive, item.getArchive()) &&
                 Objects.equals(owner, item.getOwner());
     }
 
