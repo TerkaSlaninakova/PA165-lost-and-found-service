@@ -1,14 +1,14 @@
 package cz.muni.fi.service.config;
 
-import cz.muni.fi.PersistenceApplicationContext;
-import cz.muni.fi.dto.CategoryDto;
-import cz.muni.fi.dto.ItemDto;
-import cz.muni.fi.dto.LocationDto;
-import cz.muni.fi.dto.UserDto;
-import cz.muni.fi.entity.Category;
-import cz.muni.fi.entity.Item;
-import cz.muni.fi.entity.Location;
-import cz.muni.fi.entity.User;
+import cz.muni.fi.persistence.PersistenceApplicationContext;
+import cz.muni.fi.dto.CategoryDTO;
+import cz.muni.fi.dto.ItemDTO;
+import cz.muni.fi.dto.LocationDTO;
+import cz.muni.fi.dto.UserDTO;
+import cz.muni.fi.persistence.entity.Category;
+import cz.muni.fi.persistence.entity.Item;
+import cz.muni.fi.persistence.entity.Location;
+import cz.muni.fi.persistence.entity.User;
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
 import org.dozer.loader.api.BeanMappingBuilder;
@@ -35,10 +35,10 @@ public class ServiceConfiguration {
     public class DozerCustomConfig extends BeanMappingBuilder {
         @Override
         protected void configure() {
-            mapping(User.class, UserDto.class, TypeMappingOptions.mapNull(false));
-            mapping(Location.class, LocationDto.class, TypeMappingOptions.mapNull(false));
-            mapping(Item.class, ItemDto.class, TypeMappingOptions.mapNull(false));
-            mapping(Category.class, CategoryDto.class, TypeMappingOptions.mapNull(false));        }
+            mapping(User.class, UserDTO.class, TypeMappingOptions.mapNull(false));
+            mapping(Location.class, LocationDTO.class, TypeMappingOptions.mapNull(false));
+            mapping(Item.class, ItemDTO.class, TypeMappingOptions.mapNull(false));
+            mapping(Category.class, CategoryDTO.class, TypeMappingOptions.mapNull(false));        }
     }
 
 }

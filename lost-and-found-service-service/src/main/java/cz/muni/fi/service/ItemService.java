@@ -1,6 +1,6 @@
 package cz.muni.fi.service;
 
-import cz.muni.fi.entity.Item;
+import cz.muni.fi.persistence.entity.Item;
 import org.springframework.dao.DataAccessException;
 import java.time.LocalDate;
 

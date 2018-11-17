@@ -1,6 +1,6 @@
 package cz.muni.fi.service;
 
-import cz.muni.fi.entity.Category;
+import cz.muni.fi.persistence.entity.Category;
 import org.springframework.dao.DataAccessException;
 
 import java.util.List;
