@@ -2,6 +2,7 @@ package cz.muni.fi.service;
 
 import cz.muni.fi.entity.Item;
 import org.springframework.dao.DataAccessException;
+import java.time.LocalDate;
 
 import java.util.List;
 
@@ -10,14 +11,27 @@ import java.util.List;
  * @author Terezia Slaninakova (445526)
  */
 public interface ItemService {
+
+    /**
+     * Archives an item
+     *
+     * @param item - itemEntity to be archived
+     * @throws IllegalArgumentException when itemEntity is null
+     * @throws DataAccessException when itemEntity cannot be archived
+     *
+     * @return archived item
+     * */
+    Item archiveItem(Item item, LocalDate foundDate) throws DataAccessException;
+
     /**
      * Create a new item.
      *
      * @param item - itemEntity to be added
      * @throws IllegalArgumentException when itemEntity is null
      * @throws DataAccessException when itemEntity already exists
+     * @return added item
      * */
-    void addItem(Item item) throws DataAccessException;
+    Item addItem(Item item) throws DataAccessException;
 
     /**
      * Delete an item.
@@ -25,8 +39,9 @@ public interface ItemService {
      * @param item - itemEntity to be deleted
      * @throws IllegalArgumentException when itemEntity is null
      * @throws DataAccessException when itemEntity doesn't exist (nothing to delete)
+     * @return deleted item
      */
-    void deleteItem(Item item) throws DataAccessException;
+    Item deleteItem(Item item) throws DataAccessException;
 
     /**
      * Find item with given id.
@@ -50,6 +65,8 @@ public interface ItemService {
      * @param item - itemEntity to be updated
      * @throws IllegalArgumentException when itemEntity is null
      * @throws DataAccessException when item is not persisted yet
+     *
+     * @return updated item
      * */
-    void updateItem(Item item) throws DataAccessException;
+    Item updateItem(Item item) throws DataAccessException;
 }
