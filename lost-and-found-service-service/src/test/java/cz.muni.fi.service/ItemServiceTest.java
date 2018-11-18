@@ -1,8 +1,8 @@
 package cz.muni.fi.service;
 
-import cz.muni.fi.dao.ItemDao;
-import cz.muni.fi.entity.Item;
-import cz.muni.fi.enums.Status;
+import cz.muni.fi.persistence.dao.ItemDao;
+import cz.muni.fi.persistence.entity.Item;
+import cz.muni.fi.persistence.enums.Status;
 import cz.muni.fi.service.config.ServiceConfiguration;
 import org.hibernate.service.spi.ServiceException;
 import org.mockito.InjectMocks;

@@ -1,7 +1,7 @@
 package cz.muni.fi.service;
 
-import cz.muni.fi.entity.User;
-import org.springframework.dao.DataAccessException;
+import cz.muni.fi.persistence.entity.User;
+import cz.muni.fi.service.exceptions.ServiceException;
 
 import java.util.List;
 
@@ -13,43 +13,44 @@ public interface UserService {
     /**
      * Save User to DB
      * @param user user to be saved
-     * @throws DataAccessException if User or User id is not null
+     * @throws ServiceException if User or User id is not null or something unexpected happens
      */
-    void addUser(User user) throws DataAccessException;
+    void addUser(User user) throws ServiceException;
 
     /**
      * Update User
      * @param user user to be updated
-     * @throws DataAccessException if User or User id is null
+     * @throws ServiceException if User or User id is null or something unexpected happens
      */
-    void updateUser(User user) throws DataAccessException;
+    void updateUser(User user) throws ServiceException;
 
     /**
      * Delete User
      * @param user user to be deleted
-     * @throws DataAccessException if User or User id is null
+     * @throws ServiceException if User or User id is null or something unexpected happens
      */
-    void deleteUser(User user) throws DataAccessException;;
+    void deleteUser(User user) throws ServiceException;
 
     /**
      * Get user by his id
      * @param id id of user
-     * @throws DataAccessException if User id is null
+     * @throws ServiceException if User id is null or something unexpected happens
      * @return User object
      */
-    User getUserById(Long id) throws DataAccessException;
+    User getUserById(Long id) throws ServiceException;
 
     /**
      * Get user by his name
      * @param name name of user
-     * @throws DataAccessException if User name is null
+     * @throws ServiceException if User name is null or something unexpected happens
      * @return list of User objects
      */
-    List<User> getUserByName(String name) throws DataAccessException;
+    List<User> getUsersByName(String name) throws ServiceException;
 
     /**
      * Get all existing users
+     * @throws ServiceException if something unexpected happens
      * @return list of User objects
      */
-    List<User> getAllUsers();
+    List<User> getAllUsers() throws ServiceException;
 }
