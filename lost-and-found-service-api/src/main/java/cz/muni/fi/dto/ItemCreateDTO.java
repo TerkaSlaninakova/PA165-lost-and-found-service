@@ -1,6 +1,6 @@
 package cz.muni.fi.dto;
 
-import com.sun.istack.internal.NotNull;
+import javax.validation.constraints.NotNull;
 import cz.muni.fi.enums.Status;
 
 import javax.validation.constraints.Size;

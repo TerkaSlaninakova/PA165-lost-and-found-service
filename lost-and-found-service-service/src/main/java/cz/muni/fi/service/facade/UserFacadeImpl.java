@@ -22,7 +22,7 @@ public class UserFacadeImpl implements UserFacade {
     private BeanMappingService beanMappingService;
 
     @Override
-    public void createUser(UserDTO userDTO) {
+    public void addUser(UserDTO userDTO) {
         userService.addUser(beanMappingService.mapTo(userDTO, User.class));
     }
 

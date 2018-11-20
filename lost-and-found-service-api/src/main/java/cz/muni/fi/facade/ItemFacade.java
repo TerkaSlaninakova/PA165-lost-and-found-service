@@ -13,7 +13,7 @@ import java.util.List;
      * @param i item to create
      * @return id of created Item
      */
-     Long createItem(ItemCreateDTO i);
+     Long addItem(ItemCreateDTO i);
 
     /**
      * Adds category to item

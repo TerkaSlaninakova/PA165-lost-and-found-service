@@ -65,7 +65,7 @@ public class UserFacadeTest extends AbstractTestNGSpringContextTests {
 
         UserDTO userDTO = beanMappingService.mapTo(user1, UserDTO.class);
 
-        userFacade.createUser(userDTO);
+        userFacade.addUser(userDTO);
 
         verify(userService).addUser(any(User.class));
     }

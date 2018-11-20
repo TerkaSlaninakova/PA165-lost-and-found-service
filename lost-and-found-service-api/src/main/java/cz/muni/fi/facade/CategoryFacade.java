@@ -6,12 +6,12 @@ import java.util.List;
 
 public interface CategoryFacade {
 
-    CategoryDTO findCategoryById(Long userId);
+    CategoryDTO getCategoryById(Long userId);
 
     /**
      * Create a given category
      */
-    void createCategory(CategoryDTO c);
+    void addCategory(CategoryDTO c);
 
     /**
      * Get all categories
