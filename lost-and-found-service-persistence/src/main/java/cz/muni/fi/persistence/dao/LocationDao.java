@@ -40,8 +40,8 @@ public interface LocationDao {
     public Location getLocationById(Long id) throws IllegalArgumentException;
 
     /**
-     * Get a list of all categories in DB
-     * @return lits of all categories in DB
+     * Get a list of all locations in DB
+     * @return lits of all locations in DB
      */
 
     public List<Location> getAllLocations();

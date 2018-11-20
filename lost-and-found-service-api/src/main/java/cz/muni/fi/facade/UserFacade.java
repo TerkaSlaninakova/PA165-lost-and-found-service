@@ -16,7 +16,7 @@ public interface UserFacade {
      * Save User to DB
      * @param userDTO UserDTO
      */
-    void createUser(UserDTO userDTO);
+    void addUser(UserDTO userDTO);
 
     /**
      * Update User
@@ -33,7 +33,7 @@ public interface UserFacade {
     /**
      * Get user by his id
      * @param id id of user
-     * @return User or null, if there is no hero with requested id
+     * @return User or null
      */
     UserDTO getUserById(Long id);
 
