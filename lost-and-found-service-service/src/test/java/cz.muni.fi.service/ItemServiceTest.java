@@ -99,9 +99,9 @@ public class ItemServiceTest extends AbstractTestNGSpringContextTests {
         itemJacket.setName("Winter black jacket");
         itemJacket.setId(3L);
 
-        itemJacket.setStatus(Status.CLAIM_RECEIVED);
-        itemUmbrella.setStatus(Status.IN_PROGRESS);
-        itemWallet.setStatus(Status.FOUND);
+        itemJacket.setStatus(Status.CLAIM_RECEIVED_LOST);
+        itemUmbrella.setStatus(Status.CLAIM_RECEIVED_FOUND);
+        itemWallet.setStatus(Status.RESOLVED);
         itemWallet.setFoundDate(LocalDate.now().minusDays(1));
 
         items.put(1L, itemWallet);
