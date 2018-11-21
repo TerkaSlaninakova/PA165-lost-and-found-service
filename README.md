@@ -4,30 +4,37 @@ The application allows to manage a Lost & Found service. Users can report their 
 
 ## TODOs
 
+### M2 Checklist
+* [ ] Proper Javadoc, @author annotations everywhere
+* [ ] Facade Interfaces not referencing entities - DTOs only
+* [ ] Service Interfaces not referencing DTOs - entities only
+* [ ] @Transactional not in services
+* [ ] No TODOs, commented code left
+* [ ] mvn clean install works
+
 ### M2:
 * [x] Create template for service, facade, api layer
 * [x] Set up dozer framework to map entity instances to transfer objects
 * [ ] Service layer
     * [x] Custom exception class (inh. from DataAccessException) to be thrown in case of any exception on a the DAO layer;
-    * [ ] Add bean-mapping service (see [fi-muni/PA165](https://github.com/fi-muni/PA165/blob/master/eshop-service/src/main/java/cz/fi/muni/pa165/service/BeanMappingService.java))
-    * [ ] Add methods specific to service layer
-    * [ ] Create template for service tests - Terka [In progress]
-    * [ ] Create implementations for interfaces
-    * [ ] Create tests for implementations
-    * [ ] Create Category Service  and Tests @Terka
-    * [ ] Create Item Service and Tests @Terka
-    * [ ] Create Location Service  and Tests @Gusto
-    * [ ] Create User Service  and Tests @Jakub
+    * [x] Add bean-mapping service (see [fi-muni/PA165](https://github.com/fi-muni/PA165/blob/master/eshop-service/src/main/java/cz/fi/muni/pa165/service/BeanMappingService.java))
+    * [x] Create implementations for interfaces
+    * [x] Create tests for implementations
+    * [ ] Create Category Service  and Tests @Terka - [IN PROGRESS]
+    * [ ] Create Item Service and Tests @Terka - [IN PROGRESS]
+    * [x] Create Location Service and Tests @Gusto
+    * [ ] Create User Service and Tests @Jakub - [IN PROGRESS]
+    * [ ] Create at least 2 non-trivial business functions + extensive tests - @Terka,@Jakub - [IN PROGRESS]
 * [ ] Facade layer
-    * [ ] Create Category Facade  and Tests @Jakub
-    * [ ] Create Item Facade  and Tests @Jakub
-    * [ ] Create Location Facade  and Tests @Terka
-    * [ ] Create User Facade  and Tests @Gusto
-* [ ] API layer
-    * [ ] Create Category DTO  and Tests @Gusto
-    * [ ] Create Item DTO  and Tests @Gusto
-    * [ ] Create Location DTO  and Tests @Jakub
-    * [ ] Create User DTO and Tests @Terka
+    * [ ] Create Category Facade and Tests @Jakub - [IN PROGRESS]
+    * [ ] Create Item Facade and Tests @Jakub - [IN PROGRESS]
+    * [ ] Create Location Facade and Tests @Terka - [IN PROGRESS]
+    * [ ] Create User Facade and Tests @Gusto - [IN PROGRESS]
+* [x] API layer
+    * [x] Create Category DTO @Gusto
+    * [x] Create Item DTO @Gusto
+    * [x] Create Location DTO @Jakub
+    * [x] Create User DTO @Gusto
 
 ### Fixes for M1:
 * [x] #1 equals/hashcode methods - @Gusto
