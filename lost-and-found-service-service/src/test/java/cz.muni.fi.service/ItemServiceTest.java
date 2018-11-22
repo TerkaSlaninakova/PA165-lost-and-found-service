@@ -20,6 +20,7 @@ import org.testng.annotations.Test;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
@@ -252,5 +253,19 @@ public class ItemServiceTest extends AbstractTestNGSpringContextTests {
     public void testResolveFoundItemOwnerNull() {
         itemUmbrella.setOwner(owner);
         itemService.resolveFoundItem(itemUmbrella, lostDateNow, lostLocation, owner);
+    }
+
+    @Test
+    public void testGetAllItemsWithStatusEmpty() {
+        Assert.assertEquals(itemService.getAllItemsWithStatus(null).size(), 0);
+    }
+
+    @Test
+    public void testGetAllItemsWithStatus() {
+        when(itemDao.getAllItems()).thenReturn(Arrays.asList(itemUmbrella, itemWallet, itemJacket));
+        List<Item> foundItems = itemService.getAllItemsWithStatus(Status.CLAIM_RECEIVED_FOUND);
+        Assert.assertEquals(foundItems.size(), 1);
+        assertThat(foundItems.get(0)).isEqualToComparingFieldByField(itemUmbrella);
+
     }
 }
