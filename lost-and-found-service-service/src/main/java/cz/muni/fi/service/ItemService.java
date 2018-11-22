@@ -21,7 +21,7 @@ public interface ItemService {
      *
      * @param item - itemEntity to be archived
      * @throws IllegalArgumentException when itemEntity is null
-     * @throws DataAccessException when itemEntity cannot be archived
+     * @throws ServiceException when itemEntity cannot be archived
      *
      * @return archived item
      * */
@@ -32,9 +32,9 @@ public interface ItemService {
      *
      * @param item - itemEntity which was previously lost
      * @throws IllegalArgumentException when itemEntity is null or status is not CLAIM_RECEIVED_LOST
-     * @throws DataAccessException when itemEntity cannot be archived
+     * @throws ServiceException
      *
-     * @return archived item
+     * @return resolved item
      * */
     Item resolveLostItem(Item item, LocalDate foundDate, Location foundLocation) throws ServiceException;
 
@@ -43,9 +43,9 @@ public interface ItemService {
      *
      * @param item - itemEntity which was previously found
      * @throws IllegalArgumentException when itemEntity is null or status is not CLAIM_RECEIVED_LOST
-     * @throws DataAccessException when itemEntity cannot be archived
+     * @throws ServiceException
      *
-     * @return archived item
+     * @return resolved item
      * */
     Item resolveFoundItem(Item item, LocalDate lostDate, Location lostLocation, User owner) throws ServiceException;
 
@@ -54,7 +54,7 @@ public interface ItemService {
      *
      * @param status - status which to filter based upon
      * @throws IllegalArgumentException when itemEntity is null or status is not CLAIM_RECEIVED_LOST
-     * @throws DataAccessException when itemEntity cannot be archived
+     * @throws ServiceException when items cannot be get
      *
      * @return archived item
      * */
@@ -64,7 +64,7 @@ public interface ItemService {
      *
      * @param item - itemEntity to be added
      * @throws IllegalArgumentException when itemEntity is null
-     * @throws DataAccessException when itemEntity already exists
+     * @throws ServiceException when itemEntity already exists
      * @return added item
      * */
     Item addItem(Item item) throws ServiceException;
@@ -74,7 +74,7 @@ public interface ItemService {
      *
      * @param item - itemEntity to be deleted
      * @throws IllegalArgumentException when itemEntity is null
-     * @throws DataAccessException when itemEntity doesn't exist (nothing to delete)
+     * @throws ServiceException when itemEntity doesn't exist (nothing to delete)
      * @return deleted item
      */
     Item deleteItem(Item item) throws ServiceException;
@@ -85,12 +85,13 @@ public interface ItemService {
      * @param id - id of itemEntity to be found
      * @return - item that was found or null if no item was found
      * @throws IllegalArgumentException when id is null
+     * @throws ServiceException when get item fails
      * */
     Item getItembyId(Long id) throws ServiceException;
 
     /**
-     * Find all archived items.
-     *
+     * Get all items.
+     * @throws ServiceException when all items can't be get
      * @return - items that were found or Collections.EMPTY_LIST if no items were found
      * */
     List<Item> getAllItems() throws ServiceException;
@@ -100,7 +101,7 @@ public interface ItemService {
      *
      * @param item - itemEntity to be updated
      * @throws IllegalArgumentException when itemEntity is null
-     * @throws DataAccessException when item is not persisted yet
+     * @throws ServiceException when item cannot be updated
      *
      * @return updated item
      * */
