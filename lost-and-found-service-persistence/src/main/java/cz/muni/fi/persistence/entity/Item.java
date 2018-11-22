@@ -148,7 +148,7 @@ public class Item {
         return this.lostDate;
     }
 
-    public void setLostDate(LocalDate foundDate) {
+    public void setLostDate(LocalDate lostDate) {
         this.lostDate = lostDate;
     }
 

@@ -37,12 +37,12 @@ public class ItemServiceImpl implements ItemService {
                     " 'characteristics': '" + item.getCharacteristics() + "'," +
                     " 'photo': '" + item.getPhoto() + "'," +
                     " 'type': '" + item.getType() + "'," +
-                    " 'foundDate': '" + item.getFoundDate().toString() + "'," +
+                    " 'foundDate': '" + item.getFoundDate() + "'," +
                     " 'id': '" + item.getId() + "'," +
                     " 'categories' " + item.getCategories() + "'," +
                     " 'lostLocation': '" + item.getLostLocation() + "'," +
                     " 'foundLocation': '" + item.getFoundLocation() + "'," +
-                    " 'owner': '" + item.getOwner() + "'," +
+                    " 'owner': '" + item.getOwner().getName() + "'," +
                     " 'status': '" + item.getStatus() + "'," +
                     "}}");
 
@@ -68,7 +68,7 @@ public class ItemServiceImpl implements ItemService {
         if (item.getStatus() != Status.CLAIM_RECEIVED_LOST) {
             throw new IllegalStateException("Item must be in CLAIM_RECEIVED_LOST state");
         }
-        if (foundDate.isAfter(item.getLostDate())) {
+        if (foundDate.isBefore(item.getLostDate())) {
             throw new IllegalStateException("Found date must be after lostDate");
         }
         if (item.getOwner() == null) {
@@ -96,15 +96,15 @@ public class ItemServiceImpl implements ItemService {
             throw new IllegalArgumentException("Lost date cannot be null");
         }
         if (owner == null) {
-            throw new IllegalArgumentException("Owner cannot be null");
+            throw new IllegalArgumentException("Owner to be set cannot be null");
         }
         if (lostLocation == null) {
-            throw new IllegalArgumentException("lostLocation cannot be null");
+            throw new IllegalArgumentException("Lost location cannot be null");
         }
         if (item.getStatus() != Status.CLAIM_RECEIVED_FOUND) {
             throw new IllegalStateException("Item must be in CLAIM_RECEIVED_FOUND state");
         }
-        if (lostDate.isAfter(item.getLostDate())) {
+        if (lostDate.isBefore(item.getFoundDate())) {
             throw new IllegalStateException("Lost date must be after foundDate");
         }
         if (item.getOwner() != null) {
