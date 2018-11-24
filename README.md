@@ -20,15 +20,15 @@ The application allows to manage a Lost & Found service. Users can report their 
     * [x] Add bean-mapping service (see [fi-muni/PA165](https://github.com/fi-muni/PA165/blob/master/eshop-service/src/main/java/cz/fi/muni/pa165/service/BeanMappingService.java))
     * [x] Create implementations for interfaces
     * [x] Create tests for implementations
-    * [ ] Create Category Service  and Tests @Terka - [IN PROGRESS]
-    * [ ] Create Item Service and Tests @Terka - [IN PROGRESS]
+    * [x] Create Category Service  and Tests @Terka
+    * [x] Create Item Service and Tests @Terka
     * [x] Create Location Service and Tests @Gusto
     * [ ] Create User Service and Tests @Jakub - [IN PROGRESS]
-    * [ ] Create at least 2 non-trivial business functions + extensive tests - @Terka,@Jakub - [IN PROGRESS]
+    * [x] Create at least 2 non-trivial business functions + extensive tests - @Terka
 * [ ] Facade layer
     * [ ] Create Category Facade and Tests @Jakub - [IN PROGRESS]
     * [ ] Create Item Facade and Tests @Jakub - [IN PROGRESS]
-    * [ ] Create Location Facade and Tests @Terka - [IN PROGRESS]
+    * [x] Create Location Facade and Tests @Terka
     * [ ] Create User Facade and Tests @Gusto - [IN PROGRESS]
 * [x] API layer
     * [x] Create Category DTO @Gusto
