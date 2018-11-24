@@ -45,7 +45,7 @@ The application allows to manage a Lost & Found service. Users can report their 
 * [x] #6 Make tests independent of one another
 * [x] #7 Improve cleaning of DB in teardowns - @Terka not a problem anymore after [Pull 10](https://github.com/TerkaSlaninakova/PA165-lost-and-found-service/pull/10)
 * [x] #8 Tests for when Item.status is null
-* [ ] #9 Fix diagrams - @Terka [In progress]
+* [x] #9 Fix diagrams - @Terka
 * [x] #10 Missing @author annotations (CategoryDaoImplTest, Status)
 * [x] #11 Add missing @NotNull annotations - @Terka [for User [Pull 10](https://github.com/TerkaSlaninakova/PA165-lost-and-found-service/pull/10)]
 * [x] #12 Move Status enum to separate package - @Terka [Pull 10](https://github.com/TerkaSlaninakova/PA165-lost-and-found-service/pull/10)
