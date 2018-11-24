@@ -1,8 +1,6 @@
 package cz.muni.fi.dto;
 
 import javax.validation.constraints.NotNull;
-import cz.muni.fi.enums.Status;
-
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -27,13 +25,6 @@ public class ItemCreateDTO {
 
     @NotNull
     private LocalDate foundDate;
-
-    @NotNull
-    private String archive;
-
-    @NotNull
-    private Status status;
-
 
     public String getName() {
         return name;
@@ -67,22 +58,6 @@ public class ItemCreateDTO {
         this.foundDate = foundDate;
     }
 
-    public String getArchive() {
-        return archive;
-    }
-
-    public void setArchive(String archive) {
-        this.archive = archive;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -91,17 +66,15 @@ public class ItemCreateDTO {
         ItemCreateDTO that = (ItemCreateDTO) o;
 
         return Objects.equals(this.name, that.getName())
-                && Objects.equals(this.archive, that.archive)
                 && Objects.equals(this.characteristics, that.characteristics)
                 && Objects.equals(this.foundDate, that.foundDate)
-                && Objects.equals(this.status, that.status)
                 && Objects.equals(this.type, that.type);
 
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, archive, characteristics, foundDate, status, type);
+        return Objects.hash(name, characteristics, foundDate, type);
     }
 
     @Override
@@ -111,8 +84,6 @@ public class ItemCreateDTO {
                 ", type='" + type + '\'' +
                 ", characteristics='" + characteristics + '\'' +
                 ", foundDate=" + foundDate +
-                ", archive='" + archive + '\'' +
-                ", status=" + status +
                 '}';
     }
 }

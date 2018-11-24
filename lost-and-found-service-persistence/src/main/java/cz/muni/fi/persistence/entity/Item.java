@@ -160,6 +160,13 @@ public class Item {
         this.archive = archive;
     }
 
+    public void addCategory(Category category) {
+        this.categories.add(category);
+    }
+
+    public void removeCategory(Category category) {
+        this.categories.remove(category);
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

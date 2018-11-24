@@ -16,4 +16,9 @@ public class ServiceException extends DataAccessException {
         super(msg, cause);
         logger.log(Level.WARNING, msg, cause);
     }
+
+    public ServiceException(String msg) {
+        super(msg);
+        logger.log(Level.WARNING, msg);
+    }
 }

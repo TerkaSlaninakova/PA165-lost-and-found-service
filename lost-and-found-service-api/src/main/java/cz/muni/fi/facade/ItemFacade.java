@@ -1,85 +1,136 @@
 package cz.muni.fi.facade;
 
-import cz.muni.fi.dto.ItemChangeImageDTO;
-import cz.muni.fi.dto.ItemCreateDTO;
-import cz.muni.fi.dto.ItemDTO;
+import cz.muni.fi.dto.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
- interface ItemFacade {
+
+/**
+ *
+ * @author Jakub Polacek
+ */
+public interface ItemFacade {
 
     /**
-     * creates item
-     * @param i item to create
-     * @return id of created Item
+     * creates item that has been lost
+     *
+     * @param itemCreateDTO item to create
      */
-     Long addItem(ItemCreateDTO i);
+    void addItemLost(ItemCreateDTO itemCreateDTO);
+
+    /**
+     * creates item that has been found
+     *
+     * @param itemCreateDTO item to create
+     */
+    void addItemFound(ItemCreateDTO itemCreateDTO);
+
+    /**
+     * Update Item
+     * @param itemDTO itemDTO to update
+     */
+    void updateItem(ItemDTO itemDTO);
+
 
     /**
      * Adds category to item
-     * @param itemId of item which gets category added
+     *
+     * @param itemId     of item which gets category added
      * @param categoryId category to add
      */
-     void addCategory(Long itemId, Long categoryId);
+    void addCategoryToItem(Long itemId, Long categoryId);
 
 
     /**
      * Removes category from item
-     * @param itemId of item which gets category removed
+     *
+     * @param itemId     of item which gets category removed
      * @param categoryId category to remove
      */
-     void removeCategory(Long itemId, Long categoryId);
+    void removeCategoryFromItem(Long itemId, Long categoryId);
 
 
     /**
      * Changes found location to location or null if locationId null
-     * @param itemId of item to change location
+     *
+     * @param itemId     of item to change location
      * @param locationId null or location id
      */
-     void changeFoundLocation(Long itemId, Long locationId);
+    void changeFoundLocation(Long itemId, Long locationId);
 
-     /**
-      * Changes lost location to location or null if locationId null
-      * @param itemId of item to change location
-      * @param locationId null or location id
-      */
-     void changeLostLocation(Long itemId, Long locationId);
+    /**
+     * Changes lost location to location or null if locationId null
+     *
+     * @param itemId     of item to change location
+     * @param locationId null or location id
+     */
+    void changeLostLocation(Long itemId, Long locationId);
 
-     /**
-      * Changes user to user or null if userId null
-      * @param itemId of item to change location
-      * @param userId null or user id
-      */
-     void changeUser(Long itemId, Long userId);
+    /**
+     * Changes user to user or null if userId null
+     *
+     * @param itemId of item to change location
+     * @param userId null or user id
+     */
+    void changeUser(Long itemId, Long userId);
 
     /**
      * Deletes item
-     * @param itemId of item to delete
+     *
+     * @param itemDTO to delete
      */
-     void deleteItem(Long itemId);
+    void deleteItem(ItemDTO itemDTO);
 
     /**
      * @return all items
      */
-     List<ItemDTO> getAllItems();
+    List<ItemDTO> getAllItems();
 
     /**
      * Returns items with given category name
+     *
      * @param categoryName name of category to look up
      * @return list of items with categories with given name
      */
-     List<ItemDTO> getItemsByCategory(String categoryName);
+    List<ItemDTO> getItemsByCategory(String categoryName);
 
     /**
      * return item by id
+     *
      * @param id of item
      * @return itemDTO
      */
-     ItemDTO getItemWithId(Long id);
+    ItemDTO getItemWithId(Long id);
+
+    /**
+     * Archives an item
+     *
+     * @param item - itemEntity to be archived
+     * @throws IllegalArgumentException when itemEntity is null
+     */
+    void archiveItem(ItemDTO item);
+
+    /**
+     * Resolves lost itemDTO
+     *
+     * @param itemDTO - itemEntity which was previously lost
+     */
+    void resolveLostItem(ItemDTO itemDTO, LocalDate foundDate, LocationDTO foundLocation);
+
+    /**
+     * Resolves found itemDTO
+     *
+     * @param itemDTO - which was previously found
+     * @throws IllegalArgumentException when itemEntity is null or status is not CLAIM_RECEIVED_LOST
+     */
+    void resolveFoundItem(ItemDTO itemDTO, LocalDate lostDate, LocationDTO lostLocation, UserDTO owner);
+
 
     /**
      * Changes item's picture
-     * @param itemChange change picture of item
+     *
+     * @param itemChangeDTO change picture of item
      */
-     void changeImage(ItemChangeImageDTO itemChange);
+    void changeImage(ItemChangeImageDTO itemChangeDTO);
 }

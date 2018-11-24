@@ -13,28 +13,28 @@ public interface UserService {
     /**
      * Save User to DB
      * @param user user to be saved
-     * @throws ServiceException if User or User id is not null or something unexpected happens
+     * @throws ServiceException if add fails
      */
     void addUser(User user) throws ServiceException;
 
     /**
      * Update User
      * @param user user to be updated
-     * @throws ServiceException if User or User id is null or something unexpected happens
+     * @throws ServiceException if update fails
      */
     void updateUser(User user) throws ServiceException;
 
     /**
      * Delete User
      * @param user user to be deleted
-     * @throws ServiceException if User or User id is null or something unexpected happens
+     * @throws ServiceException if delete fails
      */
     void deleteUser(User user) throws ServiceException;
 
     /**
      * Get user by his id
      * @param id id of user
-     * @throws ServiceException if User id is null or something unexpected happens
+     * @throws ServiceException if get fails
      * @return User object
      */
     User getUserById(Long id) throws ServiceException;
@@ -42,14 +42,14 @@ public interface UserService {
     /**
      * Get user by his name
      * @param name name of user
-     * @throws ServiceException if User name is null or something unexpected happens
+     * @throws ServiceException if User name is null or get fails
      * @return list of User objects
      */
     List<User> getUsersByName(String name) throws ServiceException;
 
     /**
      * Get all existing users
-     * @throws ServiceException if something unexpected happens
+     * @throws ServiceException if get fails
      * @return list of User objects
      */
     List<User> getAllUsers() throws ServiceException;

@@ -1,10 +1,9 @@
 package cz.muni.fi.service;
 
 import cz.muni.fi.persistence.dao.CategoryDao;
-import cz.muni.fi.persistence.dao.CategoryDao;
-import cz.muni.fi.persistence.entity.Category;
 import cz.muni.fi.persistence.entity.Category;
 import cz.muni.fi.service.config.ServiceConfiguration;
+import cz.muni.fi.service.exceptions.ServiceException;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -16,11 +15,10 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertNotNull;
 
 /**
  * Tests for CategoryService
@@ -76,7 +74,7 @@ public class CategoryServiceTest extends AbstractTestNGSpringContextTests {
 
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = ServiceException.class)
     public void testAddNullCategory() {
         doThrow(new IllegalArgumentException()).when(categoryDao).addCategory(null);
         categoryService.addCategory(null);
@@ -89,7 +87,7 @@ public class CategoryServiceTest extends AbstractTestNGSpringContextTests {
         verify(categoryDao).updateCategory(categoryElectro);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = ServiceException.class)
     public void testUpdateNullCategory() {
         doThrow(new IllegalArgumentException()).when(categoryDao).updateCategory(null);
         categoryService.updateCategory(null);

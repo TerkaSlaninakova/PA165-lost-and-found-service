@@ -3,7 +3,6 @@ package cz.muni.fi.persistence;
 import cz.muni.fi.persistence.dao.ItemDao;
 import cz.muni.fi.persistence.entity.Item;
 import cz.muni.fi.persistence.enums.Status;
-import cz.muni.fi.persistence.PersistenceApplicationContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -58,7 +57,7 @@ public class ItemDaoImplTest extends AbstractTestNGSpringContextTests {
     @Test
     public void testReturn0ItemsWhenEmpty() {
         assertEquals(itemDao.getAllItems().size(), 0);
-        assertNull(itemDao.getItembyId(0L));
+        assertNull(itemDao.getItemById(0L));
     }
 
     @Test
@@ -128,8 +127,8 @@ public class ItemDaoImplTest extends AbstractTestNGSpringContextTests {
     public void testGetItemById() {
         em.persist(phone);
         em.persist(notebook);
-        assertEquals(phone, itemDao.getItembyId(phone.getId()));
-        assertEquals(notebook, itemDao.getItembyId(notebook.getId()));
+        assertEquals(phone, itemDao.getItemById(phone.getId()));
+        assertEquals(notebook, itemDao.getItemById(notebook.getId()));
     }
 
     @Test
@@ -168,7 +167,7 @@ public class ItemDaoImplTest extends AbstractTestNGSpringContextTests {
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testAddNullGetById() {
-        itemDao.getItembyId(null);
+        itemDao.getItemById(null);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
@@ -182,5 +181,5 @@ public class ItemDaoImplTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testNullIdLookup() { itemDao.getItembyId(null); }
+    public void testNullIdLookup() { itemDao.getItemById(null); }
 }

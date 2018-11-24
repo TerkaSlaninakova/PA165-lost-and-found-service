@@ -2,7 +2,6 @@ package cz.muni.fi.service;
 
 import cz.muni.fi.persistence.entity.Category;
 import cz.muni.fi.service.exceptions.ServiceException;
-import org.springframework.dao.DataAccessException;
 
 import java.util.List;
 
@@ -14,7 +13,6 @@ public interface CategoryService {
     /**
      * Save category to DB
      * @param category object to be saved
-     * @throws IllegalArgumentException when category is null
      * @throws ServiceException when category creation fails
      */
     void addCategory(Category category) throws ServiceException;
@@ -22,7 +20,6 @@ public interface CategoryService {
     /**
      * Update category in DB
      * @param category object to update
-     * @throws IllegalArgumentException when category is null
      * @throws ServiceException when category update fails
      */
     void updateCategory(Category category) throws ServiceException;
@@ -30,7 +27,6 @@ public interface CategoryService {
     /**
      * Delete category from db
      * @param category object to delete
-     * @throws IllegalArgumentException when category is null
      * @throws ServiceException when deletion fails
      */
     void deleteCategory(Category category) throws ServiceException;
@@ -38,7 +34,6 @@ public interface CategoryService {
     /**
      * Get category by given id
      * @param id id of category
-     * @throws IllegalArgumentException when id is null
      * @throws ServiceException when getting category by id fails
      * @return Category if found by id otherwise null
      */

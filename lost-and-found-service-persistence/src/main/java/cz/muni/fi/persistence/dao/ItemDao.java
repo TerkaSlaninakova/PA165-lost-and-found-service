@@ -36,7 +36,7 @@ public interface ItemDao {
      * @return - item that was found or null if no item was found
      * @throws IllegalArgumentException when id is null
      * */
-    Item getItembyId(Long id) throws IllegalArgumentException;
+    Item getItemById(Long id) throws IllegalArgumentException;
 
     /**
      * Find all archived items.

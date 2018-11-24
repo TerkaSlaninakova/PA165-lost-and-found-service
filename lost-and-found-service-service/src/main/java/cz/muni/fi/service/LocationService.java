@@ -2,7 +2,6 @@ package cz.muni.fi.service;
 
 import cz.muni.fi.persistence.entity.Location;
 import cz.muni.fi.service.exceptions.ServiceException;
-import org.springframework.dao.DataAccessException;
 
 import java.util.List;
 
@@ -15,7 +14,6 @@ public interface LocationService {
     /**
      * Save Location to DB
      * @param location object to be saved
-     * @throws IllegalArgumentException when location is null
      * @throws ServiceException if adding fails
      */
     void addLocation(Location location) throws ServiceException;
@@ -23,7 +21,6 @@ public interface LocationService {
     /**
      * Update Location in DB
      * @param location object to update
-     * @throws IllegalArgumentException when location is null
      * @throws ServiceException if update fails
      */
     void updateLocation(Location location) throws ServiceException;
@@ -31,7 +28,6 @@ public interface LocationService {
     /**
      * Delete Location from db
      * @param location object to delete
-     * @throws IllegalArgumentException when location is null
      * @throws ServiceException if deletion fails
      */
     void deleteLocation(Location location) throws ServiceException;
@@ -39,7 +35,6 @@ public interface LocationService {
     /**
      * Get Location by given id
      * @param id id of Location
-     * @throws IllegalArgumentException when id is null
      * @throws ServiceException if get fails
      * @return Location if found by id otherwise null
      */

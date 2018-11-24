@@ -62,6 +62,7 @@ public class LocationFacadeTest extends AbstractTestNGSpringContextTests {
         locationClub = new Location();
         locationClub.setId(1L);
         locationClub.setDescription("near a club");
+
         locationDto = beanMappingService.mapTo(locationStation, LocationDTO.class);
     }
 

@@ -10,19 +10,17 @@ import java.util.List;
 
 /**
  * Service layer for Category
+ *
  * @author Terezia Slaninakova (445526)
  */
 @Service
-public class CategoryServiceImpl implements CategoryService{
+public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     private CategoryDao categoryDao;
 
     @Override
     public void addCategory(Category category) throws ServiceException {
-        if (category == null) {
-            throw new IllegalArgumentException("Category");
-        }
         try {
             categoryDao.addCategory(category);
         } catch (Throwable e) {
@@ -32,9 +30,6 @@ public class CategoryServiceImpl implements CategoryService{
 
     @Override
     public void updateCategory(Category category) throws ServiceException {
-        if (category == null || category.getId() == null) {
-            throw new IllegalArgumentException("Category or id null");
-        }
         try {
             categoryDao.updateCategory(category);
         } catch (Throwable e) {
@@ -44,9 +39,6 @@ public class CategoryServiceImpl implements CategoryService{
 
     @Override
     public void deleteCategory(Category category) throws ServiceException {
-        if (category == null || category.getId() == null) {
-            throw new IllegalArgumentException("Category or id null");
-        }
         try {
             categoryDao.deleteCategory(category);
         } catch (Throwable e) {
@@ -56,9 +48,6 @@ public class CategoryServiceImpl implements CategoryService{
 
     @Override
     public Category getCategoryById(Long id) throws ServiceException {
-        if (id == null) {
-            throw new IllegalArgumentException("Null id");
-        }
         try {
             return categoryDao.getCategoryById(id);
         } catch (Throwable e) {

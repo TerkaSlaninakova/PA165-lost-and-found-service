@@ -11,6 +11,7 @@ import java.util.List;
 
 /**
  * Service layer implementation for Location
+ *
  * @author Augustin Nemec
  */
 
@@ -25,8 +26,6 @@ public class LocationServiceImpl implements LocationService {
     public void addLocation(Location location) throws DataAccessException {
         try {
             locationDao.addLocation(location);
-        } catch (IllegalArgumentException e) {
-            throw e;
         } catch (Exception e) {
             throw new ServiceException("Could not add location!", e);
         }
@@ -36,8 +35,6 @@ public class LocationServiceImpl implements LocationService {
     public void updateLocation(Location location) throws DataAccessException {
         try {
             locationDao.updateLocation(location);
-        } catch (IllegalArgumentException e) {
-            throw e;
         } catch (Exception e) {
             throw new ServiceException("Could not update location!", e);
         }
@@ -47,8 +44,6 @@ public class LocationServiceImpl implements LocationService {
     public void deleteLocation(Location location) throws DataAccessException {
         try {
             locationDao.deleteLocation(location);
-        } catch (IllegalArgumentException e) {
-            throw e;
         } catch (Exception e) {
             throw new ServiceException("Could not delete location!", e);
         }
@@ -58,8 +53,6 @@ public class LocationServiceImpl implements LocationService {
     public Location getLocationById(Long id) throws DataAccessException {
         try {
             return locationDao.getLocationById(id);
-        } catch (IllegalArgumentException e) {
-            throw e;
         } catch (Exception e) {
             throw new ServiceException("Could not get location by id!", e);
         }
