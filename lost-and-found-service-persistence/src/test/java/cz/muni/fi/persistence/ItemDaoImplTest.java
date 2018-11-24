@@ -45,13 +45,13 @@ public class ItemDaoImplTest extends AbstractTestNGSpringContextTests {
         phone.setName("phone");
         phone.setCharacteristics("black, small, samsung model");
         phone.setPhoto("photo");
-        phone.setStatus(Status.CLAIM_RECEIVED);
+        phone.setStatus(Status.CLAIM_RECEIVED_LOST);
 
         notebook = new Item();
         notebook.setName("notebook");
         notebook.setCharacteristics("white, macbook");
         notebook.setPhoto("photo");
-        notebook.setStatus(Status.IN_PROGRESS);
+        notebook.setStatus(Status.CLAIM_RECEIVED_FOUND);
     }
 
 
@@ -86,7 +86,7 @@ public class ItemDaoImplTest extends AbstractTestNGSpringContextTests {
     public void testUpdateItem() {
         em.persist(phone);
         String newCharacteristics = "Huawei";
-        Status newStatus = Status.FOUND;
+        Status newStatus = Status.RESOLVED;
         String newType = "best type";
 
         phone.setStatus(newStatus);

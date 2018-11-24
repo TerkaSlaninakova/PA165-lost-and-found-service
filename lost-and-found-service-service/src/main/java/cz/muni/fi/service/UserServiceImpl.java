@@ -73,7 +73,7 @@ public class UserServiceImpl implements UserService {
     
     @Override
     @Transactional
-    public List<User> getAllUsers() {
+    public List<User> getAllUsers() throws ServiceException {
         try {
             return userDao.getAllUsers();
         } catch (Exception e) {

@@ -18,7 +18,7 @@ public interface ItemDao {
      * @throws IllegalArgumentException when itemEntity is null
      * @throws IllegalArgumentException when itemEntity already exists
      * */
-    Item addItem(Item item) throws IllegalArgumentException;
+    void addItem(Item item) throws IllegalArgumentException;
 
     /**
      * Delete an item.
@@ -27,7 +27,7 @@ public interface ItemDao {
      * @throws IllegalArgumentException when itemEntity is null
      * @throws IllegalArgumentException when itemEntity doesn't exist (nothing to delete)
      */
-    Item deleteItem(Item item) throws IllegalArgumentException;
+    void deleteItem(Item item) throws IllegalArgumentException;
 
     /**
      * Find item with given id.
@@ -52,6 +52,6 @@ public interface ItemDao {
      * @throws IllegalArgumentException when itemEntity is null
      * @throws IllegalArgumentException when item is not persisted yet
      * */
-    Item updateItem(Item item) throws IllegalArgumentException;
+    void updateItem(Item item) throws IllegalArgumentException;
 
 }

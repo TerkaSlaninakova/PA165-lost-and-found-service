@@ -1,6 +1,7 @@
 package cz.muni.fi.service;
 
 import cz.muni.fi.persistence.entity.Location;
+import cz.muni.fi.service.exceptions.ServiceException;
 import org.springframework.dao.DataAccessException;
 
 import java.util.List;
@@ -14,35 +15,40 @@ public interface LocationService {
     /**
      * Save Location to DB
      * @param location object to be saved
-     * @throws DataAccessException if Location is null
+     * @throws IllegalArgumentException when location is null
+     * @throws ServiceException if adding fails
      */
-    void addLocation(Location location) throws DataAccessException;
+    void addLocation(Location location) throws ServiceException;
 
     /**
      * Update Location in DB
      * @param location object to update
-     * @throws DataAccessException if Location or Location.id is null
+     * @throws IllegalArgumentException when location is null
+     * @throws ServiceException if update fails
      */
-    void updateLocation(Location location) throws DataAccessException;
+    void updateLocation(Location location) throws ServiceException;
 
     /**
      * Delete Location from db
      * @param location object to delete
-     * @throws DataAccessException if Location or Location.id is null
+     * @throws IllegalArgumentException when location is null
+     * @throws ServiceException if deletion fails
      */
-    void deleteLocation(Location location) throws DataAccessException;
+    void deleteLocation(Location location) throws ServiceException;
 
     /**
      * Get Location by given id
      * @param id id of Location
+     * @throws IllegalArgumentException when id is null
+     * @throws ServiceException if get fails
      * @return Location if found by id otherwise null
-     * @throws DataAccessException if id is null
      */
-    Location getLocationById(Long id) throws DataAccessException;
+    Location getLocationById(Long id) throws ServiceException;
 
     /**
      * Get a list of all categories in DB
+     * @throws ServiceException if get fails
      * @return lists of all categories in DB
      */
-    List<Location> getAllLocations();
+    List<Location> getAllLocations() throws ServiceException;
 }

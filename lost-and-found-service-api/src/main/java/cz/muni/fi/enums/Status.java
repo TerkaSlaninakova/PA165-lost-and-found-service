@@ -6,8 +6,7 @@ package cz.muni.fi.enums;
  */
 
 public enum Status {
-    CLAIM_RECEIVED,
-    IN_PROGRESS,
-    FOUND
-
+    CLAIM_RECEIVED_LOST,
+    CLAIM_RECEIVED_FOUND,
+    RESOLVED
 }

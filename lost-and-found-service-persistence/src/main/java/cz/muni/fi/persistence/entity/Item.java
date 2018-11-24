@@ -35,7 +35,7 @@ public class Item {
     private String photo;
 
     @Column
-    private LocalDate foundDate;
+    private LocalDate foundDate, lostDate;
 
     @Column
     private String archive;
@@ -57,7 +57,7 @@ public class Item {
     private List<Category> categories;
 
     public User getOwner() {
-        return owner;
+        return this.owner;
     }
 
     public void setOwner(User owner) {
@@ -73,7 +73,7 @@ public class Item {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -89,7 +89,7 @@ public class Item {
     }
 
     public String getCharacteristics() {
-        return characteristics;
+        return this.characteristics;
     }
 
     public void setCharacteristics(String characteristics) {
@@ -105,7 +105,7 @@ public class Item {
     }
 
     public Status getStatus() {
-        return status;
+        return this.status;
     }
 
     public void setStatus(Status status) {
@@ -144,6 +144,14 @@ public class Item {
         this.foundDate = foundDate;
     }
 
+    public LocalDate getLostDate() {
+        return this.lostDate;
+    }
+
+    public void setLostDate(LocalDate lostDate) {
+        this.lostDate = lostDate;
+    }
+
     public String getArchive() {
         return this.archive;
     }
@@ -165,12 +173,14 @@ public class Item {
                 status == item.getStatus() &&
                 Objects.equals(lostLocation, item.getLostLocation()) &&
                 Objects.equals(foundLocation, item.getFoundLocation()) &&
+                Objects.equals(lostDate, item.getLostDate()) &&
+                Objects.equals(foundDate, item.getFoundDate()) &&
                 Objects.equals(archive, item.getArchive()) &&
                 Objects.equals(owner, item.getOwner());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, type, characteristics, photo, status, foundLocation, lostLocation, archive, owner);
+        return Objects.hash(id, name, type, characteristics, photo, status, foundLocation, lostLocation, foundDate, lostDate, archive, owner);
     }
 }
