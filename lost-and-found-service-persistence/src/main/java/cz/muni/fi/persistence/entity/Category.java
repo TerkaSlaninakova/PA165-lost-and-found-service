@@ -1,19 +1,18 @@
 package cz.muni.fi.persistence.entity;
 
-import javax.validation.constraints.NotNull;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Objects;
 
 /**
- *
  * @author Jakub Polacek
  */
 @Entity
 public class Category {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
@@ -56,6 +55,14 @@ public class Category {
 
     public void setItems(List<Item> items) {
         this.items = items;
+    }
+
+    public void addItem(Item item) {
+        this.items.add(item);
+    }
+
+    public void removeItem(Item item) {
+        this.items.remove(item);
     }
 
     @Override

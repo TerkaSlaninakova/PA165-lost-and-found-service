@@ -6,7 +6,7 @@ import cz.muni.fi.persistence.entity.Location;
 import cz.muni.fi.persistence.entity.User;
 import cz.muni.fi.persistence.enums.Status;
 import cz.muni.fi.service.config.ServiceConfiguration;
-import org.hibernate.service.spi.ServiceException;
+import cz.muni.fi.service.exceptions.ServiceException;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -101,7 +101,7 @@ public class ItemServiceTest extends AbstractTestNGSpringContextTests {
         verify(itemDao).addItem(itemWallet);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = ServiceException.class)
     public void testAddNullItem() {
         doThrow(new IllegalArgumentException()).when(itemDao).addItem(null);
         itemService.addItem(null);
@@ -114,7 +114,7 @@ public class ItemServiceTest extends AbstractTestNGSpringContextTests {
         verify(itemDao).updateItem(itemWallet);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = ServiceException.class)
     public void testUpdateNullItem() {
         doThrow(new IllegalArgumentException()).when(itemDao).updateItem(null);
         itemService.updateItem(null);
@@ -129,26 +129,26 @@ public class ItemServiceTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testGetItemById()  {
-        when(itemDao.getItembyId(1L)).thenReturn(itemWallet);
-        assertThat(itemService.getItembyId(itemWallet.getId())).isEqualToComparingFieldByField(itemWallet);
-        verify(itemDao).getItembyId(itemWallet.getId());
+        when(itemDao.getItemById(1L)).thenReturn(itemWallet);
+        assertThat(itemService.getItemById(itemWallet.getId())).isEqualToComparingFieldByField(itemWallet);
+        verify(itemDao).getItemById(itemWallet.getId());
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = ServiceException.class)
     public void testGetItemByNullId() {
-        doThrow(new IllegalArgumentException()).when(itemDao).getItembyId(null);
-        itemService.getItembyId(null);
+        doThrow(new IllegalArgumentException()).when(itemDao).getItemById(null);
+        itemService.getItemById(null);
     }
 
     @Test
     public void testDeleteItem() {
-        when(itemDao.getItembyId(itemUmbrella.getId())).thenReturn(itemUmbrella);
+        when(itemDao.getItemById(itemUmbrella.getId())).thenReturn(itemUmbrella);
         doNothing().when(itemDao).deleteItem(itemUmbrella);
         itemService.deleteItem(itemUmbrella);
         verify(itemDao).deleteItem(itemUmbrella);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = ServiceException.class)
     public void testDeleteItemByNull() {
         doThrow(new IllegalArgumentException()).when(itemDao).deleteItem(null);
         itemService.deleteItem(null);
@@ -175,12 +175,12 @@ public class ItemServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(archive, expectedArchive);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class, expectedExceptionsMessageRegExp = "Item cannot be null")
+    @Test(expectedExceptions = ServiceException.class, expectedExceptionsMessageRegExp = "Item cannot be null")
     public void testArchiveItemNullItem() {
         itemService.archiveItem(null);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class, expectedExceptionsMessageRegExp = "Item must be in resolved state")
+    @Test(expectedExceptions = ServiceException.class, expectedExceptionsMessageRegExp = "Item must be in resolved state")
     public void testArchiveItemNotResolved() {
         itemService.archiveItem(itemWallet);
     }
@@ -194,27 +194,27 @@ public class ItemServiceTest extends AbstractTestNGSpringContextTests {
         assertThat(itemWallet).isEqualToComparingFieldByField(resolvedItem);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class, expectedExceptionsMessageRegExp = ".* cannot be null")
+    @Test(expectedExceptions = ServiceException.class, expectedExceptionsMessageRegExp = ".* cannot be null")
     public void testResolveLostItemItemNull() {
         itemService.resolveLostItem(null, LocalDate.now(), new Location());
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class,  expectedExceptionsMessageRegExp = ".* cannot be null")
+    @Test(expectedExceptions = ServiceException.class,  expectedExceptionsMessageRegExp = ".* cannot be null")
     public void testResolveLostItemLostDateNull() {
         itemService.resolveLostItem(itemWallet, null, new Location());
     }
 
-    @Test(expectedExceptions = IllegalStateException.class, expectedExceptionsMessageRegExp = ".* must be in CLAIM_RECEIVED_LOST state")
+    @Test(expectedExceptions = ServiceException.class, expectedExceptionsMessageRegExp = ".* must be in CLAIM_RECEIVED_LOST state")
     public void testResolveLostItemIncorrectState() {
         itemService.resolveLostItem(itemUmbrella, LocalDate.now(), new Location());
     }
 
-    @Test(expectedExceptions = IllegalStateException.class, expectedExceptionsMessageRegExp = "Found date must be after lostDate")
+    @Test(expectedExceptions = ServiceException.class, expectedExceptionsMessageRegExp = "Found date must be after lostDate")
     public void testResolveLostItemFoundDateBefore() {
         itemService.resolveLostItem(itemWallet, LocalDate.now().minusYears(1), new Location());
     }
 
-    @Test(expectedExceptions = IllegalStateException.class, expectedExceptionsMessageRegExp = "Owner must be set")
+    @Test(expectedExceptions = ServiceException.class, expectedExceptionsMessageRegExp = "Owner must be set")
     public void testResolveLostItemOwnerNull() {
         itemWallet.setOwner(null);
         itemService.resolveLostItem(itemWallet, LocalDate.now(), new Location());
@@ -229,27 +229,27 @@ public class ItemServiceTest extends AbstractTestNGSpringContextTests {
         assertThat(itemUmbrella).isEqualToComparingFieldByField(resolvedItem);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class, expectedExceptionsMessageRegExp = ".* cannot be null")
+    @Test(expectedExceptions = ServiceException.class, expectedExceptionsMessageRegExp = ".* cannot be null")
     public void testResolveFoundItemItemNull() {
         itemService.resolveFoundItem(null, lostDateNow, lostLocation, owner);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class,  expectedExceptionsMessageRegExp = ".* cannot be null")
+    @Test(expectedExceptions = ServiceException.class,  expectedExceptionsMessageRegExp = ".* cannot be null")
     public void testResolveFoundItemLostDateNull() {
         itemService.resolveFoundItem(itemUmbrella, null, lostLocation, owner);
     }
 
-    @Test(expectedExceptions = IllegalStateException.class, expectedExceptionsMessageRegExp = ".* must be in CLAIM_RECEIVED_FOUND state")
+    @Test(expectedExceptions = ServiceException.class, expectedExceptionsMessageRegExp = ".* must be in CLAIM_RECEIVED_FOUND state")
     public void testResolveFoundItemIncorrectState() {
         itemService.resolveFoundItem(itemWallet, lostDateNow, lostLocation, owner);
     }
 
-    @Test(expectedExceptions = IllegalStateException.class, expectedExceptionsMessageRegExp = "Lost date must be after foundDate")
+    @Test(expectedExceptions = ServiceException.class, expectedExceptionsMessageRegExp = "Lost date must be after foundDate")
     public void testResolveFoundItemLostDateBefore() {
         itemService.resolveFoundItem(itemUmbrella, lostDateMonthAgo, lostLocation, owner);
     }
 
-    @Test(expectedExceptions = IllegalStateException.class, expectedExceptionsMessageRegExp = "Owner cannot be set")
+    @Test(expectedExceptions = ServiceException.class, expectedExceptionsMessageRegExp = "Owner cannot be set")
     public void testResolveFoundItemOwnerNull() {
         itemUmbrella.setOwner(owner);
         itemService.resolveFoundItem(itemUmbrella, lostDateNow, lostLocation, owner);

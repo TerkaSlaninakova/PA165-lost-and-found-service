@@ -1,17 +1,40 @@
 package cz.muni.fi.facade;
 
+import cz.muni.fi.dto.CategoryCreateDTO;
 import cz.muni.fi.dto.CategoryDTO;
 
 import java.util.List;
 
-public interface CategoryFacade {
 
-    CategoryDTO getCategoryById(Long userId);
+/**
+ * 
+ * @author Jakub Polacek
+ */
+public interface CategoryFacade {
 
     /**
      * Create a given category
      */
-    void addCategory(CategoryDTO c);
+    void addCategory(CategoryCreateDTO c);
+
+    /**
+     * Update Category
+     * @param categoryDTO categoryDTO to update
+     */
+    void updateCategory(CategoryDTO categoryDTO);
+
+    /**
+     * Delete Category
+     * @param categoryDTO to be deleted
+     */
+    void deleteCategory(CategoryDTO categoryDTO);
+
+    /**
+     * Get location by id
+     * @param id id of location
+     * @return Category or null
+     */
+    CategoryDTO getCategoryById(Long id);
 
     /**
      * Get all categories

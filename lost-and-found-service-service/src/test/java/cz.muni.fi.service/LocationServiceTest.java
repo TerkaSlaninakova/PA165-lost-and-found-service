@@ -3,6 +3,7 @@ package cz.muni.fi.service;
 import cz.muni.fi.persistence.dao.LocationDao;
 import cz.muni.fi.persistence.entity.Location;
 import cz.muni.fi.service.config.ServiceConfiguration;
+import cz.muni.fi.service.exceptions.ServiceException;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -74,7 +75,7 @@ public class LocationServiceTest extends AbstractTestNGSpringContextTests {
 
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = ServiceException.class)
     public void testAddNullLocation() {
         doThrow(new IllegalArgumentException()).when(locationDao).addLocation(null);
         locationService.addLocation(null);
@@ -86,7 +87,7 @@ public class LocationServiceTest extends AbstractTestNGSpringContextTests {
         verify(locationDao).updateLocation(bratislava);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = ServiceException.class)
     public void testUpdateNullLocation() {
         doThrow(new IllegalArgumentException()).when(locationDao).updateLocation(null);
         locationService.updateLocation(null);

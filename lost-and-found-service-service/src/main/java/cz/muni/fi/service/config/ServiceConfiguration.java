@@ -1,10 +1,7 @@
 package cz.muni.fi.service.config;
 
+import cz.muni.fi.dto.*;
 import cz.muni.fi.persistence.PersistenceApplicationContext;
-import cz.muni.fi.dto.CategoryDTO;
-import cz.muni.fi.dto.ItemDTO;
-import cz.muni.fi.dto.LocationDTO;
-import cz.muni.fi.dto.UserDTO;
 import cz.muni.fi.persistence.entity.Category;
 import cz.muni.fi.persistence.entity.Item;
 import cz.muni.fi.persistence.entity.Location;
@@ -38,7 +35,8 @@ public class ServiceConfiguration {
             mapping(User.class, UserDTO.class, TypeMappingOptions.mapNull(false));
             mapping(Location.class, LocationDTO.class, TypeMappingOptions.mapNull(false));
             mapping(Item.class, ItemDTO.class, TypeMappingOptions.mapNull(false));
-            mapping(Category.class, CategoryDTO.class, TypeMappingOptions.mapNull(false));        }
+            mapping(Category.class, CategoryDTO.class, TypeMappingOptions.mapNull(false));
+            mapping(CategoryCreateDTO.class, CategoryDTO.class, TypeMappingOptions.mapNull(false));}
     }
 
 }

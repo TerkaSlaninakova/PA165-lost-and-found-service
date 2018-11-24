@@ -42,7 +42,7 @@ public class ItemDaoImpl implements ItemDao {
     }
 
     @Override
-    public Item getItembyId(Long id) {
+    public Item getItemById(Long id) {
         if (id == null) {
             throw new IllegalArgumentException("Item's id is null");
         }
