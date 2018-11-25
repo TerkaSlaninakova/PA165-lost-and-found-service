@@ -12,6 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * Implementation of CategoryFacade
+ *
+ * @author Jakub Polacek
+ */
 
 @Service
 @Transactional

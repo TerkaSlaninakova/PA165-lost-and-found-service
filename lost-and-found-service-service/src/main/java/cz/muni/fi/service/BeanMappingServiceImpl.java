@@ -1,6 +1,5 @@
 package cz.muni.fi.service;
 
-import cz.muni.fi.service.exceptions.ServiceException;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +7,10 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+/**
+ * @author Augustin Nemec
+ */
 
 @Service
 public class BeanMappingServiceImpl implements BeanMappingService {

@@ -17,6 +17,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Implementation of ItemFacade
+ *
+ * @author Jakub Polacek
+ */
+
 @Service
 @Transactional
 public class ItemFacadeImpl implements ItemFacade {
