@@ -37,7 +37,8 @@ public class ItemFacadeImpl implements ItemFacade {
     public void addItemLost(ItemCreateDTO itemCreateDTO) {
         ItemDTO itemDTO = beanMappingService.mapTo(itemCreateDTO, ItemDTO.class);
         itemDTO.setStatus(Status.CLAIM_RECEIVED_LOST);
-
+        itemDTO.setLostDate(LocalDate.now());
+        
         addItem(itemDTO);
     }
 
@@ -45,12 +46,12 @@ public class ItemFacadeImpl implements ItemFacade {
     public void addItemFound(ItemCreateDTO itemCreateDTO) {
         ItemDTO itemDTO = beanMappingService.mapTo(itemCreateDTO, ItemDTO.class);
         itemDTO.setStatus(Status.CLAIM_RECEIVED_FOUND);
-
+        itemDTO.setFoundDate(LocalDate.now());
+        
         addItem(itemDTO);
     }
 
     private void addItem(ItemDTO itemDTO) {
-        itemDTO.setFoundDate(LocalDate.now());
         itemDTO.setCategories(new ArrayList<>());
         itemService.addItem(beanMappingService.mapTo(itemDTO, Item.class));
     }
