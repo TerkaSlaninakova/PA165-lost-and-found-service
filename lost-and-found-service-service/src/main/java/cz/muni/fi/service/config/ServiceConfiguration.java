@@ -15,6 +15,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
+import java.util.Collections;
+
 
 @Configuration
 @Import(PersistenceApplicationContext.class)
@@ -26,6 +28,7 @@ public class ServiceConfiguration {
     public Mapper dozer(){
         DozerBeanMapper dozer = new DozerBeanMapper();
         dozer.addMapping(new DozerCustomConfig());
+        dozer.setMappingFiles(Collections.singletonList("dozerJdk8Converters.xml"));
         return dozer;
     }
 
@@ -35,6 +38,7 @@ public class ServiceConfiguration {
             mapping(User.class, UserDTO.class, TypeMappingOptions.mapNull(false));
             mapping(Location.class, LocationDTO.class, TypeMappingOptions.mapNull(false));
             mapping(Item.class, ItemDTO.class, TypeMappingOptions.mapNull(false));
+            mapping(ItemDTO.class, ItemCreateDTO.class, TypeMappingOptions.mapNull(false));
             mapping(Category.class, CategoryDTO.class, TypeMappingOptions.mapNull(false));
             mapping(CategoryCreateDTO.class, CategoryDTO.class, TypeMappingOptions.mapNull(false));}
     }

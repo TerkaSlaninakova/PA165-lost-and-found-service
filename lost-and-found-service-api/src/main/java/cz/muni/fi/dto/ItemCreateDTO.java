@@ -2,7 +2,6 @@ package cz.muni.fi.dto;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.time.LocalDate;
 import java.util.Objects;
 
 /**
@@ -22,9 +21,6 @@ public class ItemCreateDTO {
     @NotNull
     @Size(max = 150)
     private String characteristics;
-
-    @NotNull
-    private LocalDate foundDate;
 
     public String getName() {
         return name;
@@ -50,14 +46,6 @@ public class ItemCreateDTO {
         this.characteristics = characteristics;
     }
 
-    public LocalDate getFoundDate() {
-        return foundDate;
-    }
-
-    public void setFoundDate(LocalDate foundDate) {
-        this.foundDate = foundDate;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -67,14 +55,13 @@ public class ItemCreateDTO {
 
         return Objects.equals(this.name, that.getName())
                 && Objects.equals(this.characteristics, that.characteristics)
-                && Objects.equals(this.foundDate, that.foundDate)
                 && Objects.equals(this.type, that.type);
 
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, characteristics, foundDate, type);
+        return Objects.hash(name, characteristics, type);
     }
 
     @Override
@@ -83,7 +70,6 @@ public class ItemCreateDTO {
                 "name='" + name + '\'' +
                 ", type='" + type + '\'' +
                 ", characteristics='" + characteristics + '\'' +
-                ", foundDate=" + foundDate +
                 '}';
     }
 }

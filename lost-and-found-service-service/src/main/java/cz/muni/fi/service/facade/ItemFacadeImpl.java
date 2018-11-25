@@ -106,7 +106,7 @@ public class ItemFacadeImpl implements ItemFacade {
     }
 
     @Override
-    public ItemDTO getItemWithId(Long id) {
+    public ItemDTO getItemById(Long id) {
         return beanMappingService.mapTo(itemService.getItemById(id), ItemDTO.class);
     }
 
@@ -133,7 +133,11 @@ public class ItemFacadeImpl implements ItemFacade {
     }
 
     @Override
-    public void changeImage(ItemChangeImageDTO itemChangeDTO) {
-        // TODO
+    public void changeImage(ItemChangeImageDTO imageChangeDTO) {
+        ItemDTO itemDTO = getItemById(imageChangeDTO.getItemId());
+        itemDTO.setImage(imageChangeDTO.getImage());
+        itemDTO.setImageMimeType(imageChangeDTO.getImageMimeType());
+
+        updateItem(itemDTO);
     }
 }

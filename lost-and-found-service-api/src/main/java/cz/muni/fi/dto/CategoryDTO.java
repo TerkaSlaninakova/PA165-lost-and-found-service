@@ -66,4 +66,14 @@ public class CategoryDTO {
     public int hashCode() {
         return Objects.hash(id, name, attribute);
     }
+
+    @Override
+    public String toString() {
+        return "CategoryDTO{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", attribute='" + attribute + '\'' +
+                ", items=" + items +
+                '}';
+    }
 }

@@ -185,7 +185,7 @@ public class ItemServiceTest extends AbstractTestNGSpringContextTests {
         String expectedArchive = "{ 'Item': {" +
                 " 'name': '" + itemJacket.getName() +"'," +
                 " 'characteristics': '" + itemJacket.getCharacteristics() + "'," +
-                " 'photo': '" + itemJacket.getPhoto() + "'," +
+                " 'photo': '" + itemJacket.getImageMimeType() + "'," +
                 " 'type': '" + itemJacket.getType() + "'," +
                 " 'foundDate': '" + itemJacket.getFoundDate().toString() + "'," +
                 " 'id': '" + itemJacket.getId() + "'," +
