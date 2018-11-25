@@ -101,7 +101,7 @@ public interface ItemFacade {
      * @param id of item
      * @return itemDTO
      */
-    ItemDTO getItemWithId(Long id);
+    ItemDTO getItemById(Long id);
 
     /**
      * Archives an item

@@ -32,10 +32,16 @@ public class Item {
     private String characteristics;
 
     @Column
-    private String photo;
+    private String imageMimeType;
 
     @Column
-    private LocalDate foundDate, lostDate;
+    private byte[] image;
+
+    @Column
+    private LocalDate foundDate;
+
+    @Column
+    private LocalDate lostDate;
 
     @Column
     private String archive;
@@ -96,12 +102,12 @@ public class Item {
         this.characteristics = characteristics;
     }
 
-    public String getPhoto() {
-        return photo;
+    public String getImageMimeType() {
+        return imageMimeType;
     }
 
-    public void setPhoto(String photo) {
-        this.photo = photo;
+    public void setImageMimeType(String photo) {
+        this.imageMimeType = photo;
     }
 
     public Status getStatus() {
@@ -164,6 +170,14 @@ public class Item {
         this.categories.add(category);
     }
 
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
     public void removeCategory(Category category) {
         this.categories.remove(category);
     }
@@ -176,7 +190,7 @@ public class Item {
                 Objects.equals(name, item.getName()) &&
                 Objects.equals(type, item.getType()) &&
                 Objects.equals(characteristics, item.getCharacteristics()) &&
-                Objects.equals(photo, item.getPhoto()) &&
+                Objects.equals(imageMimeType, item.getImageMimeType()) &&
                 status == item.getStatus() &&
                 Objects.equals(lostLocation, item.getLostLocation()) &&
                 Objects.equals(foundLocation, item.getFoundLocation()) &&
@@ -188,6 +202,6 @@ public class Item {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, type, characteristics, photo, status, foundLocation, lostLocation, foundDate, lostDate, archive, owner);
+        return Objects.hash(id, name, type, characteristics, imageMimeType, status, foundLocation, lostLocation, foundDate, lostDate, archive, owner);
     }
 }

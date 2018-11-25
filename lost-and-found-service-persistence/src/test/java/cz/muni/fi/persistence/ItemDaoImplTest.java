@@ -43,13 +43,13 @@ public class ItemDaoImplTest extends AbstractTestNGSpringContextTests {
         phone = new Item();
         phone.setName("phone");
         phone.setCharacteristics("black, small, samsung model");
-        phone.setPhoto("photo");
+        phone.setImageMimeType("photo");
         phone.setStatus(Status.CLAIM_RECEIVED_LOST);
 
         notebook = new Item();
         notebook.setName("notebook");
         notebook.setCharacteristics("white, macbook");
-        notebook.setPhoto("photo");
+        notebook.setImageMimeType("photo");
         notebook.setStatus(Status.CLAIM_RECEIVED_FOUND);
     }
 

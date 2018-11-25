@@ -37,7 +37,8 @@ public class ItemFacadeImpl implements ItemFacade {
     public void addItemLost(ItemCreateDTO itemCreateDTO) {
         ItemDTO itemDTO = beanMappingService.mapTo(itemCreateDTO, ItemDTO.class);
         itemDTO.setStatus(Status.CLAIM_RECEIVED_LOST);
-
+        itemDTO.setLostDate(LocalDate.now());
+        
         addItem(itemDTO);
     }
 
@@ -45,12 +46,12 @@ public class ItemFacadeImpl implements ItemFacade {
     public void addItemFound(ItemCreateDTO itemCreateDTO) {
         ItemDTO itemDTO = beanMappingService.mapTo(itemCreateDTO, ItemDTO.class);
         itemDTO.setStatus(Status.CLAIM_RECEIVED_FOUND);
-
+        itemDTO.setFoundDate(LocalDate.now());
+        
         addItem(itemDTO);
     }
 
     private void addItem(ItemDTO itemDTO) {
-        itemDTO.setFoundDate(LocalDate.now());
         itemDTO.setCategories(new ArrayList<>());
         itemService.addItem(beanMappingService.mapTo(itemDTO, Item.class));
     }
@@ -106,7 +107,7 @@ public class ItemFacadeImpl implements ItemFacade {
     }
 
     @Override
-    public ItemDTO getItemWithId(Long id) {
+    public ItemDTO getItemById(Long id) {
         return beanMappingService.mapTo(itemService.getItemById(id), ItemDTO.class);
     }
 
@@ -133,7 +134,11 @@ public class ItemFacadeImpl implements ItemFacade {
     }
 
     @Override
-    public void changeImage(ItemChangeImageDTO itemChangeDTO) {
-        // TODO
+    public void changeImage(ItemChangeImageDTO imageChangeDTO) {
+        ItemDTO itemDTO = getItemById(imageChangeDTO.getItemId());
+        itemDTO.setImage(imageChangeDTO.getImage());
+        itemDTO.setImageMimeType(imageChangeDTO.getImageMimeType());
+
+        updateItem(itemDTO);
     }
 }

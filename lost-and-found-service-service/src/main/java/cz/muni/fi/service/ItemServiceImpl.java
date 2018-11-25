@@ -45,7 +45,7 @@ public class ItemServiceImpl implements ItemService {
         item.setArchive("{ 'Item': {" +
                 " 'name': '" + item.getName() + "'," +
                 " 'characteristics': '" + item.getCharacteristics() + "'," +
-                " 'photo': '" + item.getPhoto() + "'," +
+                " 'photo': '" + item.getImageMimeType() + "'," +
                 " 'type': '" + item.getType() + "'," +
                 " 'foundDate': '" + item.getFoundDate() + "'," +
                 " 'id': '" + item.getId() + "'," +

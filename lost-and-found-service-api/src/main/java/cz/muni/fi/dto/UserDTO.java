@@ -73,4 +73,14 @@ public class UserDTO {
         return Objects.hash(id, name, password, email, isAdmin);
     }
 
+    @Override
+    public String toString() {
+        return "UserDTO{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", isAdmin=" + isAdmin +
+                '}';
+    }
 }

@@ -3,6 +3,7 @@ package cz.muni.fi.dto;
 import cz.muni.fi.enums.Status;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -16,7 +17,9 @@ public class ItemDTO {
 
     private String characteristics;
 
-    private String photo;
+    private String imageMimeType;
+
+    private byte[] image;
 
     private LocalDate foundDate, lostDate;
 
@@ -73,12 +76,12 @@ public class ItemDTO {
         this.characteristics = characteristics;
     }
 
-    public String getPhoto() {
-        return photo;
+    public String getImageMimeType() {
+        return imageMimeType;
     }
 
-    public void setPhoto(String photo) {
-        this.photo = photo;
+    public void setImageMimeType(String imageMimeType) {
+        this.imageMimeType = imageMimeType;
     }
 
     public Status getStatus() {
@@ -137,6 +140,14 @@ public class ItemDTO {
         this.archive = archive;
     }
 
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof ItemDTO)) return false;
@@ -145,7 +156,7 @@ public class ItemDTO {
                 Objects.equals(name, item.getName()) &&
                 Objects.equals(type, item.getType()) &&
                 Objects.equals(characteristics, item.getCharacteristics()) &&
-                Objects.equals(photo, item.getPhoto()) &&
+                Objects.equals(imageMimeType, item.getImageMimeType()) &&
                 status == item.getStatus() &&
                 Objects.equals(lostLocation, item.getLostLocation()) &&
                 Objects.equals(foundLocation, item.getFoundLocation()) &&
@@ -159,8 +170,28 @@ public class ItemDTO {
     public int hashCode() {
         return Objects.hash(
                 id, name, type, characteristics,
-                photo, status,foundLocation,
+                imageMimeType, status,foundLocation,
                 lostLocation, foundDate, lostDate,
                 archive, owner);
+    }
+
+    @Override
+    public String toString() {
+        return "ItemDTO{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", characteristics='" + characteristics + '\'' +
+                ", imageMimeType='" + imageMimeType + '\'' +
+                ", image=" + Arrays.toString(image) +
+                ", foundDate=" + foundDate +
+                ", lostDate=" + lostDate +
+                ", archive='" + archive + '\'' +
+                ", status=" + status +
+                ", foundLocation=" + foundLocation +
+                ", lostLocation=" + lostLocation +
+                ", owner=" + owner +
+                ", categories=" + categories +
+                '}';
     }
 }
