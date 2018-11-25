@@ -69,16 +69,20 @@ public class User {
 
     public void setPassword(String password) { this.password = password; }
 
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof User)) return false;
         User user = (User) o;
-        return isAdmin == user.isAdmin &&
+        return isAdmin == user.getIsAdmin() &&
                 Objects.equals(id, user.getId()) &&
                 Objects.equals(name, user.getName()) &&
                 Objects.equals(password, user.getPassword()) &&
-                Objects.equals(email, user.getIsAdmin());
+                Objects.equals(email, user.getEmail());
     }
 
     @Override

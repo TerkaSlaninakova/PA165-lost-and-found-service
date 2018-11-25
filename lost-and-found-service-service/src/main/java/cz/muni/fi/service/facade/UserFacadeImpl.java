@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
+ * Implementation of UserFacade
+ *
  * @author Augustin Nemec
  */
 @Service

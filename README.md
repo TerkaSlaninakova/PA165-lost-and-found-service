@@ -29,7 +29,7 @@ The application allows to manage a Lost & Found service. Users can report their 
     * [ ] Create Category Facade and Tests @Jakub - [IN PROGRESS]
     * [ ] Create Item Facade and Tests @Jakub - [IN PROGRESS]
     * [x] Create Location Facade and Tests @Terka
-    * [ ] Create User Facade and Tests @Gusto - [IN PROGRESS]
+    * [x] Create User Facade and Tests @Gusto
 * [x] API layer
     * [x] Create Category DTO @Gusto
     * [x] Create Item DTO @Gusto

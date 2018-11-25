@@ -1,6 +1,7 @@
 package cz.muni.fi.service;
 
 import cz.muni.fi.persistence.dao.ItemDao;
+import cz.muni.fi.persistence.entity.Category;
 import cz.muni.fi.persistence.entity.Item;
 import cz.muni.fi.persistence.entity.Location;
 import cz.muni.fi.persistence.entity.User;
@@ -20,6 +21,7 @@ import org.testng.annotations.Test;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -28,12 +30,21 @@ import static org.mockito.Mockito.*;
 
 /**
  * Tests for ItemService
- * @author Terezia Slaninakova (445526)
+ * @author Terezia Slaninakova (445526) & Augustin Nemec
  */
 @ContextConfiguration(classes = ServiceConfiguration.class)
 public class ItemServiceTest extends AbstractTestNGSpringContextTests {
     @Mock
     private ItemDao itemDao;
+
+    @Mock
+    private UserService userService;
+
+    @Mock
+    private LocationService locationService;
+
+    @Mock
+    private CategoryService categoryService;
 
     @Autowired
     @InjectMocks
@@ -43,6 +54,7 @@ public class ItemServiceTest extends AbstractTestNGSpringContextTests {
     private LocalDate lostDateMonthAgo, lostDateNow, foundDateDayAgo;
     private Location lostLocation, foundLocation;
     private User owner;
+    private Category clothes;
 
     @BeforeClass
     public void beforeClass() throws ServiceException {
@@ -61,6 +73,10 @@ public class ItemServiceTest extends AbstractTestNGSpringContextTests {
         owner = new User();
         owner.setName("owner");
 
+        clothes = new Category();
+        clothes.setName("Clothes");
+        clothes.setId(1L);
+
         itemWallet = new Item();
         itemWallet.setName("Leather wallet");
         itemWallet.setId(1L);
@@ -68,6 +84,7 @@ public class ItemServiceTest extends AbstractTestNGSpringContextTests {
         itemWallet.setOwner(owner);
         itemWallet.setLostDate(lostDateMonthAgo);
         itemWallet.setLostLocation(lostLocation);
+        itemWallet.setCategories(new LinkedList<>());
 
         itemUmbrella = new Item();
         itemUmbrella.setName("Red umbrella");
@@ -85,6 +102,14 @@ public class ItemServiceTest extends AbstractTestNGSpringContextTests {
         itemJacket.setLostDate(lostDateMonthAgo);
         itemJacket.setLostLocation(lostLocation);
         itemJacket.setFoundLocation(foundLocation);
+        itemJacket.setCategories(new LinkedList<Category>() {{
+            add(clothes);
+        }});
+        clothes.setItems(new LinkedList<Item>() {{
+            add(itemJacket);
+        }});
+
+        reset(itemDao);
     }
 
     @Test
@@ -267,5 +292,146 @@ public class ItemServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(foundItems.size(), 1);
         assertThat(foundItems.get(0)).isEqualToComparingFieldByField(itemUmbrella);
 
+    }
+
+    @Test
+    public void testChangeUser() {
+        User newOwner = new User();
+        newOwner.setName("newOwner");
+        newOwner.setId(2L);
+
+        when(userService.getUserById(newOwner.getId())).thenReturn(newOwner);
+        when(itemDao.getItemById(itemWallet.getId())).thenReturn(itemWallet);
+
+
+        itemService.changeUser(itemWallet.getId(), newOwner.getId());
+
+        verify(itemDao).getItemById(itemWallet.getId());
+        assertThat(itemWallet.getOwner()).isEqualTo(newOwner);
+    }
+
+    @Test
+    public void testChangeNullUser() {
+        when(itemDao.getItemById(itemWallet.getId())).thenReturn(itemWallet);
+
+        itemService.changeUser(itemWallet.getId(), null);
+        assertThat(itemWallet.getOwner()).isEqualTo(null);
+    }
+
+    @Test(expectedExceptions = ServiceException.class, expectedExceptionsMessageRegExp = "itemId can't be null")
+    public void testChangeUserOnNullItem() {
+        User newOwner = new User();
+        newOwner.setName("newOwner");
+        newOwner.setId(2L);
+
+        when(userService.getUserById(newOwner.getId())).thenReturn(newOwner);
+
+        itemService.changeUser(null, newOwner.getId());
+    }
+
+    @Test
+    public void testChangeLostLocation() {
+        Location newLocation = new Location();
+        newLocation.setId(2L);
+        newLocation.setDescription("Near park.");
+
+        when(locationService.getLocationById(newLocation.getId())).thenReturn(newLocation);
+        when(itemDao.getItemById(itemWallet.getId())).thenReturn(itemWallet);
+
+        itemService.changeLostLocation(itemWallet.getId(), newLocation.getId());
+        assertThat(itemWallet.getLostLocation()).isEqualTo(newLocation);
+    }
+
+    @Test
+    public void testChangeNullLostLocation() {
+        when(itemDao.getItemById(itemWallet.getId())).thenReturn(itemWallet);
+
+        itemService.changeLostLocation(itemWallet.getId(), null);
+        assertThat(itemWallet.getLostLocation()).isEqualTo(null);
+    }
+
+    @Test(expectedExceptions = ServiceException.class, expectedExceptionsMessageRegExp = "itemId can't be null")
+    public void testChangeLostLocationOnNullItem() {
+        Location newLocation = new Location();
+        newLocation.setId(2L);
+        newLocation.setDescription("Near park.");
+
+        when(locationService.getLocationById(newLocation.getId())).thenReturn(newLocation);
+
+        itemService.changeLostLocation(null, newLocation.getId());
+    }
+
+    @Test
+    public void testChangeFoundLocation() {
+        Location newLocation = new Location();
+        newLocation.setId(2L);
+        newLocation.setDescription("Near park.");
+
+        when(locationService.getLocationById(newLocation.getId())).thenReturn(newLocation);
+        when(itemDao.getItemById(itemWallet.getId())).thenReturn(itemWallet);
+
+        itemService.changeFoundLocation(itemWallet.getId(), newLocation.getId());
+        assertThat(itemWallet.getFoundLocation()).isEqualTo(newLocation);
+    }
+
+    @Test
+    public void testChangeNullFoundLocation() {
+        when(itemDao.getItemById(itemWallet.getId())).thenReturn(itemWallet);
+
+        itemService.changeLostLocation(itemWallet.getId(), null);
+        assertThat(itemWallet.getFoundLocation()).isEqualTo(null);
+    }
+
+    @Test(expectedExceptions = ServiceException.class, expectedExceptionsMessageRegExp = "itemId can't be null")
+    public void testChangeFoundLocationOnNullItem() {
+        Location newLocation = new Location();
+        newLocation.setId(2L);
+        newLocation.setDescription("Near park.");
+
+        when(locationService.getLocationById(newLocation.getId())).thenReturn(newLocation);
+
+        itemService.changeFoundLocation(null, newLocation.getId());
+    }
+
+    @Test
+    public void testAddCategoryToItem() {
+        when(categoryService.getCategoryById(clothes.getId())).thenReturn(clothes);
+        when(itemDao.getItemById(itemWallet.getId())).thenReturn(itemWallet);
+
+        itemService.addCategoryToItem(itemWallet.getId(), clothes.getId());
+        assertThat(itemWallet.getCategories()).containsOnly(clothes);
+        assertThat(clothes.getItems()).contains(itemWallet);
+    }
+
+    @Test
+    public void testRemoveCategoryToItem() {
+        when(categoryService.getCategoryById(clothes.getId())).thenReturn(clothes);
+        when(itemDao.getItemById(itemJacket.getId())).thenReturn(itemJacket);
+
+        itemService.removeCategoryFromItem(itemJacket.getId(), clothes.getId());
+        assertThat(itemJacket.getCategories()).isEmpty();
+        assertThat(clothes.getItems()).isEmpty();
+    }
+
+    @Test(expectedExceptions = ServiceException.class, expectedExceptionsMessageRegExp = "Item is not of given category, cannot remove")
+    public void testRemoveWrongCategoryToItem() {
+        when(categoryService.getCategoryById(clothes.getId())).thenReturn(clothes);
+        when(itemDao.getItemById(itemWallet.getId())).thenReturn(itemWallet);
+
+        itemService.removeCategoryFromItem(itemWallet.getId(), clothes.getId());
+    }
+
+    @Test(expectedExceptions = ServiceException.class, expectedExceptionsMessageRegExp = "Arguments can't be null")
+    public void testRemoveWrongNullCategoryToItem() {
+        when(itemDao.getItemById(itemWallet.getId())).thenReturn(itemWallet);
+
+        itemService.removeCategoryFromItem(itemWallet.getId(), null);
+    }
+
+    @Test(expectedExceptions = ServiceException.class, expectedExceptionsMessageRegExp = "Arguments can't be null")
+    public void testRemoveWrongCategoryToNullItem() {
+        when(categoryService.getCategoryById(clothes.getId())).thenReturn(clothes);
+
+        itemService.removeCategoryFromItem(null, clothes.getId());
     }
 }

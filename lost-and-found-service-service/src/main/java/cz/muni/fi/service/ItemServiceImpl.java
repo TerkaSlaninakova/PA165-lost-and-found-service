@@ -213,7 +213,7 @@ public class ItemServiceImpl implements ItemService {
         }
 
         item.removeCategory(category);
-        category.addItem(item);
+        category.removeItem(item);
 
         updateItem(item);
         categoryService.updateCategory(category);

@@ -17,11 +17,15 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import static org.mockito.Mockito.*;
-import static org.testng.Assert.*;
 
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.*;
 /**
- *
+ * Implementation of tests for UserFacade
  *
  * @author Augustin Nemec
  */
@@ -39,7 +43,8 @@ public class UserFacadeTest extends AbstractTestNGSpringContextTests {
     @Autowired
     private BeanMappingService beanMappingService = new BeanMappingServiceImpl();
 
-    private User user1;
+    private User user1, user2;
+    private UserDTO userDTO;
 
 
     @BeforeClass
@@ -51,24 +56,54 @@ public class UserFacadeTest extends AbstractTestNGSpringContextTests {
     public void init() {
         user1 = new User();
         user1.setName("John");
+        user1.setId(10L);
+        user1.setEmail("john@gmail.com");
+        user1.setPassword("123");
+        user1.setIsAdmin(false);
+
+        user2 = new User();
+        user2.setName("Paul");
+
+        userDTO = beanMappingService.mapTo(user1, UserDTO.class);
 
     }
 
     @Test
     public void testAddUser() {
-//
-//        doAnswer(invocationOnMock -> {
-//            User user = (User) invocationOnMock.getArguments()[0];
-//            user.setId(64L);
-//            return null;
-//        }).when(userService).addUser(user1);
-
-        UserDTO userDTO = beanMappingService.mapTo(user1, UserDTO.class);
-
         userFacade.addUser(userDTO);
-
         verify(userService).addUser(any(User.class));
     }
 
-    //need to be finished
+    @Test
+    public void testUpdateUser() {
+        userFacade.updateUser(userDTO);
+        verify(userService).updateUser(any(User.class));
+    }
+
+    @Test
+    public void testDeleteUser() {
+        userFacade.deleteUser(userDTO);
+        verify(userService).deleteUser(any(User.class));
+    }
+
+    @Test
+    public void testGetUserById() {
+        when(userService.getUserById(user1.getId())).thenReturn(user1);
+        UserDTO result = userFacade.getUserById(user1.getId());
+
+        verify(userService).getUserById(user1.getId());
+        assertEquals(user1, beanMappingService.mapTo(result, User.class));
+    }
+
+    @Test
+    public void testGetAllUsers() {
+        when(userService.getAllUsers()).thenReturn(Arrays.asList(user1, user2));
+        List<UserDTO> result = userFacade.getAllUsers();
+        verify(userService).getAllUsers();
+
+        List<User> users = beanMappingService.mapTo(result, User.class);
+        assertEquals(2, users.size());
+        assertTrue(users.contains(user1));
+        assertTrue(users.contains(user2));
+    }
 }

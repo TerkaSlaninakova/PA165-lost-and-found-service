@@ -139,7 +139,7 @@ public interface ItemService {
      *
      * @param itemId of item to change location
      * @param userId null or user id
-     * @throws ServiceException when user with given id when id not null doesn't exist. or null itemId
+     * @throws ServiceException when user with given id doesn't exist or null itemId
      */
     void changeUser(Long itemId, Long userId) throws ServiceException;
 

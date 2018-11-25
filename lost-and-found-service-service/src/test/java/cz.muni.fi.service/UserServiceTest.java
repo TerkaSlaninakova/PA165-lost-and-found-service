@@ -19,6 +19,11 @@ import java.util.Arrays;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
+/**
+ * Tests for LocationService
+ * @author Jakub Polacek
+ */
+
 @ContextConfiguration(classes = ServiceConfiguration.class)
 public class UserServiceTest {
 

@@ -20,6 +20,14 @@ public class UserDTO {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
+    }
+
     public String getName(){
         return name;
     }
@@ -53,11 +61,11 @@ public class UserDTO {
         if (this == o) return true;
         if (!(o instanceof UserDTO)) return false;
         UserDTO userDTO = (UserDTO) o;
-        return isAdmin == userDTO.isAdmin &&
+        return isAdmin == userDTO.getIsAdmin() &&
                 Objects.equals(id, userDTO.getId()) &&
                 Objects.equals(name, userDTO.getName()) &&
                 Objects.equals(password, userDTO.getPassword()) &&
-                Objects.equals(email, userDTO.getIsAdmin());
+                Objects.equals(email, userDTO.getEmail());
     }
 
     @Override

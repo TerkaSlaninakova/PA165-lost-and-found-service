@@ -45,7 +45,7 @@ public class CategoryServiceTest extends AbstractTestNGSpringContextTests {
     }
 
     @BeforeMethod
-    public void createCategorys() {
+    public void createCategories() {
 
         categoryElectro = new Category();
         categoryElectro.setId(1L);
@@ -81,7 +81,7 @@ public class CategoryServiceTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void testUpdateItem() {
+    public void testUpdateCategory() {
         doNothing().when(categoryDao).updateCategory(categoryElectro);
         categoryService.updateCategory(categoryElectro);
         verify(categoryDao).updateCategory(categoryElectro);
@@ -94,14 +94,14 @@ public class CategoryServiceTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void testGetItemById()  {
+    public void testGetCategoryById()  {
         when(categoryDao.getCategoryById(1L)).thenReturn(categoryElectro);
         assertThat(categoryDao.getCategoryById(categoryElectro.getId())).isEqualToComparingFieldByField(categoryElectro);
         verify(categoryDao).getCategoryById(categoryElectro.getId());
     }
 
     @Test
-    public void testGetAllItems()  {
+    public void testGetAllCategories()  {
         when(categoryDao.getAllCategories()).thenReturn(Arrays.asList(categoryClothes, categoryElectro));
         assertThat(categoryService.getAllCategories()).containsExactlyInAnyOrder(categoryClothes, categoryElectro);
         verify(categoryDao).getAllCategories();

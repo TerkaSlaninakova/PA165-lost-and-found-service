@@ -21,8 +21,7 @@ import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
 /**
- *
- *
+ * Tests for LocationService
  * @author Augustin Nemec
  */
 
@@ -39,7 +38,6 @@ public class LocationServiceTest extends AbstractTestNGSpringContextTests {
 
     private Location bratislava;
     private Location brno;
-    private Location praha;
 
     @BeforeClass
     public void setup() {
@@ -51,12 +49,12 @@ public class LocationServiceTest extends AbstractTestNGSpringContextTests {
 
         bratislava = new Location();
         bratislava.setDescription("In Slovakia");
+        bratislava.setId(1L);
 
         brno = new Location();
         brno.setDescription("In Czech Republic");
+        brno.setId(2L);
 
-        praha = new Location();
-        praha.setDescription("In Czech Republic");
     }
 
     @Test
@@ -64,7 +62,7 @@ public class LocationServiceTest extends AbstractTestNGSpringContextTests {
 
         doAnswer(invocationOnMock -> {
             Location location = (Location) invocationOnMock.getArguments()[0];
-            location.setId(64L);
+            location.setId(1L);
             return null;
         }).when(locationDao).addLocation(bratislava);
 
