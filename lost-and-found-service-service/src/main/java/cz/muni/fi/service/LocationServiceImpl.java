@@ -18,7 +18,7 @@ import java.util.List;
 @Service
 public class LocationServiceImpl implements LocationService {
 
-    @Inject
+    @Autowired
     private LocationDao locationDao;
 
 
