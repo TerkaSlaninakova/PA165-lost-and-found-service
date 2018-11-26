@@ -11,7 +11,6 @@ import java.util.List;
 /**
  * @author Augustin Nemec
  */
-
 @Service
 public class BeanMappingServiceImpl implements BeanMappingService {
 

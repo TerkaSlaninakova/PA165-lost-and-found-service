@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 
 /**
- * Service layer for User
+ * Service layer implementation for User
  *
  * @author Jakub Polacek
  */

@@ -28,7 +28,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
- * Implementation of tests for LocationFacade
+ * Tests for LocationFacade
  *
  * @author Terezia Slaninakova (445526)
  */

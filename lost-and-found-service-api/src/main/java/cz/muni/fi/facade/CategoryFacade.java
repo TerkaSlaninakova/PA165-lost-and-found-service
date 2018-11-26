@@ -5,9 +5,8 @@ import cz.muni.fi.dto.CategoryDTO;
 
 import java.util.List;
 
-
 /**
- * 
+ * Facade interface for Category
  * @author Jakub Polacek
  */
 public interface CategoryFacade {

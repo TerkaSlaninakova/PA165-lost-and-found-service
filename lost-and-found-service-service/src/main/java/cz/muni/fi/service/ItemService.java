@@ -39,7 +39,7 @@ public interface ItemService {
      *
      * @param item - itemEntity which was previously found
      * @return resolved item
-     * @throws ServiceException when itemEntity is null or status is not CLAIM_RECEIVED_LOST
+     * @throws ServiceException when itemEntity is null or status is not CLAIM_RECEIVED_FOUND
      */
     Item resolveFoundItem(Item item, LocalDate lostDate, Location lostLocation, User owner) throws ServiceException;
 
@@ -47,8 +47,8 @@ public interface ItemService {
      * Gets all items with a specific status
      *
      * @param status - status which to filter based upon
-     * @return archived item
-     * @throws ServiceException when items cannot be get or when itemEntity is null or status is not CLAIM_RECEIVED_LOST
+     * @return item with specific status
+     * @throws ServiceException when items cannot be get
      */
     List<Item> getAllItemsWithStatus(Status status) throws ServiceException;
 
@@ -101,7 +101,7 @@ public interface ItemService {
      *
      * @param itemId     of item to add category
      * @param categoryId of category to add
-     * @throws ServiceException when category cannot be added, doesn't exis, or null arguments
+     * @throws ServiceException when category cannot be added, doesn't exist, or null arguments
      */
     void addCategoryToItem(Long itemId, Long categoryId) throws ServiceException;
 
@@ -111,7 +111,7 @@ public interface ItemService {
      *
      * @param itemId     of item to add category
      * @param categoryId of category to remove
-     * @throws ServiceException when category cannot be removed, doesn't exist. or item does not have category or null arguments
+     * @throws ServiceException when category cannot be removed, doesn't exist, item does not have category or has null arguments
      */
     void removeCategoryFromItem(Long itemId, Long categoryId) throws ServiceException;
 
@@ -121,7 +121,7 @@ public interface ItemService {
      *
      * @param itemId     of item to change location
      * @param locationId null or location id
-     * @throws ServiceException when location with given id when id not null doesn't exist. or null itemId
+     * @throws ServiceException when location can't be changed or when a location with given id doesn't exist
      */
     void changeFoundLocation(Long itemId, Long locationId) throws ServiceException;
 
@@ -130,18 +130,18 @@ public interface ItemService {
      *
      * @param itemId     of item to change location
      * @param locationId null or location id
-     * @throws ServiceException when location with given id when id not null doesn't exist. or null itemId
+     * @throws ServiceException when location can't be changed or when location with given id when id doesn't exist
      */
     void changeLostLocation(Long itemId, Long locationId) throws ServiceException;
 
     /**
-     * Changes user to user or null if userId null
+     * Changes owner to user or null if userId null
      *
      * @param itemId of item to change location
      * @param userId null or user id
      * @throws ServiceException when user with given id doesn't exist or null itemId
      */
-    void changeUser(Long itemId, Long userId) throws ServiceException;
+    void changeOwner(Long itemId, Long userId) throws ServiceException;
 
 
 }

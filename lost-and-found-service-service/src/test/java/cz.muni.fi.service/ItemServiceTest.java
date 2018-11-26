@@ -295,7 +295,7 @@ public class ItemServiceTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void testChangeUser() {
+    public void testChangeOwner() {
         User newOwner = new User();
         newOwner.setName("newOwner");
         newOwner.setId(2L);
@@ -304,7 +304,7 @@ public class ItemServiceTest extends AbstractTestNGSpringContextTests {
         when(itemDao.getItemById(itemWallet.getId())).thenReturn(itemWallet);
 
 
-        itemService.changeUser(itemWallet.getId(), newOwner.getId());
+        itemService.changeOwner(itemWallet.getId(), newOwner.getId());
 
         verify(itemDao).getItemById(itemWallet.getId());
         assertThat(itemWallet.getOwner()).isEqualTo(newOwner);
@@ -314,19 +314,19 @@ public class ItemServiceTest extends AbstractTestNGSpringContextTests {
     public void testChangeNullUser() {
         when(itemDao.getItemById(itemWallet.getId())).thenReturn(itemWallet);
 
-        itemService.changeUser(itemWallet.getId(), null);
+        itemService.changeOwner(itemWallet.getId(), null);
         assertThat(itemWallet.getOwner()).isEqualTo(null);
     }
 
     @Test(expectedExceptions = ServiceException.class, expectedExceptionsMessageRegExp = "itemId can't be null")
-    public void testChangeUserOnNullItem() {
+    public void testChangeOwnerOnNullItem() {
         User newOwner = new User();
         newOwner.setName("newOwner");
         newOwner.setId(2L);
 
         when(userService.getUserById(newOwner.getId())).thenReturn(newOwner);
 
-        itemService.changeUser(null, newOwner.getId());
+        itemService.changeOwner(null, newOwner.getId());
     }
 
     @Test
