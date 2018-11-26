@@ -3,9 +3,9 @@ package cz.muni.fi.service;
 import cz.muni.fi.persistence.dao.LocationDao;
 import cz.muni.fi.persistence.entity.Location;
 import cz.muni.fi.service.exceptions.ServiceException;
-import org.dozer.inject.Inject;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
