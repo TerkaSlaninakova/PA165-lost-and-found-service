@@ -5,17 +5,16 @@ The application allows to manage a Lost & Found service. Users can report their 
 ## TODOs
 
 ### M2 Checklist
-* [ ] Proper Javadoc, @author annotations everywhere
-* [ ] Facade Interfaces not referencing entities - DTOs only
-* [ ] Service Interfaces not referencing DTOs - entities only
-* [ ] @Transactional not in services
-* [ ] No TODOs, commented code left
-* [ ] mvn clean install works
+* [x] Proper Javadoc, @author annotations everywhere
+* [x] Facade Interfaces not referencing entities - DTOs only
+* [x] Service Interfaces not referencing DTOs - entities only
+* [x] No TODOs, commented code left
+* [x] mvn clean install works
 
 ### M2:
 * [x] Create template for service, facade, api layer
 * [x] Set up dozer framework to map entity instances to transfer objects
-* [ ] Service layer
+* [x] Service layer
     * [x] Custom exception class (inh. from DataAccessException) to be thrown in case of any exception on a the DAO layer;
     * [x] Add bean-mapping service (see [fi-muni/PA165](https://github.com/fi-muni/PA165/blob/master/eshop-service/src/main/java/cz/fi/muni/pa165/service/BeanMappingService.java))
     * [x] Create implementations for interfaces
@@ -23,11 +22,11 @@ The application allows to manage a Lost & Found service. Users can report their 
     * [x] Create Category Service  and Tests @Terka
     * [x] Create Item Service and Tests @Terka
     * [x] Create Location Service and Tests @Gusto
-    * [ ] Create User Service and Tests @Jakub - [IN PROGRESS]
+    * [x] Create User Service and Tests @Jakub
     * [x] Create at least 2 non-trivial business functions + extensive tests - @Terka
-* [ ] Facade layer
-    * [ ] Create Category Facade and Tests @Jakub - [IN PROGRESS]
-    * [ ] Create Item Facade and Tests @Jakub - [IN PROGRESS]
+* [x] Facade layer
+    * [x] Create Category Facade and Tests @Jakub
+    * [x] Create Item Facade and Tests @Jakub
     * [x] Create Location Facade and Tests @Terka
     * [x] Create User Facade and Tests @Gusto
 * [x] API layer
