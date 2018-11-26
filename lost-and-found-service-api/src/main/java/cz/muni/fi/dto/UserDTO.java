@@ -3,11 +3,9 @@ package cz.muni.fi.dto;
 import java.util.Objects;
 
 /**
- *
- *
+ * Data Transfer Object for User
  * @author Augustin Nemec
  */
-
 public class UserDTO {
 
     private Long id;

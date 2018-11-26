@@ -7,6 +7,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Data Transfer Object for Item
+ * @author Augustin Nemec
+ */
 public class ItemDTO {
 
     private Long id;

@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 /**
- *
+ * Data Transfer Object for Image change in Item
  * @author Jakub Polacek
  */
 public class ItemChangeImageDTO {

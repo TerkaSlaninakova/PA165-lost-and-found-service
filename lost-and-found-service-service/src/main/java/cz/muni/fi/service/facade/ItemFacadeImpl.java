@@ -83,8 +83,8 @@ public class ItemFacadeImpl implements ItemFacade {
     }
 
     @Override
-    public void changeUser(Long itemId, Long userId) {
-        itemService.changeUser(itemId, userId);
+    public void changeOwner(Long itemId, Long userId) {
+        itemService.changeOwner(itemId, userId);
     }
 
     @Override

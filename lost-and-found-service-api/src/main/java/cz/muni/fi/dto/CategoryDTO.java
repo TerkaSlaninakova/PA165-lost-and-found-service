@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- *
+ * Data Transfer Object for Category
  * @author Jakub Polacek
  */
 

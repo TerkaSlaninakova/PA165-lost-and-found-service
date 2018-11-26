@@ -29,6 +29,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
+ * Tests for categoryFacade
  * @author Jakub Polacek
  */
 @ContextConfiguration(classes = ServiceConfiguration.class)

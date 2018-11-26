@@ -14,7 +14,7 @@ import java.util.List;
 public interface LocationFacade {
 
     /**
-     * Save Location to DB
+     * Create Location to
      * @param locationDTO locationDTO
      */
     void addLocation(LocationDTO locationDTO);

@@ -33,6 +33,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
+ * Tests for itemFacade
  * @author Jakub Polacek
  */
 
@@ -167,9 +168,9 @@ public class ItemFacadeTest extends AbstractTestNGSpringContextTests {
         verify(itemService).removeCategoryFromItem(1L, 1L);
     }
     @Test
-    public void testChangeUser() {
-        itemFacade.changeUser(1L, 1L);
-        verify(itemService).changeUser(1L, 1L);
+    public void testChangeOwner() {
+        itemFacade.changeOwner(1L, 1L);
+        verify(itemService).changeOwner(1L, 1L);
     }
     @Test
     public void testChangeLostLocation() {

@@ -3,7 +3,7 @@ package cz.muni.fi.dto;
 import java.util.Objects;
 
 /**
- *
+ * Data Transfer Object for Location
  * @author Jakub Polacek
  */
 public class LocationDTO {

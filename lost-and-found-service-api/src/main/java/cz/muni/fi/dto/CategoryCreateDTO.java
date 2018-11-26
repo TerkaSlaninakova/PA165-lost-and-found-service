@@ -5,7 +5,7 @@ import javax.validation.constraints.Size;
 import java.util.Objects;
 
 /**
- *
+ * Data Transfer Object for Category creation
  * @author Jakub Polacek
  */
 public class CategoryCreateDTO {

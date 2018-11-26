@@ -7,36 +7,35 @@ import java.util.List;
 
 
 /**
- *
+ * Facade interface for Item
  * @author Jakub Polacek
  */
 public interface ItemFacade {
 
     /**
-     * creates item that has been lost
+     * Creates item that has been lost
      *
      * @param itemCreateDTO item to create
      */
     void addItemLost(ItemCreateDTO itemCreateDTO);
 
     /**
-     * creates item that has been found
+     * Creates item that has been found
      *
      * @param itemCreateDTO item to create
      */
     void addItemFound(ItemCreateDTO itemCreateDTO);
 
     /**
-     * Update Item
+     * Updates Item
      * @param itemDTO itemDTO to update
      */
     void updateItem(ItemDTO itemDTO);
 
-
     /**
      * Adds category to item
      *
-     * @param itemId     of item which gets category added
+     * @param itemId id of item which gets category added
      * @param categoryId category to add
      */
     void addCategoryToItem(Long itemId, Long categoryId);
@@ -45,7 +44,7 @@ public interface ItemFacade {
     /**
      * Removes category from item
      *
-     * @param itemId     of item which gets category removed
+     * @param itemId id of item which gets category removed
      * @param categoryId category to remove
      */
     void removeCategoryFromItem(Long itemId, Long categoryId);
@@ -54,7 +53,7 @@ public interface ItemFacade {
     /**
      * Changes found location to location or null if locationId null
      *
-     * @param itemId     of item to change location
+     * @param itemId id of item to change location for
      * @param locationId null or location id
      */
     void changeFoundLocation(Long itemId, Long locationId);
@@ -62,18 +61,18 @@ public interface ItemFacade {
     /**
      * Changes lost location to location or null if locationId null
      *
-     * @param itemId     of item to change location
+     * @param itemId id of item to change location for
      * @param locationId null or location id
      */
     void changeLostLocation(Long itemId, Long locationId);
 
     /**
-     * Changes user to user or null if userId null
+     * Changes owner of an item to user or null if userId null
      *
-     * @param itemId of item to change location
+     * @param itemId id of item
      * @param userId null or user id
      */
-    void changeUser(Long itemId, Long userId);
+    void changeOwner(Long itemId, Long userId);
 
     /**
      * Deletes item
@@ -83,6 +82,8 @@ public interface ItemFacade {
     void deleteItem(ItemDTO itemDTO);
 
     /**
+     * Gets all items
+     *
      * @return all items
      */
     List<ItemDTO> getAllItems();
@@ -96,7 +97,7 @@ public interface ItemFacade {
     List<ItemDTO> getItemsByCategory(String categoryName);
 
     /**
-     * return item by id
+     * Returns item by id
      *
      * @param id of item
      * @return itemDTO

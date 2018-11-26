@@ -262,7 +262,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public void changeUser(Long itemId, Long userId) {
+    public void changeOwner(Long itemId, Long userId) {
         if (itemId == null) {
             throw new ServiceException("itemId can't be null");
         }
