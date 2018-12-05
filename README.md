@@ -4,12 +4,24 @@ The application allows to manage a Lost & Found service. Users can report their 
 
 ## TODOs
 
-### M2 Checklist
-* [x] Proper Javadoc, @author annotations everywhere
-* [x] Facade Interfaces not referencing entities - DTOs only
-* [x] Service Interfaces not referencing DTOs - entities only
-* [x] No TODOs, commented code left
-* [x] mvn clean install works
+### M3:
+* [ ] Web application (prob. with Cargo plugin and Tomcat), start with `mvn clean install && cd web && mvn cargo:run`
+   * [ ] User interface (uses REST or facade layer)
+      * [ ] Controllers
+      * [ ] Views
+      * [ ] Login form (registration not reqiured)
+      - Different views for admin / user
+* [ ] REST layer
+   - must be accessible at http://localhost:8080/pa165/rest
+   - at least one entity exposed
+   - README file with instructions how to test the REST interface (e.g. CURL commands for command line)
+
+### Checklist
+* [ ] Proper Javadoc, @author annotations everywhere
+* [ ] Facade Interfaces not referencing entities - DTOs only
+* [ ] Service Interfaces not referencing DTOs - entities only
+* [ ] No TODOs, commented code left
+* [ ] mvn clean install works
 
 ### M2:
 * [x] Create template for service, facade, api layer
