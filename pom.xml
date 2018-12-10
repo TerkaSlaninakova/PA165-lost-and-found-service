@@ -39,5 +39,7 @@
         <module>lost-and-found-service-persistence</module>
         <module>lost-and-found-service-service</module>
         <module>lost-and-found-service-api</module>
+        <module>lost-and-found-service-rest</module>
+        <module>lost-and-found-service-samples</module>
     </modules>
 </project>
