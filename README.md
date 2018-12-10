@@ -16,7 +16,7 @@ The application allows to manage a Lost & Found service. Users can report their 
    - at least one entity exposed
    - README file with instructions how to test the REST interface (e.g. CURL commands for command line)
 * [ ] samples layer
-   - add sample data
+   - add sample data + password security - @Terka
    
 ### Checklist
 * [ ] Proper Javadoc, @author annotations everywhere
