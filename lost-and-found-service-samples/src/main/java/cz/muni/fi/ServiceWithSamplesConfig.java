@@ -1,9 +1,9 @@
 package cz.muni.fi;
 
 
+import cz.muni.fi.service.config.ServiceConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import cz.muni.fi.service.config.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
