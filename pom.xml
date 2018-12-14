@@ -41,5 +41,6 @@
         <module>lost-and-found-service-api</module>
         <module>lost-and-found-service-rest</module>
         <module>lost-and-found-service-samples</module>
+        <module>lost-and-found-service-angular</module>
     </modules>
 </project>
