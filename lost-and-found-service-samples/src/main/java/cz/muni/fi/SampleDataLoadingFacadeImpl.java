@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -16,13 +17,17 @@ import java.util.Arrays;
 import java.util.List;
 
 @Component
+@Transactional
 public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade{
     final static Logger log = LoggerFactory.getLogger(SampleDataLoadingFacadeImpl.class);
 
     @Autowired
     private UserService userService;
+    @Autowired
     private CategoryService categoryService;
+    @Autowired
     private ItemService itemService;
+    @Autowired
     private LocationService locationService;
 
     @Autowired
