@@ -1,6 +1,5 @@
 package cz.muni.fi.persistence;
 
-import cz.muni.fi.persistence.entity.User;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -24,12 +23,9 @@ import javax.sql.DataSource;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories
-@ComponentScan(basePackageClasses = {User.class}, basePackages = "cz.muni.fi")
+@ComponentScan(basePackages = "cz.muni.fi")
 public class PersistenceApplicationContext {
 
-    /**
-     * Enables automatic translation of exceptions to DataAccessExceptions.
-     */
     @Bean
     public PersistenceExceptionTranslationPostProcessor postProcessor() {
         return new PersistenceExceptionTranslationPostProcessor();
@@ -40,9 +36,6 @@ public class PersistenceApplicationContext {
         return new JpaTransactionManager(entityManagerFactory().getObject());
     }
 
-    /**
-     * Starts up a container that emulates behavior prescribed in JPA spec for container-managed EntityManager
-     */
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean jpaFactoryBean = new LocalContainerEntityManagerFactoryBean();

@@ -3,8 +3,6 @@ package cz.muni.fi.service;
 
 import cz.muni.fi.persistence.dao.UserDao;
 import cz.muni.fi.persistence.entity.User;
-import cz.muni.fi.service.UserService;
-import cz.muni.fi.service.UserServiceImpl;
 import cz.muni.fi.service.config.ServiceConfiguration;
 import cz.muni.fi.service.exceptions.ServiceException;
 import org.mockito.InjectMocks;
@@ -12,7 +10,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -28,7 +25,7 @@ import static org.mockito.Mockito.*;
  */
 
 @ContextConfiguration(classes = ServiceConfiguration.class)
-public class UserServiceTest extends AbstractTestNGSpringContextTests {
+public class UserServiceTest {
 
     @Mock
     private UserDao userDao;
