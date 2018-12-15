@@ -16,6 +16,7 @@
         <groupId>io.spring.platform</groupId>
         <artifactId>platform-bom</artifactId>
         <version>1.0.1.RELEASE</version>
+	<relativepath/>
     </parent>
 
     <properties>
