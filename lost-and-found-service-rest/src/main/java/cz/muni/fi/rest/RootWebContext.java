@@ -1,8 +1,9 @@
-package cz.muni.fi;
+package cz.muni.fi.rest;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import cz.muni.fi.samples.ServiceWithSamplesConfig;
 import org.springframework.context.annotation.*;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -18,7 +19,7 @@ import java.util.Locale;
 @EnableWebMvc
 @Configuration
 @Import({ServiceWithSamplesConfig.class})
-@ComponentScan(basePackages = {"cz.muni.fi.rest.controllers"})
+@ComponentScan(basePackages = {"cz.muni.fi.rest"})
 public class RootWebContext extends WebMvcConfigurerAdapter {
 
     @Override

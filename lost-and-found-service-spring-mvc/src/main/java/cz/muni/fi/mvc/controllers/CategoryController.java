@@ -1,7 +1,7 @@
 package cz.muni.fi.mvc.controllers;
 
-import cz.muni.fi.dto.CategoryCreateDTO;
-import cz.muni.fi.facade.CategoryFacade;
+import cz.muni.fi.api.dto.CategoryCreateDTO;
+import cz.muni.fi.api.facade.CategoryFacade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

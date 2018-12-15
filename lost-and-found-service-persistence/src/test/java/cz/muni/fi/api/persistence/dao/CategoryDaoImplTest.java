@@ -1,8 +1,7 @@
-package cz.muni.fi.persistence;
+package cz.muni.fi.persistence.dao;
 
-import cz.muni.fi.persistence.dao.CategoryDao;
-import cz.muni.fi.persistence.entity.Category;
 import cz.muni.fi.persistence.PersistenceApplicationContext;
+import cz.muni.fi.persistence.entity.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -12,14 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.AssertJUnit.*;
 
 /**
  *
@@ -29,7 +25,7 @@ import static org.testng.AssertJUnit.assertTrue;
 @ContextConfiguration(classes = PersistenceApplicationContext.class)
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
 @Transactional
-public class CategoryDaoImplTest  extends AbstractTestNGSpringContextTests {
+public class CategoryDaoImplTest extends AbstractTestNGSpringContextTests {
 
     @PersistenceContext
     private EntityManager entityManager;

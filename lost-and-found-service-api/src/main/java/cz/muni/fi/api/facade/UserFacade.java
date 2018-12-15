@@ -1,6 +1,6 @@
-package cz.muni.fi.facade;
+package cz.muni.fi.api.facade;
 
-import cz.muni.fi.dto.UserDTO;
+import cz.muni.fi.api.dto.UserDTO;
 
 import java.util.List;
 

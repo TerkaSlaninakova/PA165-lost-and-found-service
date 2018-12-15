@@ -36,11 +36,6 @@
             <version>5.5.1</version>
         </dependency>
         <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>6.14.3</version>
-        </dependency>
-        <dependency>
             <groupId>javax.inject</groupId>
             <artifactId>javax.inject</artifactId>
             <version>1</version>
@@ -82,9 +77,6 @@
 
 
     </dependencies>
-
-    
-       Start tomcat with "mvn cargo:run" and visit http://localhost:8080/pa165/
 
 
     <build>

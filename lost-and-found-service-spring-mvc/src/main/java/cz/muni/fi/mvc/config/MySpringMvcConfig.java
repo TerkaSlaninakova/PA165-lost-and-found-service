@@ -1,7 +1,6 @@
 package cz.muni.fi.mvc.config;
 
-
-import cz.muni.fi.ServiceWithSamplesConfig;
+import cz.muni.fi.samples.ServiceWithSamplesConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;

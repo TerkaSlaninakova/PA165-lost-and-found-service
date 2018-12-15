@@ -1,4 +1,4 @@
-package cz.muni.fi;
+package cz.muni.fi.rest;
 
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 

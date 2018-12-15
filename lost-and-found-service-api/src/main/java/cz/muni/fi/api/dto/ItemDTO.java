@@ -1,6 +1,6 @@
-package cz.muni.fi.dto;
+package cz.muni.fi.api.dto;
 
-import cz.muni.fi.enums.Status;
+import cz.muni.fi.api.enums.Status;
 
 import java.time.LocalDate;
 import java.util.Arrays;

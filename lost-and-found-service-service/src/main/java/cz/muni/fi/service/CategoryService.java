@@ -2,7 +2,6 @@ package cz.muni.fi.service;
 
 import cz.muni.fi.persistence.entity.Category;
 import cz.muni.fi.service.exceptions.ServiceException;
-
 import java.util.List;
 
 /**

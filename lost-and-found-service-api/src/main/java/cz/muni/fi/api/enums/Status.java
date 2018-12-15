@@ -1,4 +1,4 @@
-package cz.muni.fi.enums;
+package cz.muni.fi.api.enums;
 
 /**
  * Enum of Item status

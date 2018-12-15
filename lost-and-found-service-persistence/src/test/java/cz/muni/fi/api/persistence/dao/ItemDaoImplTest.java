@@ -1,6 +1,6 @@
-package cz.muni.fi.persistence;
+package cz.muni.fi.persistence.dao;
 
-import cz.muni.fi.persistence.dao.ItemDao;
+import cz.muni.fi.persistence.PersistenceApplicationContext;
 import cz.muni.fi.persistence.entity.Item;
 import cz.muni.fi.persistence.enums.Status;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +17,7 @@ import javax.persistence.PersistenceContext;
 import javax.validation.ConstraintViolationException;
 import java.util.List;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.AssertJUnit.*;
 
 
 /**

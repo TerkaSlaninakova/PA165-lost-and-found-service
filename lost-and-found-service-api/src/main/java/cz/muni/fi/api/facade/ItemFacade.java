@@ -1,6 +1,6 @@
-package cz.muni.fi.facade;
+package cz.muni.fi.api.facade;
 
-import cz.muni.fi.dto.*;
+import cz.muni.fi.api.dto.*;
 
 import java.time.LocalDate;
 import java.util.List;

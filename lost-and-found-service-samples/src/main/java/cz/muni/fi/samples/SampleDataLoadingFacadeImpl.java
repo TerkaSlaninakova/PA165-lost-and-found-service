@@ -1,9 +1,14 @@
-package cz.muni.fi;
+package cz.muni.fi.samples;
 
-import cz.muni.fi.persistence.entity.*;
+import cz.muni.fi.persistence.entity.Category;
+import cz.muni.fi.persistence.entity.Item;
+import cz.muni.fi.persistence.entity.Location;
+import cz.muni.fi.persistence.entity.User;
 import cz.muni.fi.persistence.enums.Status;
-import cz.muni.fi.service.*;
-
+import cz.muni.fi.service.CategoryService;
+import cz.muni.fi.service.ItemService;
+import cz.muni.fi.service.LocationService;
+import cz.muni.fi.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

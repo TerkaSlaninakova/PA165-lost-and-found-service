@@ -1,7 +1,7 @@
-package cz.muni.fi.facade;
+package cz.muni.fi.api.facade;
 
-import cz.muni.fi.dto.CategoryCreateDTO;
-import cz.muni.fi.dto.CategoryDTO;
+import cz.muni.fi.api.dto.CategoryCreateDTO;
+import cz.muni.fi.api.dto.CategoryDTO;
 
 import java.util.List;
 

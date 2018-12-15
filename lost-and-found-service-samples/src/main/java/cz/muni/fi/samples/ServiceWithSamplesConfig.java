@@ -1,5 +1,4 @@
-package cz.muni.fi;
-
+package cz.muni.fi.samples;
 
 import cz.muni.fi.service.config.ServiceConfiguration;
 import org.slf4j.Logger;

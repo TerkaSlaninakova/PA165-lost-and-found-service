@@ -1,8 +1,8 @@
 package cz.muni.fi.service.facade;
 
-import cz.muni.fi.dto.CategoryCreateDTO;
-import cz.muni.fi.dto.CategoryDTO;
-import cz.muni.fi.facade.CategoryFacade;
+import cz.muni.fi.api.dto.CategoryCreateDTO;
+import cz.muni.fi.api.dto.CategoryDTO;
+import cz.muni.fi.api.facade.CategoryFacade;
 import cz.muni.fi.persistence.entity.Category;
 import cz.muni.fi.service.BeanMappingService;
 import cz.muni.fi.service.BeanMappingServiceImpl;

@@ -1,4 +1,4 @@
-package cz.muni.fi.dto;
+package cz.muni.fi.api.dto;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;

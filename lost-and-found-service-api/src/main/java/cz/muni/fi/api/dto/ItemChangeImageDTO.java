@@ -1,4 +1,4 @@
-package cz.muni.fi.dto;
+package cz.muni.fi.api.dto;
 
 import java.util.Arrays;
 import java.util.Objects;

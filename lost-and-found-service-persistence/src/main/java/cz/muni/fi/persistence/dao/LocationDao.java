@@ -1,5 +1,6 @@
 package cz.muni.fi.persistence.dao;
 
+
 import cz.muni.fi.persistence.entity.Location;
 
 import java.util.List;
