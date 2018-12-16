@@ -41,7 +41,7 @@ public class LocationController {
      * @param model data to display
      * @return JSP page name
      */
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @RequestMapping(value = {"", "/", "/all", "list"}, method = RequestMethod.GET)
     public String list(Model model) {
         model.addAttribute("locations", locationFacade.getAllLocations());
         return "location/list";
