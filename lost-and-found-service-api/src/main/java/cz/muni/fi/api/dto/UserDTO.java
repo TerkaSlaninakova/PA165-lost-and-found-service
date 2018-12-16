@@ -1,5 +1,7 @@
 package cz.muni.fi.api.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Objects;
 
 /**
@@ -10,8 +12,14 @@ public class UserDTO {
 
     private Long id;
     private String name;
+
+    @JsonIgnore
     private String password;
+
+    @JsonIgnore
     private String email;
+
+    @JsonIgnore
     private boolean isAdmin;
 
     public Long getId(){

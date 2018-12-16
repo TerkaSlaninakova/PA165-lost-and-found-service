@@ -1,5 +1,7 @@
 package cz.muni.fi.api.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Objects;
@@ -18,6 +20,7 @@ public class CategoryDTO {
 
     private String attribute;
 
+    @JsonIgnore
     private List<ItemDTO> items;
 
     public Long getId() {
