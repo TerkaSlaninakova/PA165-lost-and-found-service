@@ -4,13 +4,14 @@ import cz.muni.fi.api.enums.Status;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
 import java.util.Objects;
 
 /**
  * Data Transfer Object for Item creation
  * @author Jakub Polacek
  */
-public class ItemCreateDTO {
+public class ItemCreateLostDTO {
 
     @NotNull
     @Size(min = 3, max = 50)
@@ -25,7 +26,10 @@ public class ItemCreateDTO {
     private String characteristics;
 
     @NotNull
-    private Status status;
+    private LocalDate lostDate;
+
+    @NotNull
+    private LocationDTO lostLocation;
 
     public String getName() {
         return name;
@@ -51,12 +55,20 @@ public class ItemCreateDTO {
         this.characteristics = characteristics;
     }
 
-    public Status getStatus() {
-        return this.status;
+    public LocalDate getLostDate() {
+        return this.lostDate;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setLostDate(LocalDate lostDate) {
+        this.lostDate = lostDate;
+    }
+
+    public LocationDTO getLostLocation() {
+        return this.lostLocation;
+    }
+
+    public void setLostLocation(LocationDTO lostLocation) {
+        this.lostLocation = lostLocation;
     }
 
     @Override
@@ -64,7 +76,7 @@ public class ItemCreateDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ItemCreateDTO that = (ItemCreateDTO) o;
+        ItemCreateLostDTO that = (ItemCreateLostDTO) o;
 
         return Objects.equals(this.name, that.getName())
                 && Objects.equals(this.characteristics, that.characteristics)

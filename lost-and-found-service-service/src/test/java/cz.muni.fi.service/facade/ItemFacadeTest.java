@@ -60,7 +60,8 @@ public class ItemFacadeTest extends AbstractTestNGSpringContextTests {
     private Item phone, computer;
     private ItemDTO phoneDTO;
     
-    private ItemCreateDTO createPencilDTO;
+    private ItemCreateLostDTO createPencilDTO;
+    private ItemCreateFoundDTO createPenDTO;
     private ItemChangeImageDTO changeComputerImageDTO;
     
     @BeforeClass
@@ -70,6 +71,11 @@ public class ItemFacadeTest extends AbstractTestNGSpringContextTests {
 
     @BeforeMethod
     public void init() {
+        testLocation = new Location();
+        testLocation.setDescription("In Slovakia");
+        testLocation.setId(1L);
+        testLocationDTO = beanMappingService.mapTo(testLocation, LocationDTO.class);
+
         phone = new Item();
         phone.setId(1L);
         phone.setName("phone");
@@ -86,21 +92,24 @@ public class ItemFacadeTest extends AbstractTestNGSpringContextTests {
         computer.setCharacteristics("can compute");
         computer.setStatus(Status.CLAIM_RECEIVED_FOUND);
 
-        createPencilDTO = new ItemCreateDTO();
+        createPencilDTO = new ItemCreateLostDTO();
         createPencilDTO.setName("pencil");
         createPencilDTO.setType("writing instrument");
         createPencilDTO.setCharacteristics("very smooth");
+        createPencilDTO.setLostDate(LocalDate.now());
+        createPencilDTO.setLostLocation(testLocationDTO);
+
+        createPenDTO = new ItemCreateFoundDTO();
+        createPenDTO.setName("pen");
+        createPenDTO.setType("writing instrument");
+        createPenDTO.setCharacteristics("very smooth");
+        createPenDTO.setFoundDate(LocalDate.now());
+        createPenDTO.setFoundLocation(testLocationDTO);
 
         changeComputerImageDTO = new ItemChangeImageDTO();
         changeComputerImageDTO.setItemId(2L);
         changeComputerImageDTO.setImage(new byte[5]);
         changeComputerImageDTO.setImageMimeType(".pdf");
-
-        testLocation = new Location();
-        testLocation.setDescription("In Slovakia");
-        testLocation.setId(1L);
-
-        testLocationDTO = beanMappingService.mapTo(testLocation, LocationDTO.class);
 
         testUser = new User();
         testUser.setName("John");
@@ -115,7 +124,7 @@ public class ItemFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testAddItem() {
-        itemFacade.addItemFound(createPencilDTO);
+        itemFacade.addItemFound(createPenDTO);
         verify(itemService).addItem(any(Item.class));
 
 

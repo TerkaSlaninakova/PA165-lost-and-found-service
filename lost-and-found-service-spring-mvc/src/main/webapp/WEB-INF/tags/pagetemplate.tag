@@ -37,6 +37,9 @@
 <div class="container">
     <h2><f:message key="navigation.home"/></h2>
     <p><f:message key="home.description"/></p>
+    <p><a href="/pa165/category">category</a></p>
+    <p><a href="/pa165/location">location</a></p>
+    <p><a href="/pa165/item">item</a></p>
     <!-- page title -->
     <c:if test="${not empty title}">
         <div class="page-header">

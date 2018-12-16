@@ -67,7 +67,7 @@ public class ItemsController {
     @RequestMapping(value = "/createLost", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public final void createLostItem(@RequestBody ItemCreateDTO item) {
+    public final void createLostItem(@RequestBody ItemCreateLostDTO item) {
 
         try {
             itemFacade.addItemLost(item);
@@ -79,7 +79,7 @@ public class ItemsController {
     @RequestMapping(value = "/createFound", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public final void createFoundItem(@RequestBody ItemCreateDTO item) {
+    public final void createFoundItem(@RequestBody ItemCreateFoundDTO item) {
 
         try {
             itemFacade.addItemFound(item);

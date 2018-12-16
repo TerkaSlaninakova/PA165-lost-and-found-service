@@ -15,16 +15,16 @@ public interface ItemFacade {
     /**
      * Creates item that has been lost
      *
-     * @param itemCreateDTO item to create
+     * @param itemCreateLostDTO item to create
      */
-    void addItemLost(ItemCreateDTO itemCreateDTO);
+    void addItemLost(ItemCreateLostDTO itemCreateLostDTO);
 
     /**
      * Creates item that has been found
      *
-     * @param itemCreateDTO item to create
+     * @param itemCreateFoundDTO item to create
      */
-    void addItemFound(ItemCreateDTO itemCreateDTO);
+    void addItemFound(ItemCreateFoundDTO itemCreateFoundDTO);
 
     /**
      * Updates Item
