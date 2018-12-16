@@ -10,6 +10,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpSession;
 
+/**
+ *
+ * @author Augustin Nemec
+ */
+
 @Controller
 @RequestMapping("/home")
 public class HomeController {

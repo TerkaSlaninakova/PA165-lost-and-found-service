@@ -9,6 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
 
+/**
+ *
+ * @author Augustin Nemec
+ */
+
 @WebFilter(urlPatterns = {"/item/*", "/category/*", "/user/*", "/location/*"})
 public class ProtectFilter implements Filter {
     final static Logger log = org.slf4j.LoggerFactory.getLogger(ProtectFilter.class);
