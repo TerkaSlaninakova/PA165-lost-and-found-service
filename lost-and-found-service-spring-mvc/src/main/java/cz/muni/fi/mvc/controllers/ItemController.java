@@ -1,6 +1,8 @@
 package cz.muni.fi.mvc.controllers;
 
-import cz.muni.fi.api.dto.*;
+import cz.muni.fi.api.dto.ItemCreateFoundDTO;
+import cz.muni.fi.api.dto.ItemCreateLostDTO;
+import cz.muni.fi.api.dto.ItemDTO;
 import cz.muni.fi.api.enums.Status;
 import cz.muni.fi.api.facade.ItemFacade;
 import cz.muni.fi.api.facade.LocationFacade;
@@ -13,15 +15,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.util.List;
 
 
 @Controller
@@ -85,8 +83,13 @@ public class ItemController {
      * @return JSP page
      */
     @RequestMapping(value = {"/new-found", "/create-found"}, method = RequestMethod.POST)
-    public String createFound(@Valid @ModelAttribute("itemCreateFound") ItemCreateFoundDTO formBean, BindingResult bindingResult,
-                         Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
+    public String createFound(
+            @Valid @ModelAttribute("itemCreateFound") ItemCreateFoundDTO formBean,
+            BindingResult bindingResult,
+            Model model,
+            RedirectAttributes redirectAttributes,
+            UriComponentsBuilder uriBuilder) {
+
         log.debug("Create(formBean={}) ", formBean);
         //in case of validation error forward back to the the form
         if (bindingResult.hasErrors()) {
@@ -112,8 +115,13 @@ public class ItemController {
      * @return JSP page
      */
     @RequestMapping(value = {"/new-lost", "/create-lost"}, method = RequestMethod.POST)
-    public String createLost(@Valid @ModelAttribute("itemCreateLost") ItemCreateLostDTO formBean, BindingResult bindingResult,
-                             Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
+    public String createLost(
+            @Valid @ModelAttribute("itemCreateLost") ItemCreateLostDTO formBean,
+            BindingResult bindingResult,
+            Model model,
+            RedirectAttributes redirectAttributes,
+            UriComponentsBuilder uriBuilder) {
+
         log.debug("Create(formBean={}) ", formBean);
         //in case of validation error forward back to the the form
         if (bindingResult.hasErrors()) {

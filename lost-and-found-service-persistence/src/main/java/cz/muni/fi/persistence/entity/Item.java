@@ -43,7 +43,7 @@ public class Item {
     @Column
     private LocalDate lostDate;
 
-    @Column
+    @Column(length = 1000)
     private String archive;
 
     @NotNull

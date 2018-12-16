@@ -1,7 +1,5 @@
 package cz.muni.fi.api.dto;
 
-import cz.muni.fi.api.enums.Status;
-
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
@@ -25,11 +23,11 @@ public class ItemCreateFoundDTO {
     @Size(max = 150)
     private String characteristics;
 
-    @NotNull
+    //@NotNull
     private LocalDate foundDate;
 
     @NotNull
-    private LocationDTO foundLocation;
+    private Long foundLocationId;
 
     public String getName() {
         return name;
@@ -63,12 +61,12 @@ public class ItemCreateFoundDTO {
         this.foundDate = foundDate;
     }
 
-    public LocationDTO getFoundLocation() {
-        return this.foundLocation;
+    public Long getFoundLocationId() {
+        return this.foundLocationId;
     }
 
-    public void setFoundLocation(LocationDTO foundLocation) {
-        this.foundLocation = foundLocation;
+    public void setFoundLocationId(Long foundLocation) {
+        this.foundLocationId = foundLocation;
     }
 
     @Override
@@ -91,10 +89,12 @@ public class ItemCreateFoundDTO {
 
     @Override
     public String toString() {
-        return "ItemCreateDTO{" +
+        return "ItemCreateFoundDTO{" +
                 "name='" + name + '\'' +
                 ", type='" + type + '\'' +
                 ", characteristics='" + characteristics + '\'' +
+                ", foundDate=" + foundDate +
+                ", foundLocationId=" + foundLocationId +
                 '}';
     }
 }

@@ -2,6 +2,7 @@ package cz.muni.fi.service.facade;
 
 import cz.muni.fi.api.dto.*;
 import cz.muni.fi.api.facade.ItemFacade;
+import cz.muni.fi.api.facade.LocationFacade;
 import cz.muni.fi.persistence.entity.Item;
 import cz.muni.fi.persistence.entity.Location;
 import cz.muni.fi.persistence.entity.User;
@@ -46,6 +47,10 @@ public class ItemFacadeTest extends AbstractTestNGSpringContextTests {
 
     @InjectMocks
     private ItemFacade itemFacade = new ItemFacadeImpl();
+
+    @Mock
+    private LocationFacade locationFacade;
+
 
     @Spy
     @Autowired
@@ -97,14 +102,14 @@ public class ItemFacadeTest extends AbstractTestNGSpringContextTests {
         createPencilDTO.setType("writing instrument");
         createPencilDTO.setCharacteristics("very smooth");
         createPencilDTO.setLostDate(LocalDate.now());
-        createPencilDTO.setLostLocation(testLocationDTO);
+        createPencilDTO.setLostLocationId(testLocationDTO.getId());
 
         createPenDTO = new ItemCreateFoundDTO();
         createPenDTO.setName("pen");
         createPenDTO.setType("writing instrument");
         createPenDTO.setCharacteristics("very smooth");
         createPenDTO.setFoundDate(LocalDate.now());
-        createPenDTO.setFoundLocation(testLocationDTO);
+        createPenDTO.setFoundLocationId(testLocationDTO.getId());
 
         changeComputerImageDTO = new ItemChangeImageDTO();
         changeComputerImageDTO.setItemId(2L);
@@ -124,6 +129,7 @@ public class ItemFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testAddItem() {
+        when(locationFacade.getLocationById(1L)).thenReturn(testLocationDTO);
         itemFacade.addItemFound(createPenDTO);
         verify(itemService).addItem(any(Item.class));
 

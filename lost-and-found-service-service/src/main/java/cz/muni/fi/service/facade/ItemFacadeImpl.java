@@ -3,6 +3,7 @@ package cz.muni.fi.service.facade;
 import cz.muni.fi.api.dto.*;
 import cz.muni.fi.api.enums.Status;
 import cz.muni.fi.api.facade.ItemFacade;
+import cz.muni.fi.api.facade.LocationFacade;
 import cz.muni.fi.persistence.entity.Item;
 import cz.muni.fi.persistence.entity.Location;
 import cz.muni.fi.persistence.entity.User;
@@ -33,9 +34,13 @@ public class ItemFacadeImpl implements ItemFacade {
     @Autowired
     private BeanMappingService beanMappingService;
 
+    @Autowired
+    private LocationFacade locationFacade;
+
     @Override
     public void addItemLost(ItemCreateLostDTO itemCreateDTO) {
         ItemDTO itemDTO = beanMappingService.mapTo(itemCreateDTO, ItemDTO.class);
+        itemDTO.setLostLocation(locationFacade.getLocationById(itemCreateDTO.getLostLocationId()));
         itemDTO.setStatus(Status.CLAIM_RECEIVED_LOST);
         itemDTO.setLostDate(LocalDate.now());
 
@@ -45,6 +50,7 @@ public class ItemFacadeImpl implements ItemFacade {
     @Override
     public void addItemFound(ItemCreateFoundDTO itemCreateDTO) {
         ItemDTO itemDTO = beanMappingService.mapTo(itemCreateDTO, ItemDTO.class);
+        itemDTO.setFoundLocation(locationFacade.getLocationById(itemCreateDTO.getFoundLocationId()));
         itemDTO.setStatus(Status.CLAIM_RECEIVED_FOUND);
         itemDTO.setFoundDate(LocalDate.now());
 

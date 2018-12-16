@@ -29,14 +29,16 @@
                 <form:errors path="type" cssClass="help-block"/>
             </div>
 
-            <form:label path="lostLocation" cssClass="col-sm-2 control-label">Location</form:label>
-            <div class="form-group col-md-3">
-                <form:select path="lostLocation" cssClass="form-control">
+            <form:label path="lostLocationId" cssClass="col-sm-2 control-label">Location</form:label>
+            <div class="col-sm-10">
+            <form:select name="lostLocationId" path="lostLocationId" cssClass="form-control">
                     <c:forEach items="${locations}" var="location">
-                        <option><c:out value="${location.description}"/></option>
+                        <form:option value="${location.id}">
+                            <c:out value="${location.description}"/>
+                        </form:option>
                     </c:forEach>
-                </form:select>
-                <form:errors path="lostLocation" cssClass="invalid-feedback"/>
+            </form:select>
+                <p class="help-block"><form:errors path="lostLocationId" cssClass="error"/></p>
             </div>
 
         </div>
