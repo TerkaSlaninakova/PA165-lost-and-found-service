@@ -205,10 +205,11 @@ public class ItemController {
                           UriComponentsBuilder uriBuilder) {
         log.debug("Archiving item id: " + id);
         ItemDTO item = itemFacade.getItemById(id);
-        if (item == null) {
-            log.warn("Tried to archive nonexisting item");
+        if (item == null || item.getArchive() != null) {
+            log.warn("Tried to archive nonexisting or already archived item.");
             redirectAttributes.addFlashAttribute(
-                    "alert_danger", "Item failed to be archived. It probably doesn't exist.");
+                    "alert_danger",
+                    "Item failed to be archived. It probably doesn't exist or is already archived.");
             return "redirect:" + uriBuilder.path("/item/list").build().toUriString();
         }
         try {
@@ -216,8 +217,7 @@ public class ItemController {
             redirectAttributes.addFlashAttribute("alert_success", "Item was archived");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute(
-                    "alert_warn", "Item failed to be archived. Reason: " + e.getMessage());
-
+                    "alert_warning", "Item failed to be archived. Reason: " + e.getMessage());
         }
         model.addAttribute("item", item);
         model.addAttribute("name", item.getName());
