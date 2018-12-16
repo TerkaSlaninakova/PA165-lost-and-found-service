@@ -86,13 +86,8 @@ public class UserServiceTest {
         userService.addUser(admin);
         verify(userDao).addUser(admin);
         assertTrue(userService.authenticate(admin, "thouShallNotPass"));
-    }
-
-    @Test
-    public void testAuthenticateUserWrongPassword() {
-        userService.addUser(admin);
-        verify(userDao).addUser(admin);
         assertFalse(userService.authenticate(admin, "notACorrectPassword"));
+
     }
 
     @Test(expectedExceptions = ServiceException.class)
