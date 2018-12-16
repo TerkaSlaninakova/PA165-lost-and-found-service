@@ -5,28 +5,34 @@ The application allows to manage a Lost & Found service. Users can report their 
 ## TODOs
 
 ### M3:
-* [ ] Runnable from mvn commandline @Jakub
+* [x] Runnable from mvn commandline @Jakub
 * [ ] Web layer
    * [ ] User interface (uses REST or facade layer)
       * [ ] Item @Terka
           * [ ] Controllers
           * [ ] Views
-      * [ ] Location @Jakub
-          * [ ] Controllers
-          * [ ] Views           
-      * [ ] Category @Jakub  
-          * [ ] Controllers
-          * [ ] Views
+          - Create
+            * [ ] lost/found - proper location,date,status display @Terka
+          - Update
+          - Resolve
+          - Archive
+          - Image
+      * [x] Location @Jakub
+          * [x] Controllers
+          * [x] Views           
+      * [x] Category @Jakub  
+          * [x] Controllers
+          * [x] Views
       * [ ] User @Gusto
           * [ ] Controllers
           * [ ] Views
           * [ ] Login form (registration not reqiured)
       - Different views for admin / user { after views are finished}
-* [ ] REST layer - @Gusto
+* [x] REST layer - @Gusto
    - must be accessible at http://localhost:8080/pa165/rest
    - at least one entity exposed
    - README file with instructions how to test the REST interface (e.g. CURL commands for command line)
-* [ ] samples layer - @Terka
+* [x] samples layer - @Terka
    - add sample data + password security
    
 ### Checklist
