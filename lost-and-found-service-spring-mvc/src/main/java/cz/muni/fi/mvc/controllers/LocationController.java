@@ -1,9 +1,8 @@
 package cz.muni.fi.mvc.controllers;
 
-import cz.muni.fi.api.dto.CategoryCreateDTO;
-import cz.muni.fi.api.dto.CategoryDTO;
-import cz.muni.fi.api.facade.CategoryFacade;
+import cz.muni.fi.api.dto.LocationDTO;
 import cz.muni.fi.api.facade.ItemFacade;
+import cz.muni.fi.api.facade.LocationFacade;
 import cz.muni.fi.service.exceptions.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,20 +21,16 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 
-/**
- * SpringMVC Controller for administering categories.
- *
- * @author Jakub Polacek
- */
-@Controller
-@RequestMapping("/category")
-public class CategoryController {
 
-    final static Logger log = LoggerFactory.getLogger(CategoryController.class);
+@Controller
+@RequestMapping("/location")
+public class LocationController {
+
+    final static Logger log = LoggerFactory.getLogger(LocationController.class);
 
 
     @Autowired
-    private CategoryFacade categoryFacade;
+    private LocationFacade locationFacade;
 
     @Autowired
     private ItemFacade itemFacade;
@@ -48,8 +43,8 @@ public class CategoryController {
      */
     @RequestMapping(value = {"", "/", "/all", "list"}, method = RequestMethod.GET)
     public String list(Model model) {
-        model.addAttribute("categories", categoryFacade.getAllCategories());
-        return "category/list";
+        model.addAttribute("locations", locationFacade.getAllLocations());
+        return "location/list";
     }
 
     /**
@@ -59,16 +54,17 @@ public class CategoryController {
      * @return JSP page
      */
     @RequestMapping(value = {"/new", "/create"}, method = RequestMethod.GET)
-    public String newCategory(Model model) {
-        log.debug("Creating category");
-        model.addAttribute("categoryCreate", new CategoryCreateDTO());
-        return "category/create";
+    public String newLocation(Model model) {
+        log.debug("New location");
+        model.addAttribute("location", new LocationDTO());
+        return "location/create";
     }
 
     @RequestMapping(value = {"/new", "/create"}, method = RequestMethod.POST)
-    public String create(@Valid @ModelAttribute("categoryCreate") CategoryCreateDTO formBean, BindingResult bindingResult,
+    public String create(@Valid @ModelAttribute("locationCreate") LocationDTO formBean, BindingResult bindingResult,
                          Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
-        log.debug("create(formBean={})", formBean);
+        log.debug("Creating location ", formBean);
+        //in case of validation error forward back to the the form
         if (bindingResult.hasErrors()) {
             for (ObjectError ge : bindingResult.getGlobalErrors()) {
                 log.trace("ObjectError: {}", ge);
@@ -77,95 +73,95 @@ public class CategoryController {
                 model.addAttribute(fe.getField() + "_error", true);
                 log.trace("FieldError: {}", fe);
             }
-            return "category/create";
+            return "location/create";
         }
-
-        categoryFacade.addCategory(formBean);
-
-        redirectAttributes.addFlashAttribute("alert_success", "Category was created");
-        return "redirect:" + uriBuilder.path("/category/list").build().toUriString();
+        locationFacade.addLocation(formBean);
+        
+        redirectAttributes.addFlashAttribute("alert_success", "Location was created");
+        return "redirect:" + uriBuilder.path("/location/list").build().toUriString();
     }
 
+
     /**
-     * Get update page for category
+     * Get update page for location
      *
-     * @param id of the category
+     * @param id of the location
      */
     @RequestMapping(value = {"/{id}/update", "/{id}/edit", "/{id}/change"}, method = RequestMethod.GET)
     public String update(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
-        log.debug("Start update category id: " + id);
-        CategoryDTO category = categoryFacade.getCategoryById(id);
-        if (category == null) {
-            log.warn("Tried to update nonexisting category");
-            return "redirect:" + uriBuilder.path("/category/list").build().toUriString();
+        log.debug("Start update location id: " + id);
+        LocationDTO location = locationFacade.getLocationById(id);
+        if (location == null) {
+            log.warn("Tried to update nonexisting location");
+            return "redirect:" + uriBuilder.path("/location/list").build().toUriString();
         }
-        model.addAttribute("category", category);
-        model.addAttribute("name", category.getName());
-        model.addAttribute("attribute", category.getAttribute());
-        return "/category/edit";
+        model.addAttribute("location", location);
+        model.addAttribute("description", location.getDescription());
+        return "/location/edit";
     }
 
     /**
-     * Processes category update request
+     * Processes location update request
      *
-     * @param id    of the category
-     * @param category to be updated
+     * @param id    of the location
+     * @param location to be updated
      */
     @RequestMapping(value = {"/{id}/update"}, method = RequestMethod.POST)
     public String postUpdate(@PathVariable Long id,
                              RedirectAttributes redirectAttributes,
                              UriComponentsBuilder uriBuilder,
-                             @ModelAttribute("category") CategoryDTO category,
+                             @ModelAttribute("location") LocationDTO location,
                              BindingResult bindingResult) {
-        log.debug("Updating category id: " + id);
+        log.debug("Updating location id: " + id);
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute(
                     "alert_warning",
-                    "Category update failed. Incorrect values.");
+                    "Location update failed. Incorrect values.");
 
-            return "/category/edit";
+            return "/location/edit";
         }
         try {
-            categoryFacade.updateCategory(category);
+            locationFacade.updateLocation(location);
             redirectAttributes.addFlashAttribute(
                     "alert_success",
-                    "Category was updated.");
+                    "Location was updated.");
         } catch (ServiceException e) {
             redirectAttributes.addFlashAttribute(
                     "alert_danger",
-                    "Category update failed for unknown reasons.");
+                    "Location update failed for unknown reasons.");
         }
 
-        return "redirect:"  + uriBuilder.path("/category/list").build().toUriString();
+        return "redirect:"  + uriBuilder.path("/location/list").build().toUriString();
     }
 
 
+
     /**
-     * Deletes category
+     * Deletes location
      *
-     * @param id of category
+     * @param id of location
      */
     @RequestMapping(value = {"/{id}/delete"}, method = RequestMethod.GET)
-    public String deleteCategory(@PathVariable Long id, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
-        log.debug("Deleting category: " + id);
+    public String deleteLocation(@PathVariable Long id, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
+        log.debug("delete location: " + id);
         try {
-            CategoryDTO toDelete = categoryFacade.getCategoryById(id);
-            if (itemFacade.getItemsByCategory(toDelete.getName()).isEmpty()) {
-
-                categoryFacade.deleteCategory(categoryFacade.getCategoryById(id));
-                redirectAttributes.addFlashAttribute("alert_success", "Category was deleted");
-
+            LocationDTO toDelete = locationFacade.getLocationById(id);
+            if (itemFacade.getAllItems().stream()
+                    .noneMatch(itemDTO ->
+                            toDelete.equals(itemDTO.getFoundLocation()) || toDelete.equals(itemDTO.getLostLocation()))) {
+                locationFacade.deleteLocation(toDelete);
+                redirectAttributes.addFlashAttribute("alert_success", "Location was deleted");
+                return "redirect:" + uriBuilder.path("/location/list").build().toUriString();
             } else {
-                log.debug("Category " + id + "stil on item, cant delete.");
                 redirectAttributes.addFlashAttribute(
                         "alert_warning",
-                        "Category cannot be deleted, there are still items with this category.");
+                        "Location cannot be deleted, there are still items with this location.");
             }
-        } catch (ServiceException e) {
-            redirectAttributes.addFlashAttribute("alert_danger", "Category failed to be deleted");
-            log.error("Cant delete category: " + id, e);
-        }
 
-        return "redirect:" + uriBuilder.path("/category/list").build().toUriString();
+        } catch (ServiceException e) {
+            redirectAttributes.addFlashAttribute("alert_danger", "Location failed to be deleted");
+            log.error("Cant delete location: " + id, e);
+        }
+        return "redirect:" + uriBuilder.path("/location/list").build().toUriString();
     }
 }

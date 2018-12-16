@@ -16,6 +16,12 @@
                 <form:input path="name" cssClass="form-control"/>
                 <form:errors path="name" cssClass="help-block"/>
             </div>
+
+            <form:label path="attribute" cssClass="col-sm-2 control-label">Attribute</form:label>
+            <div class="col-sm-10">
+                <form:input path="attribute" cssClass="form-control"/>
+                <form:errors path="attribute" cssClass="help-block"/>
+            </div>
         </div>
         <button class="btn btn-primary" type="submit">Create category</button>
     </form:form>

@@ -42,7 +42,7 @@ public class CategoryDaoImpl implements CategoryDao {
         if (category == null || category.getId() == null) {
             throw new IllegalArgumentException("Category or id null");
         }
-        em.remove(category);
+        em.remove(getCategoryById(category.getId()));
     }
 
     @Override

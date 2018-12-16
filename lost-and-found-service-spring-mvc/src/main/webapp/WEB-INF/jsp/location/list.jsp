@@ -5,12 +5,12 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<my:pagetemplate title="Categories">
+<my:pagetemplate title="Locations">
 <jsp:attribute name="body">
 
-    <my:a href="/category/new" class="btn btn-primary">
+    <my:a href="/location/new" class="btn btn-primary">
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-        New category
+        New location
     </my:a>
 
     <table class="table">
@@ -18,22 +18,19 @@
         <tr>
             <th>id</th>
             <th>name</th>
-            <th>attribute</th>
             <th>edit</th>
             <th>delete</th>
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${categories}" var="category">
+        <c:forEach items="${locations}" var="location">
             <tr>
-                <td>${category.id}</td>
-                <td><c:out value="${category.name}"/></td>
-                <td><c:out value="${category.attribute}"/></td>
-                <td>
-                <a href="${pageContext.request.contextPath}/category/${category.id}/update" class="btn btn-primary">
+                <td>${location.id}</td>
+                <td><c:out value="${location.description}"/></td>
+                <td><a href="${pageContext.request.contextPath}/location/${location.id}/update" class="btn btn-primary">
                     <i class="fas fa-edit"></i>
                 </a></td>
-                <td><a href="${pageContext.request.contextPath}/category/${category.id}/delete" class="btn btn-danger">
+                <td><a href="${pageContext.request.contextPath}/location/${location.id}/delete" class="btn btn-danger">
                     <i class="fas fa-trash-alt"></i>
                 </a></td>
             </tr>

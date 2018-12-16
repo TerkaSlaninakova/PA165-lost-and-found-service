@@ -43,7 +43,7 @@ public class LocationDaoImpl implements LocationDao {
         if (location == null || location.getId() == null) {
             throw new IllegalArgumentException("Location or id null");
         }
-        em.remove(location);
+        em.remove(getLocationById(location.getId()));
     }
 
     @Override

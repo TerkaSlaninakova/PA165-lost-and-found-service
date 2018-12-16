@@ -35,7 +35,7 @@ public class ItemDaoImpl implements ItemDao {
             throw new IllegalArgumentException("Item is null");
         }
         try {
-            em.remove(item);
+            em.remove(getItemById(item.getId()));
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Nothing to remove");
         }
