@@ -155,6 +155,7 @@ public class ItemController {
         }
         model.addAttribute("item", item);
         model.addAttribute("name", item.getName());
+        model.addAttribute("archived", item.getArchive() != null);
         return "/item/edit";
     }
 
@@ -190,6 +191,61 @@ public class ItemController {
         }
 
         return "redirect:"  + uriBuilder.path("/item/list").build().toUriString();
+    }
+
+    /**
+     * Archive item
+     *
+     * @param id of the item
+     */
+    @RequestMapping(value = {"/{id}/edit/archive"}, method = RequestMethod.GET)
+    public String archive(@PathVariable Long id,
+                          Model model,
+                          RedirectAttributes redirectAttributes,
+                          UriComponentsBuilder uriBuilder) {
+        log.debug("Archiving item id: " + id);
+        ItemDTO item = itemFacade.getItemById(id);
+        if (item == null) {
+            log.warn("Tried to archive nonexisting item");
+            redirectAttributes.addFlashAttribute(
+                    "alert_danger", "Item failed to be archived. It probably doesn't exist.");
+            return "redirect:" + uriBuilder.path("/item/list").build().toUriString();
+        }
+        try {
+            itemFacade.archiveItem(item);
+            redirectAttributes.addFlashAttribute("alert_success", "Item was archived");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute(
+                    "alert_warn", "Item failed to be archived. Reason: " + e.getMessage());
+
+        }
+        model.addAttribute("item", item);
+        model.addAttribute("name", item.getName());
+        return "redirect:"  + uriBuilder.path("/item/"+ item.getId() +"/edit/").build().toUriString();
+    }
+
+    /**
+     * Get item archive text
+     *
+     * @param id of the item
+     */
+    @RequestMapping(value = {"/{id}/edit/archive-text"}, method = RequestMethod.GET)
+    public String getArchive(@PathVariable Long id,
+                          Model model,
+                          RedirectAttributes redirectAttributes,
+                          UriComponentsBuilder uriBuilder) {
+        log.debug("Archiving item id: " + id);
+        ItemDTO item = itemFacade.getItemById(id);
+        if (item == null || item.getArchive() == null) {
+            log.warn("Tried to get archive of non archived text");
+            redirectAttributes.addFlashAttribute(
+                    "alert_danger", "Failed to get item archive.");
+            return "redirect:" + uriBuilder.path("/item/list").build().toUriString();
+        }
+
+        model.addAttribute("archive", item.getArchive());
+        model.addAttribute("name", item.getName());
+        return "/item/archive-text";
     }
 
     /**
