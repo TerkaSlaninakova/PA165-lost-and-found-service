@@ -33,8 +33,7 @@
             <div class="form-group col-md-3">
                 <form:select path="lostLocation" cssClass="form-control">
                     <c:forEach items="${locations}" var="location">
-                        <c:if test="${!location.equals(locations.get(0))}">, </c:if>
-                        <span><c:out value="${location.description}"/></span>
+                        <option><c:out value="${location.description}"/></option>
                     </c:forEach>
                 </form:select>
                 <form:errors path="lostLocation" cssClass="invalid-feedback"/>

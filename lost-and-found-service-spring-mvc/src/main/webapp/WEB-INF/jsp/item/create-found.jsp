@@ -30,14 +30,13 @@
             </div>
 
             <form:label path="foundLocation" cssClass="col-sm-2 control-label">Location</form:label>
-            <div class="form-group col-md-3">
-                <form:select path="foundLocation" cssClass="form-control">
+            <div class="col-sm-10">
+            <form:select path="foundLocation" cssClass="form-control">
                     <c:forEach items="${locations}" var="location">
-                        <c:if test="${!location.equals(locations.get(0))}">, </c:if>
-                        <span><c:out value="${location.description}"/></span>
+                        <option><c:out value="${location.description}"/></option>
                     </c:forEach>
-                </form:select>
-                <form:errors path="foundLocation" cssClass="invalid-feedback"/>
+            </form:select>
+                <p class="help-block"><form:errors path="foundLocation" cssClass="error"/></p>
             </div>
 
         </div>

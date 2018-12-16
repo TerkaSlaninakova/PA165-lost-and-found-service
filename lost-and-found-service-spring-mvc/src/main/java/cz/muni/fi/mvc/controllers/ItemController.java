@@ -1,9 +1,6 @@
 package cz.muni.fi.mvc.controllers;
 
-import cz.muni.fi.api.dto.ItemCreateDTO;
-import cz.muni.fi.api.dto.ItemCreateFoundDTO;
-import cz.muni.fi.api.dto.ItemCreateLostDTO;
-import cz.muni.fi.api.dto.ItemDTO;
+import cz.muni.fi.api.dto.*;
 import cz.muni.fi.api.enums.Status;
 import cz.muni.fi.api.facade.ItemFacade;
 import cz.muni.fi.api.facade.LocationFacade;
@@ -24,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.util.List;
 
 
 @Controller
