@@ -36,6 +36,8 @@
         </div>
         <button class="btn btn-primary" type="submit">Save changes</button>
     </form:form>
-
+    <a href="${pageContext.request.contextPath}/item/${item.id}/edit/${archived ? 'archive-text' : 'archive' }" class="btn btn-primary">
+        <i class="fas fa-trash-alt">"${archived ? 'Get archived data' : 'Archive Item' }"</i>
+    </a>
 </jsp:attribute>
 </my:pagetemplate>
