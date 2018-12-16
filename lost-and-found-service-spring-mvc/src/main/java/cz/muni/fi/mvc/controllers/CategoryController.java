@@ -1,7 +1,9 @@
 package cz.muni.fi.mvc.controllers;
 
 import cz.muni.fi.api.dto.CategoryCreateDTO;
+import cz.muni.fi.api.dto.CategoryDTO;
 import cz.muni.fi.api.facade.CategoryFacade;
+import cz.muni.fi.api.facade.ItemFacade;
 import cz.muni.fi.service.exceptions.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +37,9 @@ public class CategoryController {
     @Autowired
     private CategoryFacade categoryFacade;
 
+    @Autowired
+    private ItemFacade itemFacade;
+
     /**
      * Shows a list of products with the ability to add, delete or edit.
      *
@@ -55,9 +60,9 @@ public class CategoryController {
      */
     @RequestMapping(value = {"/new", "/create"}, method = RequestMethod.GET)
     public String newCategory(Model model) {
-        log.debug("new()");
+        log.debug("Creating category");
         model.addAttribute("categoryCreate", new CategoryCreateDTO());
-        return "category/createEdit";
+        return "category/create";
     }
 
     @RequestMapping(value = {"/new", "/create"}, method = RequestMethod.POST)
@@ -72,13 +77,66 @@ public class CategoryController {
                 model.addAttribute(fe.getField() + "_error", true);
                 log.trace("FieldError: {}", fe);
             }
-            return "category/createEdit";
+            return "category/create";
         }
 
         categoryFacade.addCategory(formBean);
 
         redirectAttributes.addFlashAttribute("alert_success", "Category was created");
         return "redirect:" + uriBuilder.path("/category/list").build().toUriString();
+    }
+
+    /**
+     * Get update page for category
+     *
+     * @param id of the category
+     */
+    @RequestMapping(value = {"/{id}/update", "/{id}/edit", "/{id}/change"}, method = RequestMethod.GET)
+    public String update(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
+        log.debug("Start update category id: " + id);
+        CategoryDTO category = categoryFacade.getCategoryById(id);
+        if (category == null) {
+            log.warn("Tried to update nonexisting category");
+            return "redirect:" + uriBuilder.path("/category/list").build().toUriString();
+        }
+        model.addAttribute("category", category);
+        model.addAttribute("name", category.getName());
+        model.addAttribute("attribute", category.getAttribute());
+        return "/category/edit";
+    }
+
+    /**
+     * Processes category update request
+     *
+     * @param id    of the category
+     * @param category to be updated
+     */
+    @RequestMapping(value = {"/{id}/update"}, method = RequestMethod.POST)
+    public String postUpdate(@PathVariable Long id,
+                             RedirectAttributes redirectAttributes,
+                             UriComponentsBuilder uriBuilder,
+                             @ModelAttribute("category") CategoryDTO category,
+                             BindingResult bindingResult) {
+        log.debug("Updating category id: " + id);
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute(
+                    "alert_warning",
+                    "Category update failed. Incorrect values.");
+
+            return "/category/edit";
+        }
+        try {
+            categoryFacade.updateCategory(category);
+            redirectAttributes.addFlashAttribute(
+                    "alert_success",
+                    "Category was updated.");
+        } catch (ServiceException e) {
+            redirectAttributes.addFlashAttribute(
+                    "alert_danger",
+                    "Category update failed for unknown reasons.");
+        }
+
+        return "redirect:"  + uriBuilder.path("/category/list").build().toUriString();
     }
 
 
@@ -89,14 +147,25 @@ public class CategoryController {
      */
     @RequestMapping(value = {"/{id}/delete"}, method = RequestMethod.GET)
     public String deleteCategory(@PathVariable Long id, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
-        log.debug("delete category: " + id);
+        log.debug("Deleting category: " + id);
         try {
-            categoryFacade.deleteCategory(categoryFacade.getCategoryById(id));
+            CategoryDTO toDelete = categoryFacade.getCategoryById(id);
+            if (itemFacade.getItemsByCategory(toDelete.getName()).isEmpty()) {
+
+                categoryFacade.deleteCategory(categoryFacade.getCategoryById(id));
+                redirectAttributes.addFlashAttribute("alert_success", "Category was deleted");
+
+            } else {
+                log.debug("Category " + id + "stil on item, cant delete.");
+                redirectAttributes.addFlashAttribute(
+                        "alert_warning",
+                        "Category cannot be deleted, there are still items with this category.");
+            }
         } catch (ServiceException e) {
-            redirectAttributes.addFlashAttribute("alert_error", "Category failed to be deleted");
+            redirectAttributes.addFlashAttribute("alert_danger", "Category failed to be deleted");
             log.error("Cant delete category: " + id, e);
         }
-        redirectAttributes.addFlashAttribute("alert_success", "Category was deleted");
+
         return "redirect:" + uriBuilder.path("/category/list").build().toUriString();
     }
 }

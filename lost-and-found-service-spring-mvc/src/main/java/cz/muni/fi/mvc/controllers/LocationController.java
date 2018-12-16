@@ -1,6 +1,7 @@
 package cz.muni.fi.mvc.controllers;
 
 import cz.muni.fi.api.dto.LocationDTO;
+import cz.muni.fi.api.facade.ItemFacade;
 import cz.muni.fi.api.facade.LocationFacade;
 import cz.muni.fi.service.exceptions.ServiceException;
 import org.slf4j.Logger;
@@ -31,6 +32,9 @@ public class LocationController {
     @Autowired
     private LocationFacade locationFacade;
 
+    @Autowired
+    private ItemFacade itemFacade;
+
     /**
      * Shows a list of products with the ability to add, delete or edit.
      *
@@ -51,15 +55,15 @@ public class LocationController {
      */
     @RequestMapping(value = {"/new", "/create"}, method = RequestMethod.GET)
     public String newLocation(Model model) {
-        log.debug("new()");
-        model.addAttribute("locationCreate", new LocationDTO());
-        return "location/createEdit";
+        log.debug("New location");
+        model.addAttribute("location", new LocationDTO());
+        return "location/create";
     }
 
     @RequestMapping(value = {"/new", "/create"}, method = RequestMethod.POST)
     public String create(@Valid @ModelAttribute("locationCreate") LocationDTO formBean, BindingResult bindingResult,
                          Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
-        log.debug("create(formBean={})", formBean);
+        log.debug("Creating location ", formBean);
         //in case of validation error forward back to the the form
         if (bindingResult.hasErrors()) {
             for (ObjectError ge : bindingResult.getGlobalErrors()) {
@@ -69,14 +73,68 @@ public class LocationController {
                 model.addAttribute(fe.getField() + "_error", true);
                 log.trace("FieldError: {}", fe);
             }
-            return "location/createEdit";
+            return "location/create";
         }
-        //create product
         locationFacade.addLocation(formBean);
-        //report success
+        
         redirectAttributes.addFlashAttribute("alert_success", "Location was created");
         return "redirect:" + uriBuilder.path("/location/list").build().toUriString();
     }
+
+
+    /**
+     * Get update page for location
+     *
+     * @param id of the location
+     */
+    @RequestMapping(value = {"/{id}/update", "/{id}/edit", "/{id}/change"}, method = RequestMethod.GET)
+    public String update(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
+        log.debug("Start update location id: " + id);
+        LocationDTO location = locationFacade.getLocationById(id);
+        if (location == null) {
+            log.warn("Tried to update nonexisting location");
+            return "redirect:" + uriBuilder.path("/location/list").build().toUriString();
+        }
+        model.addAttribute("location", location);
+        model.addAttribute("description", location.getDescription());
+        return "/location/edit";
+    }
+
+    /**
+     * Processes location update request
+     *
+     * @param id    of the location
+     * @param location to be updated
+     */
+    @RequestMapping(value = {"/{id}/update"}, method = RequestMethod.POST)
+    public String postUpdate(@PathVariable Long id,
+                             RedirectAttributes redirectAttributes,
+                             UriComponentsBuilder uriBuilder,
+                             @ModelAttribute("location") LocationDTO location,
+                             BindingResult bindingResult) {
+        log.debug("Updating location id: " + id);
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute(
+                    "alert_warning",
+                    "Location update failed. Incorrect values.");
+
+            return "/location/edit";
+        }
+        try {
+            locationFacade.updateLocation(location);
+            redirectAttributes.addFlashAttribute(
+                    "alert_success",
+                    "Location was updated.");
+        } catch (ServiceException e) {
+            redirectAttributes.addFlashAttribute(
+                    "alert_danger",
+                    "Location update failed for unknown reasons.");
+        }
+
+        return "redirect:"  + uriBuilder.path("/location/list").build().toUriString();
+    }
+
+
 
     /**
      * Deletes location
@@ -87,12 +145,23 @@ public class LocationController {
     public String deleteLocation(@PathVariable Long id, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
         log.debug("delete location: " + id);
         try {
-            locationFacade.deleteLocation(locationFacade.getLocationById(id));
+            LocationDTO toDelete = locationFacade.getLocationById(id);
+            if (itemFacade.getAllItems().stream()
+                    .noneMatch(itemDTO ->
+                            toDelete.equals(itemDTO.getFoundLocation()) || toDelete.equals(itemDTO.getLostLocation()))) {
+                locationFacade.deleteLocation(toDelete);
+                redirectAttributes.addFlashAttribute("alert_success", "Location was deleted");
+                return "redirect:" + uriBuilder.path("/location/list").build().toUriString();
+            } else {
+                redirectAttributes.addFlashAttribute(
+                        "alert_warning",
+                        "Location cannot be deleted, there are still items with this location.");
+            }
+
         } catch (ServiceException e) {
-            redirectAttributes.addFlashAttribute("alert_error", "Location failed to be deleted");
+            redirectAttributes.addFlashAttribute("alert_danger", "Location failed to be deleted");
             log.error("Cant delete location: " + id, e);
         }
-        redirectAttributes.addFlashAttribute("alert_success", "Location was deleted");
         return "redirect:" + uriBuilder.path("/location/list").build().toUriString();
     }
 }
