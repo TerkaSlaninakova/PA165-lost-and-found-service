@@ -1,7 +1,7 @@
 package cz.muni.fi.service.facade;
 
-import cz.muni.fi.dto.UserDTO;
-import cz.muni.fi.facade.UserFacade;
+import cz.muni.fi.api.dto.UserDTO;
+import cz.muni.fi.api.facade.UserFacade;
 import cz.muni.fi.persistence.entity.User;
 import cz.muni.fi.service.BeanMappingService;
 import cz.muni.fi.service.UserService;

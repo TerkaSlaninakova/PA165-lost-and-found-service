@@ -1,7 +1,7 @@
 package cz.muni.fi.service.facade;
 
-import cz.muni.fi.dto.LocationDTO;
-import cz.muni.fi.facade.LocationFacade;
+import cz.muni.fi.api.dto.LocationDTO;
+import cz.muni.fi.api.facade.LocationFacade;
 import cz.muni.fi.persistence.entity.Location;
 import cz.muni.fi.service.BeanMappingService;
 import cz.muni.fi.service.BeanMappingServiceImpl;

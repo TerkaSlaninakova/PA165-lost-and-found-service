@@ -1,6 +1,6 @@
 package cz.muni.fi.service.config;
 
-import cz.muni.fi.dto.*;
+import cz.muni.fi.api.dto.*;
 import cz.muni.fi.persistence.PersistenceApplicationContext;
 import cz.muni.fi.persistence.entity.Category;
 import cz.muni.fi.persistence.entity.Item;
@@ -16,7 +16,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 import java.util.Collections;
-
 
 @Configuration
 @Import(PersistenceApplicationContext.class)
@@ -41,6 +40,7 @@ public class ServiceConfiguration {
             mapping(ItemDTO.class, ItemCreateDTO.class, TypeMappingOptions.mapNull(false));
             mapping(Category.class, CategoryDTO.class, TypeMappingOptions.mapNull(false));
             mapping(CategoryCreateDTO.class, CategoryDTO.class, TypeMappingOptions.mapNull(false));}
+
     }
 
 }

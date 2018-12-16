@@ -2,10 +2,9 @@ package cz.muni.fi.service;
 
 import cz.muni.fi.persistence.dao.CategoryDao;
 import cz.muni.fi.persistence.entity.Category;
-import cz.muni.fi.service.exceptions.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import cz.muni.fi.service.exceptions.ServiceException;
 import java.util.List;
 
 /**

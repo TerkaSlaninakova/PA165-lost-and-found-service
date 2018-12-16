@@ -1,9 +1,8 @@
 package cz.muni.fi.persistence;
 
+import cz.muni.fi.persistence.PersistenceApplicationContext;
 import cz.muni.fi.persistence.dao.LocationDao;
 import cz.muni.fi.persistence.entity.Location;
-
-import cz.muni.fi.persistence.PersistenceApplicationContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -16,8 +15,6 @@ import org.testng.annotations.Test;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
-
 import java.util.List;
 
 import static org.testng.Assert.assertNull;

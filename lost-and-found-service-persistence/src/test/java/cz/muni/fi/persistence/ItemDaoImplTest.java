@@ -17,9 +17,7 @@ import javax.persistence.PersistenceContext;
 import javax.validation.ConstraintViolationException;
 import java.util.List;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.AssertJUnit.*;
 
 
 /**

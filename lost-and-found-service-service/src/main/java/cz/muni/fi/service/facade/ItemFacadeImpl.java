@@ -1,8 +1,8 @@
 package cz.muni.fi.service.facade;
 
-import cz.muni.fi.dto.*;
-import cz.muni.fi.enums.Status;
-import cz.muni.fi.facade.ItemFacade;
+import cz.muni.fi.api.dto.*;
+import cz.muni.fi.api.enums.Status;
+import cz.muni.fi.api.facade.ItemFacade;
 import cz.muni.fi.persistence.entity.Item;
 import cz.muni.fi.persistence.entity.Location;
 import cz.muni.fi.persistence.entity.User;
