@@ -31,47 +31,12 @@
             </button>
             <a class="navbar-brand" href="${pageContext.request.contextPath}"><f:message key="navigation.project"/></a>
         </div>
-        <div id="navbar" class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-                <li><my:a href="/shopping/show"><f:message key="navigation.eshop"/></my:a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><f:message key="navigation.admin"/><b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><my:a href="/order/list/all"><f:message key="navigation.admin.orders"/></my:a></li>
-                        <li><my:a href="/user/list"><f:message key="navigation.admin.customers"/></my:a></li>
-                        <li><my:a href="/product/list"><f:message key="navigation.admin.products"/></my:a></li>
-                        <li><my:a href="/category/list"><f:message key="navigation.admin.categories"/></my:a></li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><f:message key="navigation.docs"/><b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li class="dropdown-header">Javadocs</li>
-                        <li><a href="http://docs.oracle.com/javase/8/docs/api/">JDK 8 API</a></li>
-                        <li><a href="https://javaee.github.io/javaee-spec/javadocs/">Java EE API</a></li>
-                        <li><a href="http://docs.spring.io/spring/docs/current/javadoc-api/">Spring API</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li class="dropdown-header">Other</li>
-                        <li><a href="http://getbootstrap.com/css/">Bootstrap CSS</a></li>
-                        <li><a href="http://getbootstrap.com/components/">Bootstrap components</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><f:message key="navigation.about"/><b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="https://is.muni.cz/predmet/fi/podzim2018/PA165">PA165</a></li>
-                        <li><a href="http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html">SpringMVC</a></li>
-                        <li><a href="http://getbootstrap.com/">Bootstrap</a></li>
-                        <li><a href="https://maven.apache.org/">Maven</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div><!--/.nav-collapse -->
     </div>
 </nav>
 
 <div class="container">
-
+    <h2><f:message key="navigation.home"/></h2>
+    <p><f:message key="home.description"/></p>
     <!-- page title -->
     <c:if test="${not empty title}">
         <div class="page-header">
@@ -114,7 +79,7 @@
 
     <!-- footer -->
     <footer class="footer">
-        <p>&copy;&nbsp;<%=java.time.Year.now().toString()%>&nbsp;Masaryk University</p>
+        <p><f:message key="footer.text"/></p>
     </footer>
 </div>
 <!-- javascripts placed at the end of the document so the pages load faster -->

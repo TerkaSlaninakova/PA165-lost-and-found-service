@@ -1,6 +1,6 @@
-package cz.muni.fi.persistence.dao;
+package cz.muni.fi.persistence;
 
-import cz.muni.fi.persistence.PersistenceApplicationContext;
+import cz.muni.fi.persistence.dao.CategoryDao;
 import cz.muni.fi.persistence.entity.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;

@@ -35,9 +35,6 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade{
     @Autowired
     private LocationService locationService;
 
-    @Autowired
-    private PasswordEncoder encoder;
-
     @Override
     public void loadData() throws IOException {
         loadUsers();
@@ -53,31 +50,27 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade{
     private void loadUsers() {
         User john = new User();
         john.setName("John Doe");
-        john.setId(1L);
         john.setEmail("johndoe@gmail.com");
-        john.setPassword(encoder.encode("123"));
+        john.setPassword("123");
         john.setIsAdmin(false);
         userService.addUser(john);
 
         User admin = new User();
         admin.setName("Seth Adams");
-        admin.setId(2L);
         admin.setEmail("sethAdmin@gmail.com");
-        admin.setPassword(encoder.encode("admin"));
+        admin.setPassword("admin");
         admin.setIsAdmin(true);
         userService.addUser(admin);
     }
 
     private void loadCategories() {
         Category electronics = new Category();
-        electronics.setId(1L);
         electronics.setAttribute("silver");
         electronics.setAttribute("not water resistant");
         electronics.setName("electronics");
         categoryService.addCategory(electronics);
 
         Category clothes = new Category();
-        clothes.setId(2L);
         clothes.setAttribute("cotton");
         clothes.setName("clothes");
         categoryService.addCategory(clothes);
@@ -85,17 +78,14 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade{
 
     private void loadLocations() {
         Location locationStation = new Location();
-        locationStation.setId(1L);
         locationStation.setDescription("At the reception of the swimming pool at Sportovní 486/4");
         locationService.addLocation(locationStation);
 
         Location locationClub = new Location();
-        locationClub.setId(1L);
         locationClub.setDescription("On the floor of a club at Dominikanska 5");
         locationService.addLocation(locationClub);
 
         Location locationTrainStation = new Location();
-        locationTrainStation.setId(1L);
         locationTrainStation.setDescription("On the platform of the main train station");
         locationService.addLocation(locationTrainStation);
 
@@ -103,10 +93,10 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade{
 
     private void loadItems() {
         List<Location> locations = locationService.getAllLocations();
-        Category electronics = categoryService.getCategoryById(1L);
-        Category clothes = categoryService.getCategoryById(2L);
+        List<Category> categories = categoryService.getAllCategories();
+        Category electronics = categories.get(0);
+        Category clothes = categories.get(1);
         Item phone = new Item();
-        phone.setId(1L);
         phone.setName("IPhone 7");
         phone.setType("phone");
         phone.setCategories(Arrays.asList(electronics));
@@ -114,11 +104,10 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade{
         phone.setLostLocation(locations.get(0));
         phone.setLostDate(LocalDate.now().minusMonths(1));
         phone.setStatus(Status.CLAIM_RECEIVED_LOST);
-        phone.setOwner(userService.getUserById(1L));
+        phone.setOwner(userService.getAllUsers().get(0));
         itemService.addItem(phone);
 
         Item computer = new Item();
-        computer.setId(2L);
         computer.setName("Dell XPS 13");
         computer.setType("computer");
         computer.setCategories(Arrays.asList(electronics));
@@ -129,7 +118,6 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade{
         itemService.addItem(computer);
 
         Item sweater = new Item();
-        sweater.setId(3L);
         sweater.setName("Woolen christmas sweater");
         sweater.setType("sweater");
         sweater.setCategories(Arrays.asList(clothes));
@@ -139,7 +127,7 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade{
         sweater.setLostDate(LocalDate.now().minusMonths(1));
         sweater.setFoundLocation(locations.get(1));
         sweater.setFoundDate(LocalDate.now());
-        sweater.setOwner(userService.getUserById(1L));
+        sweater.setOwner(userService.getAllUsers().get(0));
         itemService.addItem(sweater);
     }
 

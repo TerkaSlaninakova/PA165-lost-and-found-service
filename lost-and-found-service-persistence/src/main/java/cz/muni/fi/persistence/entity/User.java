@@ -11,6 +11,7 @@ import java.util.Objects;
 @Table(name = "Users") // have to rename the table because 'User' is a reserved keyword in derby
 public class User {
 
+    private String passwordHash;
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
@@ -30,6 +31,14 @@ public class User {
     @NotNull
     @Column(nullable = false)
     private boolean isAdmin;
+
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
+    }
 
     public Long getId(){
         return id;

@@ -19,7 +19,7 @@ public class CategoryServiceImpl implements CategoryService {
     private CategoryDao categoryDao;
 
     @Override
-    public void addCategory(Category category) throws cz.muni.fi.service.exceptions.ServiceException {
+    public void addCategory(Category category) throws ServiceException {
         try {
             categoryDao.addCategory(category);
         } catch (Throwable e) {

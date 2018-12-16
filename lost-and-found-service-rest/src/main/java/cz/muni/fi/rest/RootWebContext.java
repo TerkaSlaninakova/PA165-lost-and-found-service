@@ -19,7 +19,7 @@ import java.util.Locale;
 @EnableWebMvc
 @Configuration
 @Import({ServiceWithSamplesConfig.class})
-@ComponentScan(basePackages = {"cz.muni.fi.rest"})
+@ComponentScan(basePackages = {"cz.muni.fi.rest.controllers"})
 public class RootWebContext extends WebMvcConfigurerAdapter {
 
     @Override

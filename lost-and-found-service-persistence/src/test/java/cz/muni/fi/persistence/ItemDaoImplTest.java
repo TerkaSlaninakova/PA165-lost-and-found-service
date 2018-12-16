@@ -1,6 +1,6 @@
-package cz.muni.fi.persistence.dao;
+package cz.muni.fi.persistence;
 
-import cz.muni.fi.persistence.PersistenceApplicationContext;
+import cz.muni.fi.persistence.dao.ItemDao;
 import cz.muni.fi.persistence.entity.Item;
 import cz.muni.fi.persistence.enums.Status;
 import org.springframework.beans.factory.annotation.Autowired;

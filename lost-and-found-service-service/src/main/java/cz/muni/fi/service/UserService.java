@@ -18,6 +18,14 @@ public interface UserService {
     void addUser(User user) throws ServiceException;
 
     /**
+     * Save User to DB
+     * @param u user to authenticate
+     * @param password user's password
+     * @throws ServiceException if authenticate fails
+     */
+    boolean authenticate(User u, String password) throws ServiceException;
+
+    /**
      * Update User
      * @param user user to be updated
      * @throws ServiceException if update fails

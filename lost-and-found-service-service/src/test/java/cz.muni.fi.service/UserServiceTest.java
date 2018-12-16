@@ -16,6 +16,8 @@ import org.testng.annotations.Test;
 
 import java.util.Arrays;
 
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.TestCase.assertTrue;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
@@ -77,6 +79,20 @@ public class UserServiceTest {
         userService.addUser(admin);
         assertThat(admin.getId() == 1L);
         verify(userDao).addUser(admin);
+    }
+
+    @Test
+    public void testAuthenticateUser() {
+        userService.addUser(admin);
+        verify(userDao).addUser(admin);
+        assertTrue(userService.authenticate(admin, "thouShallNotPass"));
+    }
+
+    @Test
+    public void testAuthenticateUserWrongPassword() {
+        userService.addUser(admin);
+        verify(userDao).addUser(admin);
+        assertFalse(userService.authenticate(admin, "notACorrectPassword"));
     }
 
     @Test(expectedExceptions = ServiceException.class)

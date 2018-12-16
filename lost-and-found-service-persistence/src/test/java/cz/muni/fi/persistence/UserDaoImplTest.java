@@ -1,6 +1,7 @@
-package cz.muni.fi.persistence.dao;
+package cz.muni.fi.persistence;
 
 import cz.muni.fi.persistence.PersistenceApplicationContext;
+import cz.muni.fi.persistence.dao.UserDao;
 import cz.muni.fi.persistence.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
