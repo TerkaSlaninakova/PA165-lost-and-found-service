@@ -1,1 +1,0 @@
-TODO: Curl commands description
