@@ -47,6 +47,11 @@ public class UserFacadeImpl implements UserFacade {
     }
 
     @Override
+    public UserDTO getUserByEmail(String email) {
+        return beanMappingService.mapTo(userService.getUsersByEmail(email), UserDTO.class);
+    }
+
+    @Override
     public List<UserDTO> getAllUsers() {
         return beanMappingService.mapTo(userService.getAllUsers(), UserDTO.class);
     }

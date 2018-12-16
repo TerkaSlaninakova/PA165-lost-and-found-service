@@ -55,6 +55,9 @@ public interface UserService {
      */
     List<User> getUsersByName(String name) throws ServiceException;
 
+
+    User getUsersByEmail(String email) throws ServiceException;
+
     /**
      * Get all existing users
      * @throws ServiceException if get fails

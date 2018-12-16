@@ -37,6 +37,8 @@ public interface UserFacade {
      */
     UserDTO getUserById(Long id);
 
+    UserDTO getUserByEmail(String email);
+
 
     /**
      * Get all existing users
