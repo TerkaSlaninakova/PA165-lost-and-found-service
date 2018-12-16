@@ -46,7 +46,7 @@ public class UserDaoImpl implements UserDao {
         if (user.getId() == null) {
             throw new IllegalArgumentException("User id is null");
         }
-        entityManager.remove(user);
+        entityManager.remove(getUserById(user.getId()));
     }
 
     @Override
