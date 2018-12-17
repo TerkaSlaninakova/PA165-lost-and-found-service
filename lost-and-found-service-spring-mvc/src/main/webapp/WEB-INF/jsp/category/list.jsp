@@ -15,26 +15,21 @@
                 New category
             </my:a>
         </c:when>
-        <c:otherwise>
-            <h2>Only admin can create and edit categories</h2>
-        </c:otherwise>
     </c:choose>
 
 
     <table class="table">
         <thead>
         <tr>
-            <th>id</th>
             <th>name</th>
             <th>attribute</th>
-            <th>edit</th>
-            <th>delete</th>
+            <th></th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
         <c:forEach items="${categories}" var="category">
             <tr>
-                <td>${category.id}</td>
                 <td><c:out value="${category.name}"/></td>
                 <td><c:out value="${category.attribute}"/></td>
                 <td>
@@ -42,12 +37,9 @@
                          <c:when test="${admin}">
 
                     <a href="${pageContext.request.contextPath}/category/edit/${category.id}/" class="btn btn-primary">
-                        <i class="fas fa-edit"></i>
+                        Edit
                     </a>
                          </c:when>
-                         <c:otherwise>
-                             (can't acess)
-                         </c:otherwise>
                      </c:choose>
                 </td>
                 <td>
@@ -55,12 +47,9 @@
                          <c:when test="${admin}">
 
                     <a href="${pageContext.request.contextPath}/category/delete/${category.id}/" class="btn btn-danger">
-                        <i class="fas fa-trash-alt"></i>
+                        Delete
                     </a>
                          </c:when>
-                         <c:otherwise>
-                             (can't acess)
-                         </c:otherwise>
                      </c:choose>
                 </td>
             </tr>

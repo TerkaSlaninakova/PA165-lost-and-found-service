@@ -8,7 +8,7 @@
 <my:pagetemplate title="Resolve item">
 <jsp:attribute name="body">
 
-    <form:form method="post" action="${pageContext.request.contextPath}/item/${item.id}/resolve"
+    <form:form method="post" action="${pageContext.request.contextPath}/item/resolve/${item.id}"
                modelAttribute="item" cssClass="form-horizontal">
          <div class="form-group">
              <form:label path="" cssClass="col-sm-2 control-label">Location</form:label>
