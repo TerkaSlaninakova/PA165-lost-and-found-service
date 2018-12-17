@@ -26,41 +26,33 @@ mvn cargo:run
 
 ### M3:
 * [x] Runnable from mvn commandline @Jakub
-* [ ] Web layer
-   * [ ] User interface (uses REST or facade layer)
-      * [ ] Item @Terka
-          - Create
-                * [ ] - Implement owner adding @Terka
-          - Update
-            * [ ] - Use list for enum, maybe enable admins to change owners / locations @Terka
-          - Archive
-            * [ ] - Disable editing when archived
-          * [ ] Image
+* [x] Web layer
+   * [x] User interface (uses REST or facade layer)
+      * [x] Item @Terka
+          * Create
+          * Update
+            * [x] - Use list for enum, maybe enable admins to change owners / locations @Terka
+          * Archive
+            * [x] - Disable editing when archived
+          * [ ] Image - TBD
       * [x] Location @Jakub
           * [x] Controllers
           * [x] Views           
       * [x] Category @Jakub  
           * [x] Controllers
           * [x] Views
-      * [ ] User @Gusto
-          * [ ] Controllers
-          * [ ] Views
-          * [ ] Login form (registration not reqiured)
-      * [] Different views for admin / user @Kubo
+      * [x] User @Gusto
+          * [x] Controllers
+          * [x] Views
+          * [x] Login form (registration not reqiured)
+      * [x] Different views for admin / user @Kubo
 * [x] REST layer - @Gusto
    - must be accessible at http://localhost:8080/pa165/rest
    - at least one entity exposed
    - README file with instructions how to test the REST interface (e.g. CURL commands for command line)
 * [x] samples layer - @Terka
    - add sample data + password security
-   
-### Checklist
-* [ ] Proper Javadoc, @author annotations everywhere
-* [ ] Facade Interfaces not referencing entities - DTOs only
-* [ ] Service Interfaces not referencing DTOs - entities only
-* [ ] No TODOs, commented code left
-* [ ] mvn clean install works
-
+  
 ### M2:
 * [x] Create template for service, facade, api layer
 * [x] Set up dozer framework to map entity instances to transfer objects
