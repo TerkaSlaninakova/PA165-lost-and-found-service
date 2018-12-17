@@ -18,7 +18,7 @@ public interface UserService {
     void addUser(User user) throws ServiceException;
 
     /**
-     * Save User to DB
+     * Authenticate user in db
      * @param u user to authenticate
      * @param password user's password
      * @throws ServiceException if authenticate fails

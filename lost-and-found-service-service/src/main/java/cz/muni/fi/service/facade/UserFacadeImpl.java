@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.jws.soap.SOAPBinding;
 import java.util.List;
 
 /**
@@ -49,6 +50,12 @@ public class UserFacadeImpl implements UserFacade {
     @Override
     public UserDTO getUserByEmail(String email) {
         return beanMappingService.mapTo(userService.getUsersByEmail(email), UserDTO.class);
+    }
+
+    @Override
+    public boolean authenticate(UserDTO u, String password) {
+        User user = beanMappingService.mapTo(u, User.class);
+        return userService.authenticate(user, password);
     }
 
     @Override

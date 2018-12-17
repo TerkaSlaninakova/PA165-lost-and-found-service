@@ -20,21 +20,17 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import javax.validation.Validator;
 
 /**
- * The central Spring context and Spring MVC configuration.
- * The @Configuration annotation declares it as Spring configuration.
- * The @EnableWebMvc enables default  MVC config for using @Controller, @RequestMapping and so on,
- * see http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html#mvc-config-enable
  *
- * @author Martin Kuba makub@ics.muni.cz
+ * @author Terezia Slaninakova (445526)
  */
 
 @EnableWebMvc
 @Configuration
 @Import({ServiceWithSamplesConfig.class})
 @ComponentScan(basePackages = "cz.muni.fi.mvc.controllers")
-public class MySpringMvcConfig implements WebMvcConfigurer {
+public class SpringMvcConfig implements WebMvcConfigurer {
 
-    private final static Logger log = LoggerFactory.getLogger(MySpringMvcConfig.class);
+    private final static Logger log = LoggerFactory.getLogger(SpringMvcConfig.class);
 
     private static final String TEXTS = "Texts";
 

@@ -1,5 +1,6 @@
 package cz.muni.fi.mvc.security;
 
+import cz.muni.fi.api.dto.UserDTO;
 import org.slf4j.Logger;
 
 import javax.servlet.*;
@@ -11,12 +12,12 @@ import java.io.IOException;
 
 /**
  *
- * @author Augustin Nemec
+ * @auhor Jakub Polacek
  */
+@WebFilter(urlPatterns = {"/location/edit/*", "/location/delete/*", "/location/create/*", "/location/new/*"})
+public class CanManageLocationsFilter implements Filter {
 
-@WebFilter(urlPatterns = {"/item/*", "/category/*", "/user/*", "/location/*", "/", "/home/*"})
-public class ProtectFilter implements Filter {
-    final static Logger log = org.slf4j.LoggerFactory.getLogger(ProtectFilter.class);
+    final static Logger log = org.slf4j.LoggerFactory.getLogger(CanManageLocationsFilter.class);
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -25,7 +26,6 @@ public class ProtectFilter implements Filter {
 
     private void response401(HttpServletResponse response) throws IOException {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        response.setHeader("WWW-Authenticate", "Basic realm=\"type email and password for admin user\"");
         response.getWriter().println("<html><body><h1>401 Unauthorized</h1> You are unauthorized for this page </body></html>");
     }
 
@@ -38,10 +38,13 @@ public class ProtectFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
-        if (request.getSession().getAttribute("authenticated") == null) {
-            response.sendRedirect("/pa165/login");
-        } else {
+        UserDTO user = (UserDTO) request.getSession().getAttribute("authenticated");
+
+        if (user.getIsAdmin()) {
             filterChain.doFilter(request, response);
+        } else {
+            response401(response);
+            return;
         }
     }
 

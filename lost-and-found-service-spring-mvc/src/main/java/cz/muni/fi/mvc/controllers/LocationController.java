@@ -1,6 +1,7 @@
 package cz.muni.fi.mvc.controllers;
 
 import cz.muni.fi.api.dto.LocationDTO;
+import cz.muni.fi.api.dto.UserDTO;
 import cz.muni.fi.api.facade.ItemFacade;
 import cz.muni.fi.api.facade.LocationFacade;
 import cz.muni.fi.service.exceptions.ServiceException;
@@ -19,9 +20,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-
+/**
+ * SpringMVC Controller for locations.
+ *
+ * @author Jakub Polacek
+ */
 @Controller
 @RequestMapping("/location")
 public class LocationController {
@@ -35,6 +41,9 @@ public class LocationController {
     @Autowired
     private ItemFacade itemFacade;
 
+    @Autowired
+    private HttpSession session;
+
     /**
      * Shows a list of products with the ability to add, delete or edit.
      *
@@ -43,6 +52,10 @@ public class LocationController {
      */
     @RequestMapping(value = {"", "/", "/all", "list"}, method = RequestMethod.GET)
     public String list(Model model) {
+
+        UserDTO user = (UserDTO) session.getAttribute("authenticated");
+
+        model.addAttribute("admin", user.getIsAdmin());
         model.addAttribute("locations", locationFacade.getAllLocations());
         return "location/list";
     }
@@ -87,7 +100,7 @@ public class LocationController {
      *
      * @param id of the location
      */
-    @RequestMapping(value = {"/{id}/update", "/{id}/edit", "/{id}/change"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"edit/{id}/"}, method = RequestMethod.GET)
     public String update(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
         log.debug("Start update location id: " + id);
         LocationDTO location = locationFacade.getLocationById(id);
@@ -106,7 +119,7 @@ public class LocationController {
      * @param id    of the location
      * @param location to be updated
      */
-    @RequestMapping(value = {"/{id}/update"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"edit/{id}/"}, method = RequestMethod.POST)
     public String postUpdate(@PathVariable Long id,
                              RedirectAttributes redirectAttributes,
                              UriComponentsBuilder uriBuilder,
@@ -141,7 +154,7 @@ public class LocationController {
      *
      * @param id of location
      */
-    @RequestMapping(value = {"/{id}/delete"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"delete/{id}/"}, method = RequestMethod.GET)
     public String deleteLocation(@PathVariable Long id, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
         log.debug("delete location: " + id);
         try {

@@ -2,6 +2,7 @@ package cz.muni.fi.mvc.controllers;
 
 import cz.muni.fi.api.dto.CategoryCreateDTO;
 import cz.muni.fi.api.dto.CategoryDTO;
+import cz.muni.fi.api.dto.UserDTO;
 import cz.muni.fi.api.facade.CategoryFacade;
 import cz.muni.fi.api.facade.ItemFacade;
 import cz.muni.fi.service.exceptions.ServiceException;
@@ -20,10 +21,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 /**
- * SpringMVC Controller for administering categories.
+ * SpringMVC Controller for categories.
  *
  * @author Jakub Polacek
  */
@@ -40,6 +42,8 @@ public class CategoryController {
     @Autowired
     private ItemFacade itemFacade;
 
+    @Autowired
+    private HttpSession session;
     /**
      * Shows a list of products with the ability to add, delete or edit.
      *
@@ -48,6 +52,10 @@ public class CategoryController {
      */
     @RequestMapping(value = {"", "/", "/all", "list"}, method = RequestMethod.GET)
     public String list(Model model) {
+
+        UserDTO user = (UserDTO) session.getAttribute("authenticated");
+
+        model.addAttribute("admin", user.getIsAdmin());
         model.addAttribute("categories", categoryFacade.getAllCategories());
         return "category/list";
     }
@@ -91,7 +99,7 @@ public class CategoryController {
      *
      * @param id of the category
      */
-    @RequestMapping(value = {"/{id}/update", "/{id}/edit", "/{id}/change"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"edit/{id}/"}, method = RequestMethod.GET)
     public String update(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
         log.debug("Start update category id: " + id);
         CategoryDTO category = categoryFacade.getCategoryById(id);
@@ -111,7 +119,7 @@ public class CategoryController {
      * @param id    of the category
      * @param category to be updated
      */
-    @RequestMapping(value = {"/{id}/update"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"edit/{id}/"}, method = RequestMethod.POST)
     public String postUpdate(@PathVariable Long id,
                              RedirectAttributes redirectAttributes,
                              UriComponentsBuilder uriBuilder,
@@ -145,7 +153,7 @@ public class CategoryController {
      *
      * @param id of category
      */
-    @RequestMapping(value = {"/{id}/delete"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"delete/{id}/"}, method = RequestMethod.GET)
     public String deleteCategory(@PathVariable Long id, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
         log.debug("Deleting category: " + id);
         try {

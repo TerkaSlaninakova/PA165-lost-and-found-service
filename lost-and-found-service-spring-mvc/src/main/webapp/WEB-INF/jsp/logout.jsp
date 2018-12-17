@@ -4,7 +4,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<% response.setHeader("Refresh", "5;url=login.jsp"); %>
 
 <my:pagetemplate title = "Logout">
 <jsp:attribute name="body">

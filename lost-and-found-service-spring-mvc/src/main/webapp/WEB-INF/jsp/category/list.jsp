@@ -8,10 +8,18 @@
 <my:pagetemplate title="Categories">
 <jsp:attribute name="body">
 
-    <my:a href="/category/new" class="btn btn-primary">
-        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-        New category
-    </my:a>
+    <c:choose>
+        <c:when test="${admin}">
+            <my:a href="/category/new" class="btn btn-primary">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                New category
+            </my:a>
+        </c:when>
+        <c:otherwise>
+            <h2>Only admin can create and edit categories</h2>
+        </c:otherwise>
+    </c:choose>
+
 
     <table class="table">
         <thead>
@@ -30,12 +38,31 @@
                 <td><c:out value="${category.name}"/></td>
                 <td><c:out value="${category.attribute}"/></td>
                 <td>
-                <a href="${pageContext.request.contextPath}/category/${category.id}/update" class="btn btn-primary">
-                    <i class="fas fa-edit"></i>
-                </a></td>
-                <td><a href="${pageContext.request.contextPath}/category/${category.id}/delete" class="btn btn-danger">
-                    <i class="fas fa-trash-alt"></i>
-                </a></td>
+                     <c:choose>
+                         <c:when test="${admin}">
+
+                    <a href="${pageContext.request.contextPath}/category/edit/${category.id}/" class="btn btn-primary">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                         </c:when>
+                         <c:otherwise>
+                             (can't acess)
+                         </c:otherwise>
+                     </c:choose>
+                </td>
+                <td>
+                     <c:choose>
+                         <c:when test="${admin}">
+
+                    <a href="${pageContext.request.contextPath}/category/delete/${category.id}/" class="btn btn-danger">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
+                         </c:when>
+                         <c:otherwise>
+                             (can't acess)
+                         </c:otherwise>
+                     </c:choose>
+                </td>
             </tr>
         </c:forEach>
         </tbody>
