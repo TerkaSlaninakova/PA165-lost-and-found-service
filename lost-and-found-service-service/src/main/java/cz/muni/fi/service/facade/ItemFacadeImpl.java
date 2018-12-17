@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -144,5 +143,15 @@ public class ItemFacadeImpl implements ItemFacade {
         itemDTO.setImageMimeType(imageChangeDTO.getImageMimeType());
 
         updateItem(itemDTO);
+    }
+
+    @Override
+    public Long getOwnerId(Long itemId) {
+        ItemDTO item = getItemById(itemId);
+        if (item.getOwner() == null) {
+            return null;
+        }
+
+        return item.getOwner().getId();
     }
 }
