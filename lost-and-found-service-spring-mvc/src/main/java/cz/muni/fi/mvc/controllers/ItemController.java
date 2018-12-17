@@ -15,7 +15,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -155,6 +158,7 @@ public class ItemController {
         }
         model.addAttribute("item", item);
         model.addAttribute("name", item.getName());
+        model.addAttribute("statuses", Status.values());
         model.addAttribute("archived", item.getArchive() != null);
         return "/item/edit";
     }

@@ -27,17 +27,29 @@
                 <form:input path="characteristics" cssClass="form-control"/>
                 <form:errors path="characteristics" cssClass="help-block"/>
             </div>
+
             <form:label path="status" cssClass="col-sm-2 control-label">Status</form:label>
             <div class="col-sm-10">
-                <form:input path="status" cssClass="form-control"/>
-                <form:errors path="status" cssClass="help-block"/>
+            <form:select name="status" path="status" cssClass="form-control">
+                <c:forEach items="${statuses}" var="stat">
+                    <form:option value="${stat}">
+                            <c:out value="${stat}"/>
+                    </form:option>
+                </c:forEach>
+            </form:select>
+                <p class="help-block"><form:errors path="status" cssClass="error"/></p>
             </div>
 
         </div>
         <button class="btn btn-primary" type="submit">Save changes</button>
     </form:form>
-    <a href="${pageContext.request.contextPath}/item/${item.id}/edit/${archived ? 'archive-text' : 'archive' }" class="btn btn-primary">
-        <i class="fas fa-trash-alt">"${archived ? 'Get archived data' : 'Archive Item' }"</i>
-    </a>
+    <c:choose>
+    <c:when test="${item.status == 'RESOLVED'}">
+        <a href="${pageContext.request.contextPath}/item/${item.id}/edit/${archived ? 'archive-text' : 'archive' }"
+           class="btn btn-primary">
+            <i class="fas fa-trash-alt">"${archived ? 'Get archived data' : 'Archive Item' }"</i>
+        </a>
+    </c:when>
+    </c:choose>
 </jsp:attribute>
 </my:pagetemplate>
