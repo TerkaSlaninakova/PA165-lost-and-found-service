@@ -55,7 +55,7 @@ public class CanEditItemFilter implements Filter {
 
 
         // TODO: FIX
-        
+
         log.debug(url);
         log.debug(id.toString());
 

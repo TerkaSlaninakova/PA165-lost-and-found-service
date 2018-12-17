@@ -22,6 +22,9 @@ public class UserDTO {
     @JsonIgnore
     private boolean isAdmin;
 
+    @JsonIgnore
+    private String passwordHash;
+
     public Long getId(){
         return id;
     }
@@ -61,6 +64,14 @@ public class UserDTO {
     public String getPassword() { return password; }
 
     public void setPassword(String password) { this.password = password; }
+
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
+    }
 
     @Override
     public boolean equals(Object o) {
