@@ -67,10 +67,10 @@ public class ItemsController {
     @RequestMapping(value = "/createLost", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public final void createLostItem(@RequestBody ItemCreateLostDTO item) {
+    public final void createLostItem(@RequestBody ItemCreateLostDTO item, @RequestBody UserDTO user) {
 
         try {
-            itemFacade.addItemLost(item);
+            itemFacade.addItemLost(item, user);
         } catch (Exception ex) {
             throw new ResourceAlreadyExistingException(ex.getMessage());
         }

@@ -55,7 +55,8 @@
         <button class="btn btn-primary" type="submit">Search</button>
     </form:form>
 
-    <table class="table">
+    <div class="table-responsive">
+    <table class="table table-bordered">
         <thead>
         <tr>
             <th>name</th>
@@ -115,6 +116,7 @@
         </c:forEach>
         </tbody>
     </table>
+    </div>
 
 </jsp:attribute>
 </my:pagetemplate>

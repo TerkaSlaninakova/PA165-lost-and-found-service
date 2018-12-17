@@ -32,7 +32,7 @@
          <div class="form-group">
             <form:label path="foundLocationId" cssClass="col-sm-2 control-label">Location</form:label>
             <div class="col-sm-10">
-            <form:select name="foundLocationId" path="foundLocationId" cssClass="form-control">
+            <form:select multiple="true" name="foundLocationId" path="foundLocationId" cssClass="form-control">
                     <c:forEach items="${locations}" var="location">
                         <form:option value="${location.id}">
                             <c:out value="${location.description}"/>

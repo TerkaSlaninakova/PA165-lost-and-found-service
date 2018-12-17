@@ -134,7 +134,7 @@ public class ItemFacadeTest extends AbstractTestNGSpringContextTests {
         verify(itemService).addItem(any(Item.class));
 
 
-        itemFacade.addItemLost(createPencilDTO);
+        itemFacade.addItemLost(createPencilDTO, testUserDTO);
         verify(itemService, VerificationModeFactory.atLeastOnce()).addItem(any(Item.class));
     }
 

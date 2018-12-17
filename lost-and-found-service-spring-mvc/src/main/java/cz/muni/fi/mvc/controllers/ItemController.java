@@ -138,7 +138,14 @@ public class ItemController {
             }
             return "item/create-found";
         }
-        itemFacade.addItemFound(formBean);
+        try{
+            itemFacade.addItemFound(formBean);
+        }
+        catch (ServiceException e) {
+            redirectAttributes.addFlashAttribute(
+                    "alert_danger",
+                    "Adding item failed for unknown reasons.");
+        }
 
         redirectAttributes.addFlashAttribute("alert_success", "Item was created");
         return "redirect:" + uriBuilder.path("/item/list").build().toUriString();
@@ -158,18 +165,27 @@ public class ItemController {
             RedirectAttributes redirectAttributes,
             UriComponentsBuilder uriBuilder) {
 
-        log.debug("Create(formBean={}) ", formBean);
+        log.debug("Create(formBean={}) ", formBean.toString());
         if (bindingResult.hasErrors()) {
             for (ObjectError ge : bindingResult.getGlobalErrors()) {
-                log.trace("ObjectError: {}", ge);
+                log.debug("ObjectError: {}", ge);
             }
             for (FieldError fe : bindingResult.getFieldErrors()) {
                 model.addAttribute(fe.getField() + "_error", true);
-                log.trace("FieldError: {}", fe);
+                log.debug("FieldError: {}", fe);
             }
             return "item/create-lost";
         }
-        itemFacade.addItemLost(formBean);
+        UserDTO user =  userFacade.getUserById(formBean.getOwnerId());
+        log.debug("user={}) ",user.toString());
+        try{
+            itemFacade.addItemLost(formBean,user);
+        }
+        catch (ServiceException e) {
+            redirectAttributes.addFlashAttribute(
+                    "alert_danger",
+                    "Adding item failed for unknown reasons.");
+        }
 
         redirectAttributes.addFlashAttribute("alert_success", "Item was created");
         return "redirect:" + uriBuilder.path("/item/list").build().toUriString();

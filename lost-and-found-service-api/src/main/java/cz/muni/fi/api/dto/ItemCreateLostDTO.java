@@ -39,8 +39,18 @@ public class ItemCreateLostDTO {
     @NotNull
     private Long ownerId;
 
+    private UserDTO owner;
+
     public String getName() {
         return name;
+    }
+
+    public UserDTO getOwner() {
+        return this.owner;
+    }
+
+    public void setOwner(UserDTO owner) {
+        this.owner = owner;
     }
 
     public void setName(String name) {
