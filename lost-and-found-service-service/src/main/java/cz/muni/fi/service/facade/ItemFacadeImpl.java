@@ -41,13 +41,14 @@ public class ItemFacadeImpl implements ItemFacade {
     public void addItemLost(ItemCreateLostDTO itemCreateDTO) {
         ItemDTO itemDTO = beanMappingService.mapTo(itemCreateDTO, ItemDTO.class);
         itemDTO.setStatus(Status.CLAIM_RECEIVED_LOST);
-
+        itemDTO.setLostLocation(locationFacade.getLocationById(itemCreateDTO.getLostLocationId()));
         addItem(itemDTO);
     }
 
     @Override
     public void addItemFound(ItemCreateFoundDTO itemCreateDTO) {
         ItemDTO itemDTO = beanMappingService.mapTo(itemCreateDTO, ItemDTO.class);
+        itemDTO.setLostLocation(locationFacade.getLocationById(itemCreateDTO.getFoundLocationId()));
         itemDTO.setStatus(Status.CLAIM_RECEIVED_FOUND);
 
         addItem(itemDTO);
