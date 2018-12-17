@@ -1,7 +1,7 @@
 package cz.muni.fi.mvc.controllers;
 
+import cz.muni.fi.api.dto.UserDTO;
 import cz.muni.fi.api.facade.UserFacade;
-import cz.muni.fi.persistence.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,7 +28,7 @@ public class UserController {
     @RequestMapping(value = {"", "/", "/all", "list"}, method = RequestMethod.GET)
     public String list(Model model) {
 
-        User loggedUser = User.class.cast(session.getAttribute("authenticated"));
+        UserDTO loggedUser = UserDTO.class.cast(session.getAttribute("authenticated"));
         if (loggedUser != null) {
             model.addAttribute("authenticatedUser", loggedUser.getEmail());
         }

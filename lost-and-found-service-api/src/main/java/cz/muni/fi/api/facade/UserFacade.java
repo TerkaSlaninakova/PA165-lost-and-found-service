@@ -39,6 +39,7 @@ public interface UserFacade {
 
     UserDTO getUserByEmail(String email);
 
+    boolean authenticate(UserDTO u, String password);
 
     /**
      * Get all existing users

@@ -1,10 +1,7 @@
 package cz.muni.fi.mvc.controllers;
 
-import cz.muni.fi.api.dto.ItemDTO;
 import cz.muni.fi.api.dto.UserDTO;
 import cz.muni.fi.api.facade.UserFacade;
-import cz.muni.fi.persistence.entity.User;
-import cz.muni.fi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,7 +26,7 @@ public class LoginController {
     private HttpSession session;
 
     @Autowired
-    private UserService userService;
+    private UserFacade userFacade;
 
     @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
     public String list(Model model) {
@@ -43,7 +40,7 @@ public class LoginController {
                         RedirectAttributes redirectAttributes,
                         UriComponentsBuilder uriBuilder
                         ) {
-        User user = userService.getUsersByEmail(email);
+        UserDTO user = userFacade.getUserByEmail(email);
 
         if (user == null) {
             redirectAttributes.addFlashAttribute(
@@ -52,7 +49,7 @@ public class LoginController {
             return "redirect:" + uriBuilder.path("/login").build().toUriString();
         }
 
-        else if (userService.authenticate(user, password)) {
+        else if (userFacade.authenticate(user, password)) {
             model.addAttribute("authenticatedUser", user.getEmail());
             session.setAttribute("authenticated", user);
 
