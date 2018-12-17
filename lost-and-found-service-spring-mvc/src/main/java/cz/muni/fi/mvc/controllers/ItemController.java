@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.security.auth.kerberos.KerberosTicket;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
@@ -323,6 +324,8 @@ public class ItemController {
                              BindingResult bindingResult) {
         log.debug("Updating item id: " + id);
 
+        ItemDTO oldItem = itemFacade.getItemById(id);
+
         if (!isOwnerOrAdminByItemId(id)) {
             log.debug("Droided.");
             return "redirect:" + uriBuilder.path("/adminOnly").build().toUriString();
@@ -339,6 +342,8 @@ public class ItemController {
 
 
         try {
+
+            item.setOwner(oldItem.getOwner());
             itemFacade.updateItem(item);
             redirectAttributes.addFlashAttribute(
                     "alert_success",
