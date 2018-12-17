@@ -13,9 +13,13 @@ The application allows to manage a Lost & Found service. Users can report their 
           * [ ] Views
           - Create
             * [ ] lost/found - proper location,date,status display @Terka
+                * [ ] - Implement Date picking
+                * [ ] - Implement owner adding
           - Update
+            * [ ] - Use list for enum, maybe enable admins to change owners / locations
           - Resolve
           - Archive
+            * [ ] - Disable editing when archived
           - Image
       * [x] Location @Jakub
           * [x] Controllers

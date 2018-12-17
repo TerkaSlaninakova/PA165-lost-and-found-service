@@ -1,16 +1,20 @@
 package cz.muni.fi.api.dto;
 
-import cz.muni.fi.api.enums.Status;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 /**
- * Data Transfer Object for Item creation
- * @author Jakub Polacek
+ * Data Transfer Object for Item create lost
+ * @author Terézia Slanináková
  */
-public class ItemCreateDTO {
+public class ItemCreateLostDTO {
 
     @NotNull
     @Size(min = 3, max = 50)
@@ -25,7 +29,15 @@ public class ItemCreateDTO {
     private String characteristics;
 
     @NotNull
-    private Status status;
+    @PastOrPresent(message="Date cannot be in the future")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate lostDate;
+
+    @NotNull
+    private Long lostLocationId;
+
+    // TODO
+    // private UserDTO owner;
 
     public String getName() {
         return name;
@@ -51,12 +63,20 @@ public class ItemCreateDTO {
         this.characteristics = characteristics;
     }
 
-    public Status getStatus() {
-        return this.status;
+    public LocalDate getLostDate() {
+        return this.lostDate;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setLostDate(LocalDate lostDate) {
+        this.lostDate = lostDate;
+    }
+
+    public Long getLostLocationId() {
+        return this.lostLocationId;
+    }
+
+    public void setLostLocationId(Long lostLocationId) {
+        this.lostLocationId = lostLocationId;
     }
 
     @Override
@@ -64,14 +84,14 @@ public class ItemCreateDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ItemCreateDTO that = (ItemCreateDTO) o;
+        ItemCreateLostDTO that = (ItemCreateLostDTO) o;
 
         return Objects.equals(this.name, that.getName())
                 && Objects.equals(this.characteristics, that.characteristics)
                 && Objects.equals(this.type, that.type);
 
     }
-
+    // TODO: Finish hash and toString properly
     @Override
     public int hashCode() {
         return Objects.hash(name, characteristics, type);
@@ -79,10 +99,12 @@ public class ItemCreateDTO {
 
     @Override
     public String toString() {
-        return "ItemCreateDTO{" +
+        return "ItemCreateLostDTO{" +
                 "name='" + name + '\'' +
                 ", type='" + type + '\'' +
                 ", characteristics='" + characteristics + '\'' +
+                ", lostDate=" + lostDate +
+                ", lostLocationId=" + lostLocationId +
                 '}';
     }
 }

@@ -3,6 +3,7 @@ package cz.muni.fi.service.facade;
 import cz.muni.fi.api.dto.*;
 import cz.muni.fi.api.enums.Status;
 import cz.muni.fi.api.facade.ItemFacade;
+import cz.muni.fi.api.facade.LocationFacade;
 import cz.muni.fi.persistence.entity.Item;
 import cz.muni.fi.persistence.entity.Location;
 import cz.muni.fi.persistence.entity.User;
@@ -33,26 +34,27 @@ public class ItemFacadeImpl implements ItemFacade {
     @Autowired
     private BeanMappingService beanMappingService;
 
+    @Autowired
+    private LocationFacade locationFacade;
+
     @Override
-    public void addItemLost(ItemCreateDTO itemCreateDTO) {
+    public void addItemLost(ItemCreateLostDTO itemCreateDTO) {
         ItemDTO itemDTO = beanMappingService.mapTo(itemCreateDTO, ItemDTO.class);
         itemDTO.setStatus(Status.CLAIM_RECEIVED_LOST);
-        itemDTO.setLostDate(LocalDate.now());
-        
+
         addItem(itemDTO);
     }
 
     @Override
-    public void addItemFound(ItemCreateDTO itemCreateDTO) {
+    public void addItemFound(ItemCreateFoundDTO itemCreateDTO) {
         ItemDTO itemDTO = beanMappingService.mapTo(itemCreateDTO, ItemDTO.class);
         itemDTO.setStatus(Status.CLAIM_RECEIVED_FOUND);
-        itemDTO.setFoundDate(LocalDate.now());
-        
+
         addItem(itemDTO);
     }
 
     private void addItem(ItemDTO itemDTO) {
-        itemDTO.setCategories(new ArrayList<>());
+        //itemDTO.setCategories(new ArrayList<>());
         itemService.addItem(beanMappingService.mapTo(itemDTO, Item.class));
     }
 
@@ -129,7 +131,7 @@ public class ItemFacadeImpl implements ItemFacade {
         itemService.resolveFoundItem(
                 beanMappingService.mapTo(itemDTO, Item.class),
                 lostDate,
-                beanMappingService.mapTo(lostDate, Location.class),
+                beanMappingService.mapTo(lostLocation, Location.class),
                 beanMappingService.mapTo(owner, User.class));
     }
 

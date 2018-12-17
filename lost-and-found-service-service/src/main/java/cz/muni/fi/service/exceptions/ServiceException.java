@@ -17,7 +17,6 @@ public class ServiceException extends DataAccessException {
     public ServiceException(String msg, Throwable cause) {
 
         super(msg, cause);
-        logger.log(Level.WARNING, msg, cause);
     }
 
     public ServiceException(String msg) {

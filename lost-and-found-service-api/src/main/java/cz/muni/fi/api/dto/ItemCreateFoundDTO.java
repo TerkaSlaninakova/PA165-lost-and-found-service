@@ -1,16 +1,19 @@
 package cz.muni.fi.api.dto;
 
-import cz.muni.fi.api.enums.Status;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
 import java.util.Objects;
 
 /**
- * Data Transfer Object for Item creation
- * @author Jakub Polacek
+ * Data Transfer Object for Item create found
+ * @author Terézia Slanináková
  */
-public class ItemCreateDTO {
+public class ItemCreateFoundDTO {
 
     @NotNull
     @Size(min = 3, max = 50)
@@ -25,7 +28,12 @@ public class ItemCreateDTO {
     private String characteristics;
 
     @NotNull
-    private Status status;
+    @PastOrPresent(message="Date cannot be in the tfuture")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate foundDate;
+
+    @NotNull
+    private Long foundLocationId;
 
     public String getName() {
         return name;
@@ -51,12 +59,20 @@ public class ItemCreateDTO {
         this.characteristics = characteristics;
     }
 
-    public Status getStatus() {
-        return this.status;
+    public LocalDate getFoundDate() {
+        return this.foundDate;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setFoundDate(LocalDate foundDate) {
+        this.foundDate = foundDate;
+    }
+
+    public Long getFoundLocationId() {
+        return this.foundLocationId;
+    }
+
+    public void setFoundLocationId(Long foundLocation) {
+        this.foundLocationId = foundLocation;
     }
 
     @Override
@@ -64,14 +80,14 @@ public class ItemCreateDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ItemCreateDTO that = (ItemCreateDTO) o;
+        ItemCreateFoundDTO that = (ItemCreateFoundDTO) o;
 
         return Objects.equals(this.name, that.getName())
                 && Objects.equals(this.characteristics, that.characteristics)
                 && Objects.equals(this.type, that.type);
 
     }
-
+    // TODO: Finish hash and toString properly
     @Override
     public int hashCode() {
         return Objects.hash(name, characteristics, type);
@@ -79,10 +95,12 @@ public class ItemCreateDTO {
 
     @Override
     public String toString() {
-        return "ItemCreateDTO{" +
+        return "ItemCreateFoundDTO{" +
                 "name='" + name + '\'' +
                 ", type='" + type + '\'' +
                 ", characteristics='" + characteristics + '\'' +
+                ", foundDate=" + foundDate +
+                ", foundLocationId=" + foundLocationId +
                 '}';
     }
 }

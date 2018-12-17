@@ -2,6 +2,7 @@ package cz.muni.fi.service.facade;
 
 import cz.muni.fi.api.dto.*;
 import cz.muni.fi.api.facade.ItemFacade;
+import cz.muni.fi.api.facade.LocationFacade;
 import cz.muni.fi.persistence.entity.Item;
 import cz.muni.fi.persistence.entity.Location;
 import cz.muni.fi.persistence.entity.User;
@@ -47,6 +48,10 @@ public class ItemFacadeTest extends AbstractTestNGSpringContextTests {
     @InjectMocks
     private ItemFacade itemFacade = new ItemFacadeImpl();
 
+    @Mock
+    private LocationFacade locationFacade;
+
+
     @Spy
     @Autowired
     private BeanMappingService beanMappingService = new BeanMappingServiceImpl();
@@ -60,7 +65,8 @@ public class ItemFacadeTest extends AbstractTestNGSpringContextTests {
     private Item phone, computer;
     private ItemDTO phoneDTO;
     
-    private ItemCreateDTO createPencilDTO;
+    private ItemCreateLostDTO createPencilDTO;
+    private ItemCreateFoundDTO createPenDTO;
     private ItemChangeImageDTO changeComputerImageDTO;
     
     @BeforeClass
@@ -70,6 +76,11 @@ public class ItemFacadeTest extends AbstractTestNGSpringContextTests {
 
     @BeforeMethod
     public void init() {
+        testLocation = new Location();
+        testLocation.setDescription("In Slovakia");
+        testLocation.setId(1L);
+        testLocationDTO = beanMappingService.mapTo(testLocation, LocationDTO.class);
+
         phone = new Item();
         phone.setId(1L);
         phone.setName("phone");
@@ -86,21 +97,24 @@ public class ItemFacadeTest extends AbstractTestNGSpringContextTests {
         computer.setCharacteristics("can compute");
         computer.setStatus(Status.CLAIM_RECEIVED_FOUND);
 
-        createPencilDTO = new ItemCreateDTO();
+        createPencilDTO = new ItemCreateLostDTO();
         createPencilDTO.setName("pencil");
         createPencilDTO.setType("writing instrument");
         createPencilDTO.setCharacteristics("very smooth");
+        createPencilDTO.setLostDate(LocalDate.now());
+        createPencilDTO.setLostLocationId(testLocationDTO.getId());
+
+        createPenDTO = new ItemCreateFoundDTO();
+        createPenDTO.setName("pen");
+        createPenDTO.setType("writing instrument");
+        createPenDTO.setCharacteristics("very smooth");
+        createPenDTO.setFoundDate(LocalDate.now());
+        createPenDTO.setFoundLocationId(testLocationDTO.getId());
 
         changeComputerImageDTO = new ItemChangeImageDTO();
         changeComputerImageDTO.setItemId(2L);
         changeComputerImageDTO.setImage(new byte[5]);
         changeComputerImageDTO.setImageMimeType(".pdf");
-
-        testLocation = new Location();
-        testLocation.setDescription("In Slovakia");
-        testLocation.setId(1L);
-
-        testLocationDTO = beanMappingService.mapTo(testLocation, LocationDTO.class);
 
         testUser = new User();
         testUser.setName("John");
@@ -115,7 +129,8 @@ public class ItemFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testAddItem() {
-        itemFacade.addItemFound(createPencilDTO);
+        when(locationFacade.getLocationById(1L)).thenReturn(testLocationDTO);
+        itemFacade.addItemFound(createPenDTO);
         verify(itemService).addItem(any(Item.class));
 
 
