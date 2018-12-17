@@ -27,10 +27,10 @@
             <tr>
                 <td>${location.id}</td>
                 <td><c:out value="${location.description}"/></td>
-                <td><a href="${pageContext.request.contextPath}/location/${location.id}/update" class="btn btn-primary">
+                <td><a href="${pageContext.request.contextPath}/location/edit/${location.id}/" class="btn btn-primary">
                     <i class="fas fa-edit"></i>
                 </a></td>
-                <td><a href="${pageContext.request.contextPath}/location/${location.id}/delete" class="btn btn-danger">
+                <td><a href="${pageContext.request.contextPath}/location/delete/${location.id}/" class="btn btn-danger">
                     <i class="fas fa-trash-alt"></i>
                 </a></td>
             </tr>

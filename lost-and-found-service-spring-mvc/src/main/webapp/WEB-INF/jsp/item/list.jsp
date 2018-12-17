@@ -60,18 +60,18 @@
                 <td>
                     <c:choose>
                     <c:when test="${item.status != 'RESOLVED'}">
-                    <a href="${pageContext.request.contextPath}/item/${item.id}/resolve" class="btn btn-primary">
+                    <a href="${pageContext.request.contextPath}/item/resolve/${item.id}/" class="btn btn-primary">
                         Resolve
                     </a>
                     </c:when>
                     </c:choose>
                 </td>
                 <td>
-                    <a href="${pageContext.request.contextPath}/item/${item.id}/update" class="btn btn-primary">
+                    <a href="${pageContext.request.contextPath}/item/edit/${item.id}/" class="btn btn-primary">
                         Edit
                     </a>
                 </td>
-                <td><a href="${pageContext.request.contextPath}/item/${item.id}/delete" class="btn btn-danger">
+                <td><a href="${pageContext.request.contextPath}/item/delete/${item.id}/" class="btn btn-danger">
                     Remove
                 </a></td>
             </tr>

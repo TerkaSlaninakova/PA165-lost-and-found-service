@@ -8,7 +8,7 @@
 <my:pagetemplate title="Edit category">
 <jsp:attribute name="body">
 
-    <form:form method="post" action="${pageContext.request.contextPath}/category/${category.id}/update"
+    <form:form method="post" action="${pageContext.request.contextPath}/category/edit/${category.id}/"
                modelAttribute="category" cssClass="form-horizontal">
         <div class="form-group ${name_error?'has-error':''}">
             <form:label path="name" cssClass="col-sm-2 control-label">Name</form:label>

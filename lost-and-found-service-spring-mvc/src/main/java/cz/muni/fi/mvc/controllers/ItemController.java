@@ -161,7 +161,7 @@ public class ItemController {
      *
      * @param id of the item
      */
-    @RequestMapping(value = {"/{id}/update", "/{id}/edit", "/{id}/change"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/edit/{id}/"}, method = RequestMethod.GET)
     public String update(@PathVariable Long id, Model model, UriComponentsBuilder uriBuilder) {
         log.debug("Start update item id: " + id);
         ItemDTO item = itemFacade.getItemById(id);
@@ -182,7 +182,7 @@ public class ItemController {
      *
      * @param id of the item
      */
-    @RequestMapping(value = {"/{id}/resolve"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/resolve/{id}/"}, method = RequestMethod.GET)
     public String resolve(@PathVariable Long id, Model model, UriComponentsBuilder uriBuilder) {
         log.debug("Start update item id: " + id);
         ItemResolveDTO item = new ItemResolveDTO();
@@ -204,7 +204,7 @@ public class ItemController {
      * @param id    of the item
      * @param itemResolveDto to be resolved
      */
-    @RequestMapping(value = {"/{id}/resolve"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/resolve/{id}/"}, method = RequestMethod.POST)
     public String postResolve(@PathVariable Long id,
                              RedirectAttributes redirectAttributes,
                              UriComponentsBuilder uriBuilder,
@@ -245,7 +245,7 @@ public class ItemController {
      * @param id    of the item
      * @param item to be updated
      */
-    @RequestMapping(value = {"/{id}/update"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/edit/{id}/"}, method = RequestMethod.POST)
     public String postUpdate(@PathVariable Long id,
                              RedirectAttributes redirectAttributes,
                              UriComponentsBuilder uriBuilder,
@@ -278,7 +278,7 @@ public class ItemController {
      *
      * @param id of the item
      */
-    @RequestMapping(value = {"/{id}/edit/archive"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/edit/{id}/archive"}, method = RequestMethod.GET)
     public String archive(@PathVariable Long id,
                           Model model,
                           RedirectAttributes redirectAttributes,
@@ -301,7 +301,7 @@ public class ItemController {
         }
         model.addAttribute("item", item);
         model.addAttribute("name", item.getName());
-        return "redirect:"  + uriBuilder.path("/item/"+ item.getId() +"/edit/").build().toUriString();
+        return "redirect:"  + uriBuilder.path("/item/edit/" + item.getId() ).build().toUriString();
     }
 
     /**
@@ -309,7 +309,7 @@ public class ItemController {
      *
      * @param id of the item
      */
-    @RequestMapping(value = {"/{id}/edit/category/set/{categoryId}"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/edit/{id}/category/set/{categoryId}"}, method = RequestMethod.GET)
     public String addToCategory(@PathVariable Long id, @PathVariable Long categoryId,
                           RedirectAttributes redirectAttributes,
                           UriComponentsBuilder uriBuilder) {
@@ -321,7 +321,7 @@ public class ItemController {
             redirectAttributes.addFlashAttribute(
                     "alert_warning", "Item failed to be associated with category. Reason: " + e.getMessage());
         }
-        return "redirect:"  + uriBuilder.path("/item/"+ id +"/edit/").build().toUriString();
+        return "redirect:"  + uriBuilder.path("/item/edit/" + id).build().toUriString();
     }
 
     /**
@@ -329,7 +329,7 @@ public class ItemController {
      *
      * @param id of the item
      */
-    @RequestMapping(value = {"/{id}/edit/category/remove/{categoryId}"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/edit/{id}/category/remove/{categoryId}"}, method = RequestMethod.GET)
     public String removeFromCategory(@PathVariable Long id, @PathVariable Long categoryId,
                                 RedirectAttributes redirectAttributes,
                                 UriComponentsBuilder uriBuilder) {
@@ -341,7 +341,7 @@ public class ItemController {
             redirectAttributes.addFlashAttribute(
                     "alert_warning", "Item failed to be removed from category. Reason: " + e.getMessage());
         }
-        return "redirect:"  + uriBuilder.path("/item/"+ id +"/edit/").build().toUriString();
+        return "redirect:"  + uriBuilder.path("/item/edit/" + id).build().toUriString();
     }
 
     /**
@@ -349,7 +349,7 @@ public class ItemController {
      *
      * @param id of the item
      */
-    @RequestMapping(value = {"/{id}/edit/archive-text"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/edit/{id}/archive-text"}, method = RequestMethod.GET)
     public String getArchive(@PathVariable Long id,
                           Model model,
                           RedirectAttributes redirectAttributes,
@@ -373,7 +373,7 @@ public class ItemController {
      *
      * @param id of item
      */
-    @RequestMapping(value = {"/{id}/delete"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/delete/{id}"}, method = RequestMethod.GET)
     public String deleteItem(@PathVariable Long id, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
         log.debug("Deleting item: " + id);
         try {

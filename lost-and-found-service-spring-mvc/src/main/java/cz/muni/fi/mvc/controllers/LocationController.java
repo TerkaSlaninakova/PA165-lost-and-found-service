@@ -91,7 +91,7 @@ public class LocationController {
      *
      * @param id of the location
      */
-    @RequestMapping(value = {"/{id}/update", "/{id}/edit", "/{id}/change"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"edit/{id}/"}, method = RequestMethod.GET)
     public String update(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
         log.debug("Start update location id: " + id);
         LocationDTO location = locationFacade.getLocationById(id);
@@ -110,7 +110,7 @@ public class LocationController {
      * @param id    of the location
      * @param location to be updated
      */
-    @RequestMapping(value = {"/{id}/update"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"edit/{id}/"}, method = RequestMethod.POST)
     public String postUpdate(@PathVariable Long id,
                              RedirectAttributes redirectAttributes,
                              UriComponentsBuilder uriBuilder,
@@ -145,7 +145,7 @@ public class LocationController {
      *
      * @param id of location
      */
-    @RequestMapping(value = {"/{id}/delete"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"delete/{id}/"}, method = RequestMethod.GET)
     public String deleteLocation(@PathVariable Long id, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
         log.debug("delete location: " + id);
         try {

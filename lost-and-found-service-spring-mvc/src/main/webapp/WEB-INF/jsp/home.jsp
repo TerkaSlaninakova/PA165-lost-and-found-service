@@ -5,7 +5,7 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<my:pagetemplate>
+<my:pagetemplate title="Home">
 <jsp:attribute name="body">
     <div class="jumbotron">
         <h1>Default homepage</h1>

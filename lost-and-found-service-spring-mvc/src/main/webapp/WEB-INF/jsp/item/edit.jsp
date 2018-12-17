@@ -8,7 +8,7 @@
 <my:pagetemplate title="Edit item">
 <jsp:attribute name="body">
 
-    <form:form method="post" action="${pageContext.request.contextPath}/item/${item.id}/update"
+    <form:form method="post" action="${pageContext.request.contextPath}/item/edit/${item.id}"
                modelAttribute="item" cssClass="form-horizontal">
         <div class="form-group ${name_error?'has-error':''}">
             <form:label path="name" cssClass="col-sm-2 control-label">Name</form:label>
@@ -45,7 +45,7 @@
     </form:form>
     <c:choose>
     <c:when test="${item.status == 'RESOLVED'}">
-        <a href="${pageContext.request.contextPath}/item/${item.id}/edit/${archived ? 'archive-text' : 'archive' }"
+        <a href="${pageContext.request.contextPath}/item/edit/${item.id}/${archived ? 'archive-text' : 'archive' }"
            class="btn btn-success">
             "${archived ? 'Get archived data' : 'Archive Item' }"
         </a>
@@ -67,7 +67,7 @@
             <c:when test="${!item.categories.contains(category)}">
             <td><c:out value="${category.name}"/></td>
             <td>
-                <a href="${pageContext.request.contextPath}/item/${item.id}/edit/category/set/${category.id}"
+                <a href="${pageContext.request.contextPath}/item//edit${item.id}/category/set/${category.id}"
                    class="btn btn-success">
                     Set to item
                 </a>
@@ -76,7 +76,7 @@
                 <c:when test="${item.categories.contains(category)}">
             <td><c:out value="${category.name}"/></td>
             <td>
-                <a href="${pageContext.request.contextPath}/item/${item.id}/edit/category/remove/${category.id}"
+                <a href="${pageContext.request.contextPath}/item//edit${item.id}/category/remove/${category.id}"
                    class="btn btn-warning">
                     Remove from item
                 </a>

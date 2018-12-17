@@ -30,10 +30,10 @@
                 <td><c:out value="${category.name}"/></td>
                 <td><c:out value="${category.attribute}"/></td>
                 <td>
-                <a href="${pageContext.request.contextPath}/category/${category.id}/update" class="btn btn-primary">
+                <a href="${pageContext.request.contextPath}/category/edit/${category.id}/" class="btn btn-primary">
                     <i class="fas fa-edit"></i>
                 </a></td>
-                <td><a href="${pageContext.request.contextPath}/category/${category.id}/delete" class="btn btn-danger">
+                <td><a href="${pageContext.request.contextPath}/category/delete/${category.id}/" class="btn btn-danger">
                     <i class="fas fa-trash-alt"></i>
                 </a></td>
             </tr>

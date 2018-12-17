@@ -1,8 +1,5 @@
 package cz.muni.fi.mvc.controllers;
 
-import cz.muni.fi.api.dto.ItemDTO;
-import cz.muni.fi.api.dto.UserDTO;
-import cz.muni.fi.api.facade.UserFacade;
 import cz.muni.fi.persistence.entity.User;
 import cz.muni.fi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +44,7 @@ public class LoginController {
 
         if (user == null) {
             redirectAttributes.addFlashAttribute(
-                    "alert_warning",
+                    "alert_danger",
                     "Incorrect e-mail or password.");
             return "redirect:" + uriBuilder.path("/login").build().toUriString();
         }
@@ -64,7 +61,7 @@ public class LoginController {
         else {
             redirectAttributes.addFlashAttribute(
                     "alert_danger",
-                    "Unknown error while logging in.");
+                    "Incorrect e-mail or password.");
             return "redirect:" + uriBuilder.path("/login").build().toUriString();
         }
 

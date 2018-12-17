@@ -91,7 +91,7 @@ public class CategoryController {
      *
      * @param id of the category
      */
-    @RequestMapping(value = {"/{id}/update", "/{id}/edit", "/{id}/change"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"edit/{id}/"}, method = RequestMethod.GET)
     public String update(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
         log.debug("Start update category id: " + id);
         CategoryDTO category = categoryFacade.getCategoryById(id);
@@ -111,7 +111,7 @@ public class CategoryController {
      * @param id    of the category
      * @param category to be updated
      */
-    @RequestMapping(value = {"/{id}/update"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"update/{id}/"}, method = RequestMethod.POST)
     public String postUpdate(@PathVariable Long id,
                              RedirectAttributes redirectAttributes,
                              UriComponentsBuilder uriBuilder,
@@ -145,7 +145,7 @@ public class CategoryController {
      *
      * @param id of category
      */
-    @RequestMapping(value = {"/{id}/delete"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"delete/{id}/"}, method = RequestMethod.GET)
     public String deleteCategory(@PathVariable Long id, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
         log.debug("Deleting category: " + id);
         try {
