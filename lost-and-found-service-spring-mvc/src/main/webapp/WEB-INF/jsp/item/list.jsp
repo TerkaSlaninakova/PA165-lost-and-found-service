@@ -18,7 +18,45 @@
         Add lost item
     </my:a>
 
-    <table class="table">
+    <form:form method="post" action="${pageContext.request.contextPath}/item/all"
+                   modelAttribute="search" id="searchItems" cssClass="form">
+        <div class="form-group">
+            <form:label path="status" cssClass="col-sm-2 control-label">Status</form:label>
+            <div class="col-sm-2">
+            <form:select name="status" path="status" cssClass="form-control">
+                <form:option value="${null}">
+                    <c:out value="ALL"/>
+                </form:option>
+                <c:forEach items="${statuses}" var="stat">
+                    <form:option value="${stat}">
+                            <c:out value="${stat}"/>
+                    </form:option>
+                </c:forEach>
+            </form:select>
+                <p class="help-block"><form:errors path="status" cssClass="error"/></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <form:label path="categoryName" cssClass="col-sm-2 control-label">Category</form:label>
+            <div class="col-sm-2">
+            <form:select name="categoryName" path="categoryName" cssClass="form-control">
+                <form:option value="">
+                    <c:out value="ALL"/>
+                </form:option>
+                <c:forEach items="${categories}" var="cat">
+                    <form:option value="${cat.name}">
+                            <c:out value="${cat.name}"/>
+                    </form:option>
+                </c:forEach>
+            </form:select>
+                <p class="help-block"><form:errors path="categoryName" cssClass="error"/></p>
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit">Search</button>
+    </form:form>
+
+    <div class="table-responsive">
+    <table class="table table-bordered">
         <thead>
         <tr>
             <th>name</th>
@@ -78,6 +116,7 @@
         </c:forEach>
         </tbody>
     </table>
+    </div>
 
 </jsp:attribute>
 </my:pagetemplate>

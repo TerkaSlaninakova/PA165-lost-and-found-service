@@ -1,9 +1,6 @@
 package cz.muni.fi.mvc.controllers;
 
-import cz.muni.fi.api.dto.ItemCreateFoundDTO;
-import cz.muni.fi.api.dto.ItemCreateLostDTO;
-import cz.muni.fi.api.dto.ItemDTO;
-import cz.muni.fi.api.dto.ItemResolveDTO;
+import cz.muni.fi.api.dto.*;
 import cz.muni.fi.api.enums.Status;
 import cz.muni.fi.api.facade.CategoryFacade;
 import cz.muni.fi.api.facade.ItemFacade;
@@ -26,6 +23,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * SpringMVC Controller for administering items.
@@ -57,9 +56,28 @@ public class ItemController {
      * @param model data to display
      * @return JSP page name
      */
-    @RequestMapping(value = {"", "/", "/all", "list"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"", "/", "/all", "/list"}, method = RequestMethod.GET)
     public String list(Model model) {
         model.addAttribute("items", itemFacade.getAllItems());
+        model.addAttribute("search", new ItemSearchDTO());
+        model.addAttribute("statuses", Status.values());
+        model.addAttribute("categories", categoryFacade.getAllCategories());
+
+        return "item/list";
+    }
+
+    @RequestMapping(value = {"/all"}, method = RequestMethod.POST)
+    public String search(Model model, @Valid @ModelAttribute("search") ItemSearchDTO search) {
+        log.debug("search: " + search.toString());
+        List<ItemDTO> items = itemFacade.getAllItems();
+        if (search.getStatus() != null && search.getStatus().toString() != ""){
+            items = itemFacade.getAllItems().stream().filter(item -> item.getStatus() == search.getStatus()).collect(Collectors.toList());
+        }
+        final List<ItemDTO> finalItems = items;
+        if (search.getCategoryName() != ""){
+            items = itemFacade.getItemsByCategory(search.getCategoryName()).stream().filter(item -> finalItems.contains(item)).collect(Collectors.toList());
+        }
+        model.addAttribute("items", items);
         model.addAttribute("statuses", Status.values());
         model.addAttribute("categories", categoryFacade.getAllCategories());
 
@@ -77,6 +95,7 @@ public class ItemController {
         log.debug("Creating item");
         model.addAttribute("itemCreateLost", new ItemCreateLostDTO());
         model.addAttribute("locations", locationFacade.getAllLocations());
+        model.addAttribute("users", userFacade.getAllUsers());
         return "item/create-lost";
     }
 
@@ -119,7 +138,14 @@ public class ItemController {
             }
             return "item/create-found";
         }
-        itemFacade.addItemFound(formBean);
+        try{
+            itemFacade.addItemFound(formBean);
+        }
+        catch (ServiceException e) {
+            redirectAttributes.addFlashAttribute(
+                    "alert_danger",
+                    "Adding item failed for unknown reasons.");
+        }
 
         redirectAttributes.addFlashAttribute("alert_success", "Item was created");
         return "redirect:" + uriBuilder.path("/item/list").build().toUriString();
@@ -139,18 +165,27 @@ public class ItemController {
             RedirectAttributes redirectAttributes,
             UriComponentsBuilder uriBuilder) {
 
-        log.debug("Create(formBean={}) ", formBean);
+        log.debug("Create(formBean={}) ", formBean.toString());
         if (bindingResult.hasErrors()) {
             for (ObjectError ge : bindingResult.getGlobalErrors()) {
-                log.trace("ObjectError: {}", ge);
+                log.debug("ObjectError: {}", ge);
             }
             for (FieldError fe : bindingResult.getFieldErrors()) {
                 model.addAttribute(fe.getField() + "_error", true);
-                log.trace("FieldError: {}", fe);
+                log.debug("FieldError: {}", fe);
             }
             return "item/create-lost";
         }
-        itemFacade.addItemLost(formBean);
+        UserDTO user =  userFacade.getUserById(formBean.getOwnerId());
+        log.debug("user={}) ",user.toString());
+        try{
+            itemFacade.addItemLost(formBean,user);
+        }
+        catch (ServiceException e) {
+            redirectAttributes.addFlashAttribute(
+                    "alert_danger",
+                    "Adding item failed for unknown reasons.");
+        }
 
         redirectAttributes.addFlashAttribute("alert_success", "Item was created");
         return "redirect:" + uriBuilder.path("/item/list").build().toUriString();
@@ -206,10 +241,10 @@ public class ItemController {
      */
     @RequestMapping(value = {"/{id}/resolve"}, method = RequestMethod.POST)
     public String postResolve(@PathVariable Long id,
-                             RedirectAttributes redirectAttributes,
-                             UriComponentsBuilder uriBuilder,
-                             @ModelAttribute("item") ItemResolveDTO itemResolveDto,
-                             BindingResult bindingResult) {
+                              RedirectAttributes redirectAttributes,
+                              UriComponentsBuilder uriBuilder,
+                              @ModelAttribute("item") ItemResolveDTO itemResolveDto,
+                              BindingResult bindingResult) {
         log.debug("Resolving item: " + itemResolveDto.toString());
         ItemDTO item = itemFacade.getItemById(id);
         if (bindingResult.hasErrors()) {
@@ -311,8 +346,8 @@ public class ItemController {
      */
     @RequestMapping(value = {"/{id}/edit/category/set/{categoryId}"}, method = RequestMethod.GET)
     public String addToCategory(@PathVariable Long id, @PathVariable Long categoryId,
-                          RedirectAttributes redirectAttributes,
-                          UriComponentsBuilder uriBuilder) {
+                                RedirectAttributes redirectAttributes,
+                                UriComponentsBuilder uriBuilder) {
         log.debug("Adding category to item id: " + id);
         try {
             itemFacade.addCategoryToItem(id, categoryId);
@@ -331,8 +366,8 @@ public class ItemController {
      */
     @RequestMapping(value = {"/{id}/edit/category/remove/{categoryId}"}, method = RequestMethod.GET)
     public String removeFromCategory(@PathVariable Long id, @PathVariable Long categoryId,
-                                RedirectAttributes redirectAttributes,
-                                UriComponentsBuilder uriBuilder) {
+                                     RedirectAttributes redirectAttributes,
+                                     UriComponentsBuilder uriBuilder) {
         log.debug("Removed category from item id: " + id);
         try {
             itemFacade.removeCategoryFromItem(id, categoryId);
@@ -351,9 +386,9 @@ public class ItemController {
      */
     @RequestMapping(value = {"/{id}/edit/archive-text"}, method = RequestMethod.GET)
     public String getArchive(@PathVariable Long id,
-                          Model model,
-                          RedirectAttributes redirectAttributes,
-                          UriComponentsBuilder uriBuilder) {
+                             Model model,
+                             RedirectAttributes redirectAttributes,
+                             UriComponentsBuilder uriBuilder) {
         log.debug("Archiving item id: " + id);
         ItemDTO item = itemFacade.getItemById(id);
         if (item == null || item.getArchive() == null) {
@@ -377,8 +412,8 @@ public class ItemController {
     public String deleteItem(@PathVariable Long id, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
         log.debug("Deleting item: " + id);
         try {
-                itemFacade.deleteItem(itemFacade.getItemById(id));
-                redirectAttributes.addFlashAttribute("alert_success", "Item was deleted");
+            itemFacade.deleteItem(itemFacade.getItemById(id));
+            redirectAttributes.addFlashAttribute("alert_success", "Item was deleted");
         } catch (ServiceException e) {
             redirectAttributes.addFlashAttribute("alert_danger", "Item failed to be deleted");
             log.error("Cant delete item: " + id, e);

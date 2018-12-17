@@ -5,7 +5,7 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<my:pagetemplate title="New item">
+<my:pagetemplate title="Report lost item">
 <jsp:attribute name="body">
 
     <form:form method="post" action="${pageContext.request.contextPath}/item/create-lost"
@@ -41,7 +41,20 @@
                         </form:option>
                     </c:forEach>
             </form:select>
-                    <form:errors path="lostLocationId" cssClass="help-block"/>
+                <form:errors path="lostLocationId" cssClass="help-block"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <form:label path="ownerId" cssClass="col-sm-2 control-label">Owner</form:label>
+            <div class="col-sm-10">
+            <form:select name="ownerId" path="ownerId" cssClass="form-control">
+                    <c:forEach items="${users}" var="user">
+                        <form:option value="${user.id}">
+                            <c:out value="${user.name}"/>
+                        </form:option>
+                    </c:forEach>
+            </form:select>
+                <form:errors path="lostLocationId" cssClass="help-block"/>
             </div>
         </div>
         <div class="form-group">

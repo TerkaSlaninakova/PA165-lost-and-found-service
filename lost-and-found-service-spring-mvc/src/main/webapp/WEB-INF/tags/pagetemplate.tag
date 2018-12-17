@@ -84,7 +84,7 @@
     <jsp:invoke fragment="body"/>
 
     <!-- footer -->
-    <footer class="footer">
+    <footer class="footer navbar-fixed-bottom">
         <p><f:message key="footer.text"/></p>
     </footer>
 </div>

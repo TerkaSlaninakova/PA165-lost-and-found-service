@@ -17,7 +17,7 @@ public interface ItemFacade {
      *
      * @param itemCreateLostDTO item to create
      */
-    void addItemLost(ItemCreateLostDTO itemCreateLostDTO);
+    void addItemLost(ItemCreateLostDTO itemCreateLostDTO, UserDTO owner);
 
     /**
      * Creates item that has been found

@@ -36,11 +36,21 @@ public class ItemCreateLostDTO {
     @NotNull
     private Long lostLocationId;
 
-    // TODO
-    // private UserDTO owner;
+    @NotNull
+    private Long ownerId;
+
+    private UserDTO owner;
 
     public String getName() {
         return name;
+    }
+
+    public UserDTO getOwner() {
+        return this.owner;
+    }
+
+    public void setOwner(UserDTO owner) {
+        this.owner = owner;
     }
 
     public void setName(String name) {
@@ -73,6 +83,14 @@ public class ItemCreateLostDTO {
 
     public Long getLostLocationId() {
         return this.lostLocationId;
+    }
+
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public Long getOwnerId() {
+        return this.ownerId;
     }
 
     public void setLostLocationId(Long lostLocationId) {
