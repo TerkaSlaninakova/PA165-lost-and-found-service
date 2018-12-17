@@ -46,8 +46,8 @@
     <c:choose>
     <c:when test="${item.status == 'RESOLVED'}">
         <a href="${pageContext.request.contextPath}/item/${item.id}/edit/${archived ? 'archive-text' : 'archive' }"
-           class="btn btn-primary">
-            <i class="fas fa-trash-alt">"${archived ? 'Get archived data' : 'Archive Item' }"</i>
+           class="btn btn-success">
+            "${archived ? 'Get archived data' : 'Archive Item' }"
         </a>
     </c:when>
     </c:choose>

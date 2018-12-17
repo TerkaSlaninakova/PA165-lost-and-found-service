@@ -28,7 +28,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.validation.Valid;
 
 /**
- * SpringMVC Controller for administering items.
+ * SpringMVC Controller for operations on items.
  *
  * @author Terézia Slanináková, Jakub Polacek
  */

@@ -21,7 +21,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 
-
+/**
+ * SpringMVC Controller for locations.
+ *
+ * @author Jakub Polacek
+ */
 @Controller
 @RequestMapping("/location")
 public class LocationController {

@@ -23,7 +23,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.validation.Valid;
 
 /**
- * SpringMVC Controller for administering categories.
+ * SpringMVC Controller for categories.
  *
  * @author Jakub Polacek
  */

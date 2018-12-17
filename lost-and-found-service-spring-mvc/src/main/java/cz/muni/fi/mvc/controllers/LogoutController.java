@@ -22,8 +22,7 @@ public class LogoutController {
 
     @RequestMapping(value="/logout", method= RequestMethod.GET)
     public String logout(RedirectAttributes redirect, HttpServletRequest request, HttpServletResponse response) {
-
         session.removeAttribute("authenticated");
-        return "redirect:/";
+        return "/logout";
     }
 }

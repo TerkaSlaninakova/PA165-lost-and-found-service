@@ -14,7 +14,7 @@ import java.io.IOException;
  * @author Augustin Nemec
  */
 
-@WebFilter(urlPatterns = {"/item/*", "/category/*", "/user/*", "/location/*"})
+@WebFilter(urlPatterns = {"/item/*", "/category/*", "/user/*", "/location/*", "/", "/home/*"})
 public class ProtectFilter implements Filter {
     final static Logger log = org.slf4j.LoggerFactory.getLogger(ProtectFilter.class);
 
@@ -39,10 +39,10 @@ public class ProtectFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
         if (request.getSession().getAttribute("authenticated") == null) {
-            response.sendRedirect("/pa165/");
+            response.sendRedirect("/pa165/login");
+        } else {
+            filterChain.doFilter(request, response);
         }
-
-        filterChain.doFilter(request, response);
     }
 
     @Override

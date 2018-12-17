@@ -7,10 +7,8 @@
 
 <my:pagetemplate>
 <jsp:attribute name="body">
-
     <div class="jumbotron">
         <h1>Default homepage</h1>
-        <p class="lead">TODO: Replace by login page </p>
     </div>
 </jsp:attribute>
 </my:pagetemplate>

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpSession;
 
@@ -16,7 +17,7 @@ import javax.servlet.http.HttpSession;
  */
 
 @Controller
-@RequestMapping("/home")
+@RequestMapping("/")
 public class HomeController {
     @Autowired
     UserFacade userFacade;
@@ -24,7 +25,7 @@ public class HomeController {
     @Autowired
     HttpSession session;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = {"", "/", "/home", "/home/*"} ,method = RequestMethod.GET)
     public String home(Model model) {
         User user = User.class.cast(session.getAttribute("authenticated"));
         if (user != null) {
