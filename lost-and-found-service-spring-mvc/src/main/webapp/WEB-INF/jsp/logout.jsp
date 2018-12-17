@@ -7,9 +7,6 @@
 
 <my:pagetemplate title = "Logout">
 <jsp:attribute name="body">
-
-    <h1>LOGOUT</h1>
-    You have been successfully logged out
-
+    You have been successfully logged out.
 </jsp:attribute>
 </my:pagetemplate>

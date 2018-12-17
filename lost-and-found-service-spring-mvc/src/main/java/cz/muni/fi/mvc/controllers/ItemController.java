@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -50,6 +51,9 @@ public class ItemController {
     @Autowired
     private CategoryFacade categoryFacade;
 
+    @Autowired
+    private HttpSession session;
+
     /**
      * Shows a list of items
      *
@@ -58,11 +62,15 @@ public class ItemController {
      */
     @RequestMapping(value = {"", "/", "/all", "/list"}, method = RequestMethod.GET)
     public String list(Model model) {
+        UserDTO user = (UserDTO) session.getAttribute("authenticated");
+        if (user != null) {
+            model.addAttribute("authenticatedUser", user.getEmail());
+        }
         model.addAttribute("items", itemFacade.getAllItems());
         model.addAttribute("search", new ItemSearchDTO());
         model.addAttribute("statuses", Status.values());
         model.addAttribute("categories", categoryFacade.getAllCategories());
-
+        model.addAttribute("admin", user.getIsAdmin());
         return "item/list";
     }
 
@@ -90,7 +98,7 @@ public class ItemController {
      * @param model data to be displayed
      * @return JSP page
      */
-    @RequestMapping(value = {"/new-lost", "/create-lost"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/create-lost"}, method = RequestMethod.GET)
     public String newItemLost(Model model) {
         log.debug("Creating item");
         model.addAttribute("itemCreateLost", new ItemCreateLostDTO());
@@ -105,7 +113,7 @@ public class ItemController {
      * @param model data to be displayed
      * @return JSP page
      */
-    @RequestMapping(value = {"/new-found", "/create-found"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/create-found"}, method = RequestMethod.GET)
     public String newItemFound(Model model) {
         log.debug("Creating item");
         model.addAttribute("itemCreateFound", new ItemCreateFoundDTO());
@@ -119,7 +127,7 @@ public class ItemController {
      * @param model data to be displayed
      * @return JSP page
      */
-    @RequestMapping(value = {"/new-found", "/create-found"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/create-found"}, method = RequestMethod.POST)
     public String createFound(
             @Valid @ModelAttribute("itemCreateFound") ItemCreateFoundDTO formBean,
             BindingResult bindingResult,
@@ -356,7 +364,7 @@ public class ItemController {
             redirectAttributes.addFlashAttribute(
                     "alert_warning", "Item failed to be associated with category. Reason: " + e.getMessage());
         }
-        return "redirect:"  + uriBuilder.path("/item/edit/" + id).build().toUriString();
+        return "redirect:"  + uriBuilder.path("/item/edit/" + id + "/").build().toUriString();
     }
 
     /**
@@ -376,7 +384,7 @@ public class ItemController {
             redirectAttributes.addFlashAttribute(
                     "alert_warning", "Item failed to be removed from category. Reason: " + e.getMessage());
         }
-        return "redirect:"  + uriBuilder.path("/item/edit/" + id).build().toUriString();
+        return "redirect:"  + uriBuilder.path("/item/edit/" + id + "/").build().toUriString();
     }
 
     /**

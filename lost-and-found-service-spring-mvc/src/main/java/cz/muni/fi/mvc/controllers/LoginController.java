@@ -57,7 +57,7 @@ public class LoginController {
 
             redirectAttributes.addFlashAttribute(
                     "alert_success",
-                    "Successful login.");
+                    "Successfully logged in.");
             return "redirect:" + uriBuilder.path("/home").build().toUriString();
         }
         else {
