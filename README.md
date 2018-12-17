@@ -14,6 +14,13 @@ mvn clean install
 cd lost-and-found-service-rest
 mvn cargo:run
 ```
+## Authentication
+### Admin
+  * username: `sethAdmin@gmail.com`
+  * password: `admin`
+### User
+  * username: `johndoe@gmail.com`
+  * password: `123`
 
 ## TODOs
 

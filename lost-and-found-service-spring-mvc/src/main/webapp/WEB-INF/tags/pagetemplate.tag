@@ -36,6 +36,7 @@
                 <li><my:a href="/category"><f:message key="category"/></my:a></li>
                 <li><my:a href="/location"><f:message key="location"/></my:a></li>
                 <li><my:a href="/item"><f:message key="item"/></my:a></li>
+                <li><my:a href="/user"><f:message key="user"/></my:a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <c:if test="${not empty authenticatedUser}">

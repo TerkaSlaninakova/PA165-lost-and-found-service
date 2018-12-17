@@ -53,6 +53,11 @@ public class LocationController {
     @RequestMapping(value = {"", "/", "/all", "list"}, method = RequestMethod.GET)
     public String list(Model model) {
 
+        UserDTO loggedUser = UserDTO.class.cast(session.getAttribute("authenticated"));
+        if (loggedUser != null) {
+            model.addAttribute("authenticatedUser", loggedUser.getEmail());
+        }
+
         UserDTO user = (UserDTO) session.getAttribute("authenticated");
         if (user != null) {
             model.addAttribute("authenticatedUser", user.getEmail());
@@ -71,6 +76,12 @@ public class LocationController {
     @RequestMapping(value = {"/new", "/create"}, method = RequestMethod.GET)
     public String newLocation(Model model) {
         log.debug("New location");
+
+        UserDTO loggedUser = UserDTO.class.cast(session.getAttribute("authenticated"));
+        if (loggedUser != null) {
+            model.addAttribute("authenticatedUser", loggedUser.getEmail());
+        }
+
         model.addAttribute("location", new LocationDTO());
         return "location/create";
     }
@@ -105,6 +116,12 @@ public class LocationController {
     @RequestMapping(value = {"edit/{id}/"}, method = RequestMethod.GET)
     public String update(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
         log.debug("Start update location id: " + id);
+
+        UserDTO loggedUser = UserDTO.class.cast(session.getAttribute("authenticated"));
+        if (loggedUser != null) {
+            model.addAttribute("authenticatedUser", loggedUser.getEmail());
+        }
+
         LocationDTO location = locationFacade.getLocationById(id);
         if (location == null) {
             log.warn("Tried to update nonexisting location");

@@ -53,6 +53,11 @@ public class CategoryController {
     @RequestMapping(value = {"", "/", "/all", "list"}, method = RequestMethod.GET)
     public String list(Model model) {
 
+        UserDTO loggedUser = UserDTO.class.cast(session.getAttribute("authenticated"));
+        if (loggedUser != null) {
+            model.addAttribute("authenticatedUser", loggedUser.getEmail());
+        }
+
         UserDTO user = (UserDTO) session.getAttribute("authenticated");
         if (user != null) {
             model.addAttribute("authenticatedUser", user.getEmail());
@@ -71,6 +76,12 @@ public class CategoryController {
     @RequestMapping(value = {"/new", "/create"}, method = RequestMethod.GET)
     public String newCategory(Model model) {
         log.debug("Creating category");
+
+        UserDTO loggedUser = UserDTO.class.cast(session.getAttribute("authenticated"));
+        if (loggedUser != null) {
+            model.addAttribute("authenticatedUser", loggedUser.getEmail());
+        }
+
         model.addAttribute("categoryCreate", new CategoryCreateDTO());
         return "category/create";
     }
@@ -104,6 +115,12 @@ public class CategoryController {
     @RequestMapping(value = {"edit/{id}/"}, method = RequestMethod.GET)
     public String update(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
         log.debug("Start update category id: " + id);
+
+        UserDTO loggedUser = UserDTO.class.cast(session.getAttribute("authenticated"));
+        if (loggedUser != null) {
+            model.addAttribute("authenticatedUser", loggedUser.getEmail());
+        }
+
         CategoryDTO category = categoryFacade.getCategoryById(id);
         if (category == null) {
             log.warn("Tried to update nonexisting category");
