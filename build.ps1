@@ -1,1 +1,0 @@
-$(mvn clean install) -and $(cd .\lost-and-found-service-spring-mvc\) -and $(mvn cargo:run)

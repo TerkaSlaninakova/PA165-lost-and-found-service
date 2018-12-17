@@ -66,9 +66,11 @@
                     </c:when>
                     </c:choose>
                 </td>
-                <td><a href="${pageContext.request.contextPath}/item/${item.id}/update" class="btn btn-primary">
-                    Edit
-                </a></td>
+                <td>
+                    <a href="${pageContext.request.contextPath}/item/${item.id}/update" class="btn btn-primary">
+                        Edit
+                    </a>
+                </td>
                 <td><a href="${pageContext.request.contextPath}/item/${item.id}/delete" class="btn btn-danger">
                     Remove
                 </a></td>
