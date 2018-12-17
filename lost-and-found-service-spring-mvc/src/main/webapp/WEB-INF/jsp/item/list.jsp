@@ -59,6 +59,7 @@
             </div>
         </div>
     </form:form>
+
     <table class="table table-bordered">
         <thead>
         <tr>
@@ -71,15 +72,11 @@
             <th>owner</th>
             <th>status</th>
             <th></th>
-            <th></th>
-            <th></th>
         </tr>
         </thead>
         <tbody>
         <c:forEach items="${items}" var="item">
-
             <c:set var="idAsString">${item.id}</c:set>
-
             <tr>
                 <td>
                     <a href="${pageContext.request.contextPath}/item/${item.id}">
@@ -87,39 +84,42 @@
                     </a>
                 </td>
                 <td><c:out value="${item.characteristics}"/></td>
-                <td>${item.characteristics}</td>
-                <td>${item.foundDate.toString()}</td>
                 <td>
-                    <c:out value="${item.lostLocation.description}"/>
+                    <c:if test="${item.foundLocation != null}">
+                    <a href="${pageContext.request.contextPath}/location/edit/${item.foundLocation.id}">
+                        <c:out value="${item.foundLocation.description}"/>
+                    </a>
+                    </c:if>
                 </td>
+                <td>${item.foundDate.toString()}</td>
+                <td><c:out value="${item.lostLocation.description}"/></td>
                 <td>${item.lostDate.toString()}</td>
                 <td>${item.owner.name}</td>
                 <td>${item.status.toString()}</td>
                 <td>
                     <c:choose>
-                    <c:when test="${item.status != 'RESOLVED'}">
-                    <a href="${pageContext.request.contextPath}/item/resolve/${item.id}/" class="btn btn-primary">
-                        Resolve
-                    </a>
-                    </c:when>
+                        <c:when test="${item.status != 'RESOLVED'}">
+                            <a href="${pageContext.request.contextPath}/item/resolve/${item.id}/" class="btn btn-primary">
+                                Resolve
+                            </a>
+                        </c:when>
                     </c:choose>
-                </td>
-                <td>
+                    <a href="${pageContext.request.contextPath}/item/detail/${item.id}/" class="btn btn-primary">
+                        Detail
+                    </a>
                     <c:choose>
                     <c:when test="${requestScope[idAsString]}">
                     <a href="${pageContext.request.contextPath}/item/edit/${item.id}/" class="btn btn-primary">
-                        Edit/Detail
+                        Edit
                     </a>
                     </c:when>
                     </c:choose>
-                </td>
-                <td>
                     <c:choose>
-                    <c:when test="${requestScope[idAsString]}">
-                    <a href="${pageContext.request.contextPath}/item/delete/${item.id}/" class="btn btn-danger">
-                        Remove
-                    </a>
-                    </c:when>
+                        <c:when test="${requestScope[idAsString]}">
+                            <a href="${pageContext.request.contextPath}/item/delete/${item.id}/" class="btn btn-danger">
+                                Remove
+                            </a>
+                        </c:when>
                     </c:choose>
                 </td>
             </tr>

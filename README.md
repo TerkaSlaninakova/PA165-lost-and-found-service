@@ -8,6 +8,18 @@ mvn clean install
 cd lost-and-found-service-spring-mvc
 mvn cargo:run
 ```
+- defined users for web app
+```
+Admin user:
+email: sethAdmin@gmail.com
+password: admin
+
+General user:
+email: johndoe@gmail.com
+password: 123
+```
+
+
 - rest API
 ```
 mvn clean install

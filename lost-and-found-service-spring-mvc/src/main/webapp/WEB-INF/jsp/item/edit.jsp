@@ -7,7 +7,6 @@
 
 <my:pagetemplate title="Edit item">
 <jsp:attribute name="body">
-
     <form:form method="post" action="${pageContext.request.contextPath}/item/edit/${item.id}"
                modelAttribute="item" cssClass="form-horizontal">
         <div class="form-group ${name_error?'has-error':''}">
@@ -30,13 +29,13 @@
 
             <form:label path="status" cssClass="col-sm-2 control-label">Status</form:label>
             <div class="col-sm-10">
-            <form:select name="status" path="status" cssClass="form-control">
-                <c:forEach items="${statuses}" var="stat">
-                    <form:option value="${stat}">
+                <form:select name="status" path="status" cssClass="form-control">
+                    <c:forEach items="${statuses}" var="stat">
+                        <form:option value="${stat}">
                             <c:out value="${stat}"/>
-                    </form:option>
-                </c:forEach>
-            </form:select>
+                        </form:option>
+                    </c:forEach>
+                </form:select>
                 <p class="help-block"><form:errors path="status" cssClass="error"/></p>
             </div>
 
@@ -44,47 +43,47 @@
         <button class="btn btn-primary" type="submit">Save changes</button>
     </form:form>
     <c:choose>
-    <c:when test="${item.status == 'RESOLVED'}">
-        <a href="${pageContext.request.contextPath}/item/edit/${item.id}/${archived ? 'archive-text' : 'archive' }"
-           class="btn btn-success">
-            "${archived ? 'Get archived data' : 'Archive Item' }"
-        </a>
-    </c:when>
+        <c:when test="${item.status == 'RESOLVED'}">
+            <a href="${pageContext.request.contextPath}/item/edit/${item.id}/${archived ? 'archive-text' : 'archive' }"
+               class="btn btn-success">
+                "${archived ? 'Get archived data' : 'Archive Item' }"
+            </a>
+        </c:when>
     </c:choose>
-
     <h2>Manage categories with item</h2>
     <table class="table">
         <thead>
         <tr>
             <th>name</th>
-            <th> </th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
         <c:forEach items="${categories}" var="category">
-        <tr>
-            <c:choose>
-            <c:when test="${!item.categories.contains(category)}">
-            <td><c:out value="${category.name}"/></td>
-            <td>
-                <a href="${pageContext.request.contextPath}/item/edit/${item.id}/category/set/${category.id}"
-                   class="btn btn-success">
-                    Set to item
-                </a>
-            </td>
-            </c:when>
-                <c:when test="${item.categories.contains(category)}">
-            <td><c:out value="${category.name}"/></td>
-            <td>
-                <a href="${pageContext.request.contextPath}/item/edit/${item.id}/category/remove/${category.id}"
-                   class="btn btn-warning">
-                    Remove from item
-                </a>
-            </td>
-            </c:when>
-            </c:choose>
-        </tr>
-    </c:forEach>
+
+            <tr>
+                <c:choose>
+                    <c:when test="${!item.categories.contains(category)}">
+                        <td><c:out value="${category.name}"/></td>
+                        <td>
+                            <a href="${pageContext.request.contextPath}/item/edit/${item.id}/category/set/${category.id}"
+                               class="btn btn-success">
+                                Set to item
+                            </a>
+                        </td>
+                    </c:when>
+                    <c:when test="${item.categories.contains(category)}">
+                        <td><c:out value="${category.name}"/></td>
+                        <td>
+                            <a href="${pageContext.request.contextPath}/item/edit/${item.id}/category/remove/${category.id}"
+                               class="btn btn-warning">
+                                Remove from item
+                            </a>
+                        </td>
+                    </c:when>
+                </c:choose>
+            </tr>
+        </c:forEach>
         </tbody>
     </table>
 
