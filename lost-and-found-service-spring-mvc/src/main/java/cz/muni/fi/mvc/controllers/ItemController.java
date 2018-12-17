@@ -543,7 +543,7 @@ public class ItemController {
      *
      * @param id of the item
      */
-    @RequestMapping(value = {"/edit/{id}/archive-text"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/edit/{id}/archive-text", "/detail/{id}/archive-text"}, method = RequestMethod.GET)
     public String getArchive(@PathVariable Long id,
                              Model model,
                              RedirectAttributes redirectAttributes,

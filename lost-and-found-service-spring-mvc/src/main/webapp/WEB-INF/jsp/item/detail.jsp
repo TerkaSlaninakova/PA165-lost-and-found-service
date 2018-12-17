@@ -28,6 +28,12 @@
     <c:out value="${item.owner.name}"/>
     </br>
 
+    <c:if test="${not empty item.archive}">
+        <a href="${pageContext.request.contextPath}/item/detail/${item.id}/archive-text"
+           class="btn btn-success">
+            "${'Get archived data'}"
+        </a>
+    </c:if>
 
     <h3>Categories</h3>
         <c:forEach items="${categories}" var="category">
