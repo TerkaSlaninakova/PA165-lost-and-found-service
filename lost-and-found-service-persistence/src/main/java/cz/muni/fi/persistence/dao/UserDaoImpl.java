@@ -4,6 +4,7 @@ import cz.muni.fi.persistence.entity.User;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
@@ -71,5 +72,17 @@ public class UserDaoImpl implements UserDao {
     public List<User> getAllUsers() {
         return entityManager.createQuery("select e from User e", User.class)
                 .getResultList();
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        if (email == null || email.isEmpty())
+            throw new IllegalArgumentException("Cannot search for null email");
+        try{
+            return entityManager.createQuery("select u from User u where u.email = :email", User.class)
+                    .setParameter("email", email).getSingleResult();
+        }catch(NoResultException noResult){
+            return null;
+        }
     }
 }

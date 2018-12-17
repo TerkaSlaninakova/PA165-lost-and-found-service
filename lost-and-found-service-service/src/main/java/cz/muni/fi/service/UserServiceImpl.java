@@ -66,6 +66,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getUsersByEmail(String email) throws ServiceException {
+        return userDao.findByEmail(email);
+    }
+
+    @Override
     public User getUserById(Long id) throws ServiceException {
         try {
             return userDao.getUserById(id);
