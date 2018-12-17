@@ -12,15 +12,18 @@
                modelAttribute="itemCreateFound" cssClass="form-horizontal">
         <div class="form-group">
             <form:label path="name" cssClass="col-sm-2 control-label">Name</form:label>
+
             <div class="col-sm-5">
-                <form:input path="name" cssClass="form-control"/>
+                <form:input path="name" cssClass="form-control" required="true"/>
+
                 <form:errors path="name" cssClass="error"/>
             </div>
         </div>
         <div class="form-group">
             <form:label path="characteristics" cssClass="col-sm-2 control-label">Characteristics</form:label>
+
             <div class="col-sm-5">
-                <form:input path="characteristics" cssClass="form-control"/>
+                <form:input path="characteristics" cssClass="form-control" required="true"/>
                 <form:errors path="characteristics" cssClass="help-block"/>
             </div>
         </div>
