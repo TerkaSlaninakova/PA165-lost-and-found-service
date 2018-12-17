@@ -1,6 +1,6 @@
 package cz.muni.fi.mvc.security;
 
-import cz.muni.fi.persistence.entity.User;
+import cz.muni.fi.api.dto.UserDTO;
 import org.slf4j.Logger;
 
 import javax.servlet.*;
@@ -34,7 +34,7 @@ public class CanAccessUsersFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
-        User user = (User) request.getSession().getAttribute("authenticated");
+        UserDTO user = (UserDTO) request.getSession().getAttribute("authenticated");
 
         if (user.getIsAdmin()) {
             filterChain.doFilter(request, response);

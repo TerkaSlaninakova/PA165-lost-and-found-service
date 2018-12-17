@@ -1,7 +1,7 @@
 package cz.muni.fi.mvc.security;
 
+import cz.muni.fi.api.dto.UserDTO;
 import cz.muni.fi.api.facade.ItemFacade;
-import cz.muni.fi.persistence.entity.User;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -45,13 +45,12 @@ public class CanEditItemFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
-        User user = (User) request.getSession().getAttribute("authenticated");
+        UserDTO user = (UserDTO) request.getSession().getAttribute("authenticated");
 
         String url = request.getRequestURL().toString();
 
         Long id = Long.valueOf(url.replaceAll("\\D+", "").substring(7));
         // ugly hack na 8080 a 165 z localhost a pa respectivelly
-
 
 
         // TODO: FIX
