@@ -55,7 +55,6 @@
         <button class="btn btn-primary" type="submit">Search</button>
     </form:form>
 
-    <div class="table-responsive">
     <table class="table table-bordered">
         <thead>
         <tr>
@@ -68,15 +67,11 @@
             <th>owner</th>
             <th>status</th>
             <th></th>
-            <th></th>
-            <th></th>
         </tr>
         </thead>
         <tbody>
         <c:forEach items="${items}" var="item">
-
             <c:set var="idAsString">${item.id}</c:set>
-
             <tr>
                 <td>
                     <a href="${pageContext.request.contextPath}/item/${item.id}">
@@ -86,49 +81,40 @@
                 <td><c:out value="${item.characteristics}"/></td>
                 <td>
                     <c:if test="${item.foundLocation != null}">
-                    <a href="${pageContext.request.contextPath}/location/${item.foundLocation.id}">
+                    <a href="${pageContext.request.contextPath}/location/edit/${item.foundLocation.id}">
                         <c:out value="${item.foundLocation.description}"/>
                     </a>
                     </c:if>
                 </td>
                 <td>${item.foundDate.toString()}</td>
-                <td>
-                    <c:out value="${item.lostLocation.description}"/>
-                </td>
+                <td><c:out value="${item.lostLocation.description}"/></td>
                 <td>${item.lostDate.toString()}</td>
                 <td>${item.owner.name}</td>
                 <td>${item.status.toString()}</td>
                 <td>
                     <c:choose>
-                    <c:when test="${item.status != 'RESOLVED'}">
-                    <a href="${pageContext.request.contextPath}/item/resolve/${item.id}/" class="btn btn-primary">
-                        Resolve
-                    </a>
-                    </c:when>
+                        <c:when test="${item.status != 'RESOLVED'}">
+                            <a href="${pageContext.request.contextPath}/item/resolve/${item.id}/" class="btn btn-primary">
+                                Resolve
+                            </a>
+                        </c:when>
                     </c:choose>
-                </td>
-                <td>
                     <a href="${pageContext.request.contextPath}/item/edit/${item.id}/" class="btn btn-primary">
                         Detail
                     </a>
-                </td>
-                <td>
                     <c:choose>
                         <c:when test="${requestScope[idAsString]}">
                             <a href="${pageContext.request.contextPath}/item/delete/${item.id}/" class="btn btn-danger">
                                 Remove
                             </a>
                         </c:when>
-                        <c:otherwise>
-                            (Can't access)
-                        </c:otherwise>
                     </c:choose>
-                   </td>
+                </td>
             </tr>
         </c:forEach>
         </tbody>
     </table>
-    </div>
+
 
 </jsp:attribute>
 </my:pagetemplate>
