@@ -29,9 +29,9 @@
             <th>lost date</th>
             <th>owner</th>
             <th>status</th>
-            <th>details</th>
-            <th>edit</th>
-            <th>delete</th>
+            <th></th>
+            <th></th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -57,12 +57,20 @@
                 <td>${item.lostDate.toString()}</td>
                 <td>${item.owner.name}</td>
                 <td>${item.status.toString()}</td>
-                <td>TBD</td>
+                <td>
+                    <c:choose>
+                    <c:when test="${item.status != 'RESOLVED'}">
+                    <a href="${pageContext.request.contextPath}/item/${item.id}/resolve" class="btn btn-primary">
+                        Resolve
+                    </a>
+                    </c:when>
+                    </c:choose>
+                </td>
                 <td><a href="${pageContext.request.contextPath}/item/${item.id}/update" class="btn btn-primary">
-                    <i class="fas fa-edit"></i>
+                    Edit
                 </a></td>
                 <td><a href="${pageContext.request.contextPath}/item/${item.id}/delete" class="btn btn-danger">
-                    <i class="fas fa-trash-alt"></i>
+                    Remove
                 </a></td>
             </tr>
         </c:forEach>

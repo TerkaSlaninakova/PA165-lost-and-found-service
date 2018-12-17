@@ -10,8 +10,8 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 /**
- * Data Transfer Object for Item creation
- * @author Jakub Polacek
+ * Data Transfer Object for Item create found
+ * @author Terézia Slanináková
  */
 public class ItemCreateFoundDTO {
 
@@ -87,7 +87,7 @@ public class ItemCreateFoundDTO {
                 && Objects.equals(this.type, that.type);
 
     }
-
+    // TODO: Finish hash and toString properly
     @Override
     public int hashCode() {
         return Objects.hash(name, characteristics, type);

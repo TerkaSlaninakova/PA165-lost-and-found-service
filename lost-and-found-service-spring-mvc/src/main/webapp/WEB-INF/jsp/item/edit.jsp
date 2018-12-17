@@ -52,9 +52,41 @@
     </c:when>
     </c:choose>
 
-    <a href="${pageContext.request.contextPath}/item/${item.id}/edit/category"
-       class="btn btn-primary">
-        <i class="fas fa-trash-alt">"Set category"</i>
-    </a>
+    <h2>Manage categories with item</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>name</th>
+            <th> </th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach items="${categories}" var="category">
+        <tr>
+            <c:choose>
+            <c:when test="${!item.categories.contains(category)}">
+            <td><c:out value="${category.name}"/></td>
+            <td>
+                <a href="${pageContext.request.contextPath}/item/${item.id}/edit/category/set/${category.id}"
+                   class="btn btn-success">
+                    Set to item
+                </a>
+            </td>
+            </c:when>
+                <c:when test="${item.categories.contains(category)}">
+            <td><c:out value="${category.name}"/></td>
+            <td>
+                <a href="${pageContext.request.contextPath}/item/${item.id}/edit/category/remove/${category.id}"
+                   class="btn btn-warning">
+                    Remove from item
+                </a>
+            </td>
+            </c:when>
+            </c:choose>
+        </tr>
+    </c:forEach>
+        </tbody>
+    </table>
+
 </jsp:attribute>
 </my:pagetemplate>

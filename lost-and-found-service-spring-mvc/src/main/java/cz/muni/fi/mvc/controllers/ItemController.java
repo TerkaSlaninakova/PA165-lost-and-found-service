@@ -3,10 +3,12 @@ package cz.muni.fi.mvc.controllers;
 import cz.muni.fi.api.dto.ItemCreateFoundDTO;
 import cz.muni.fi.api.dto.ItemCreateLostDTO;
 import cz.muni.fi.api.dto.ItemDTO;
+import cz.muni.fi.api.dto.ItemResolveDTO;
 import cz.muni.fi.api.enums.Status;
 import cz.muni.fi.api.facade.CategoryFacade;
 import cz.muni.fi.api.facade.ItemFacade;
 import cz.muni.fi.api.facade.LocationFacade;
+import cz.muni.fi.api.facade.UserFacade;
 import cz.muni.fi.service.exceptions.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +27,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 
-
+/**
+ * SpringMVC Controller for administering items.
+ *
+ * @author Terézia Slanináková, Jakub Polacek
+ */
 @Controller
 @RequestMapping("/item")
 public class ItemController {
@@ -40,10 +46,13 @@ public class ItemController {
     private LocationFacade locationFacade;
 
     @Autowired
+    private UserFacade userFacade;
+
+    @Autowired
     private CategoryFacade categoryFacade;
 
     /**
-     * Shows a list of products with the ability to add, delete or edit.
+     * Shows a list of items
      *
      * @param model data to display
      * @return JSP page name
@@ -53,13 +62,12 @@ public class ItemController {
         model.addAttribute("items", itemFacade.getAllItems());
         model.addAttribute("statuses", Status.values());
         model.addAttribute("categories", categoryFacade.getAllCategories());
-        model.addAttribute("itemsByCategory", itemFacade.getItemsByCategory(categoryFacade.getCategoryById(1L).getName())); // TODO
 
         return "item/list";
     }
 
     /**
-     * Prepares an empty form.
+     * Registers a new lost item
      *
      * @param model data to be displayed
      * @return JSP page
@@ -73,7 +81,7 @@ public class ItemController {
     }
 
     /**
-     * Prepares an empty form.
+     * Registers a new found item
      *
      * @param model data to be displayed
      * @return JSP page
@@ -87,7 +95,7 @@ public class ItemController {
     }
 
     /**
-     * Creates a new item
+     * Registers a new found item
      *
      * @param model data to be displayed
      * @return JSP page
@@ -101,7 +109,6 @@ public class ItemController {
             UriComponentsBuilder uriBuilder) {
 
         log.debug("Create(formBean={}) ", formBean);
-        //in case of validation error forward back to the the form
         if (bindingResult.hasErrors()) {
             for (ObjectError ge : bindingResult.getGlobalErrors()) {
                 log.trace("ObjectError: {}", ge);
@@ -119,7 +126,7 @@ public class ItemController {
     }
 
     /**
-     * Creates a new item
+     * Registers a new lost item
      *
      * @param model data to be displayed
      * @return JSP page
@@ -133,7 +140,6 @@ public class ItemController {
             UriComponentsBuilder uriBuilder) {
 
         log.debug("Create(formBean={}) ", formBean);
-        //in case of validation error forward back to the the form
         if (bindingResult.hasErrors()) {
             for (ObjectError ge : bindingResult.getGlobalErrors()) {
                 log.trace("ObjectError: {}", ge);
@@ -151,24 +157,87 @@ public class ItemController {
     }
 
     /**
-     * Get update page for item
+     * Update item
      *
      * @param id of the item
      */
     @RequestMapping(value = {"/{id}/update", "/{id}/edit", "/{id}/change"}, method = RequestMethod.GET)
-    public String update(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
+    public String update(@PathVariable Long id, Model model, UriComponentsBuilder uriBuilder) {
         log.debug("Start update item id: " + id);
         ItemDTO item = itemFacade.getItemById(id);
         if (item == null) {
-            log.warn("Tried to update nonexisting item");
+            log.warn("Tried to update non-existing item");
             return "redirect:" + uriBuilder.path("/item/list").build().toUriString();
         }
         model.addAttribute("item", item);
         model.addAttribute("name", item.getName());
         model.addAttribute("statuses", Status.values());
         model.addAttribute("archived", item.getArchive() != null);
+        model.addAttribute("categories", categoryFacade.getAllCategories());
         return "/item/edit";
     }
+
+    /**
+     * Resolve item
+     *
+     * @param id of the item
+     */
+    @RequestMapping(value = {"/{id}/resolve"}, method = RequestMethod.GET)
+    public String resolve(@PathVariable Long id, Model model, UriComponentsBuilder uriBuilder) {
+        log.debug("Start update item id: " + id);
+        ItemResolveDTO item = new ItemResolveDTO();
+        item.setId(id);
+        item.setStatus(itemFacade.getItemById(id).getStatus());
+        if (item == null) {
+            log.warn("Tried to resolve non-existing item");
+            return "redirect:" + uriBuilder.path("/item/list").build().toUriString();
+        }
+        model.addAttribute("item", item);
+        model.addAttribute("users", userFacade.getAllUsers());
+        model.addAttribute("locations", locationFacade.getAllLocations());
+        return "item/resolve";
+    }
+
+    /**
+     * Resolve item (Post request)
+     *
+     * @param id    of the item
+     * @param itemResolveDto to be resolved
+     */
+    @RequestMapping(value = {"/{id}/resolve"}, method = RequestMethod.POST)
+    public String postResolve(@PathVariable Long id,
+                             RedirectAttributes redirectAttributes,
+                             UriComponentsBuilder uriBuilder,
+                             @ModelAttribute("item") ItemResolveDTO itemResolveDto,
+                             BindingResult bindingResult) {
+        log.debug("Resolving item: " + itemResolveDto.toString());
+        ItemDTO item = itemFacade.getItemById(id);
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute(
+                    "alert_warning",
+                    "Item update failed. Incorrect values.");
+
+            return "/item/list";
+        }
+        try {
+            if(item.getStatus() == Status.CLAIM_RECEIVED_LOST){
+                itemFacade.resolveLostItem(item, itemResolveDto.getDate(), locationFacade.getLocationById(itemResolveDto.getLocationId()));
+            }
+            if(item.getStatus() == Status.CLAIM_RECEIVED_FOUND){
+                itemFacade.resolveFoundItem(item, itemResolveDto.getDate(), locationFacade.getLocationById(itemResolveDto.getLocationId()), userFacade.getUserById(itemResolveDto.getOwnerId()));
+            }
+            redirectAttributes.addFlashAttribute(
+                    "alert_success",
+                    "Item was updated.");
+        } catch (ServiceException e) {
+            redirectAttributes.addFlashAttribute(
+                    "alert_danger",
+                    "Item update failed for unknown reasons.");
+        }
+
+        return "redirect:"  + uriBuilder.path("/item/list").build().toUriString();
+    }
+
 
     /**
      * Processes item update request
@@ -205,7 +274,7 @@ public class ItemController {
     }
 
     /**
-     * Search by category
+     * Archive by category
      *
      * @param id of the item
      */
@@ -217,7 +286,7 @@ public class ItemController {
         log.debug("Archiving item id: " + id);
         ItemDTO item = itemFacade.getItemById(id);
         if (item == null || item.getArchive() != null) {
-            log.warn("Tried to archive nonexisting or already archived item.");
+            log.warn("Tried to archive non-existing or already archived item.");
             redirectAttributes.addFlashAttribute(
                     "alert_danger",
                     "Item failed to be archived. It probably doesn't exist or is already archived.");
@@ -235,18 +304,42 @@ public class ItemController {
         return "redirect:"  + uriBuilder.path("/item/"+ item.getId() +"/edit/").build().toUriString();
     }
 
-    @RequestMapping(value = {"/{id}/edit/category"}, method = RequestMethod.GET)
-    public String addCategory(@PathVariable Long id,
-                          Model model,
+    /**
+     * Add item to category
+     *
+     * @param id of the item
+     */
+    @RequestMapping(value = {"/{id}/edit/category/set/{categoryId}"}, method = RequestMethod.GET)
+    public String addToCategory(@PathVariable Long id, @PathVariable Long categoryId,
                           RedirectAttributes redirectAttributes,
                           UriComponentsBuilder uriBuilder) {
         log.debug("Adding category to item id: " + id);
         try {
-            itemFacade.addCategoryToItem(id, categoryFacade.getCategoryById(1L).getId()); // TODO: change
+            itemFacade.addCategoryToItem(id, categoryId);
             redirectAttributes.addFlashAttribute("alert_success", "Item was associated with category");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute(
                     "alert_warning", "Item failed to be associated with category. Reason: " + e.getMessage());
+        }
+        return "redirect:"  + uriBuilder.path("/item/"+ id +"/edit/").build().toUriString();
+    }
+
+    /**
+     * Remove item from category
+     *
+     * @param id of the item
+     */
+    @RequestMapping(value = {"/{id}/edit/category/remove/{categoryId}"}, method = RequestMethod.GET)
+    public String removeFromCategory(@PathVariable Long id, @PathVariable Long categoryId,
+                                RedirectAttributes redirectAttributes,
+                                UriComponentsBuilder uriBuilder) {
+        log.debug("Removed category from item id: " + id);
+        try {
+            itemFacade.removeCategoryFromItem(id, categoryId);
+            redirectAttributes.addFlashAttribute("alert_success", "Item was disassociated with category");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute(
+                    "alert_warning", "Item failed to be removed from category. Reason: " + e.getMessage());
         }
         return "redirect:"  + uriBuilder.path("/item/"+ id +"/edit/").build().toUriString();
     }
@@ -276,7 +369,7 @@ public class ItemController {
     }
 
     /**
-     * Deletes item
+     * Delete item
      *
      * @param id of item
      */

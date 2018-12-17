@@ -42,8 +42,6 @@
 </nav>
 
 <div class="container">
-    <h2><f:message key="navigation.home"/></h2>
-    <p><f:message key="home.description"/></p>
     <!-- page title -->
     <c:if test="${not empty title}">
         <div class="page-header">

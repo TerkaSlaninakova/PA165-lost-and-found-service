@@ -131,7 +131,7 @@ public class ItemFacadeImpl implements ItemFacade {
         itemService.resolveFoundItem(
                 beanMappingService.mapTo(itemDTO, Item.class),
                 lostDate,
-                beanMappingService.mapTo(lostDate, Location.class),
+                beanMappingService.mapTo(lostLocation, Location.class),
                 beanMappingService.mapTo(owner, User.class));
     }
 

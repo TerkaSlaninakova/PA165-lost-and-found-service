@@ -43,7 +43,7 @@
             </div>
          </div>
         <div class="form-group">
-            <form:label path="foundDate" cssClass="col-sm-2 control-label">Lost Date</form:label>
+            <form:label path="foundDate" cssClass="col-sm-2 control-label">Found Date</form:label>
             <div class="form-group col-md-3">
                 <form:input  type="date" path="foundDate" ></form:input>
                 <form:errors path="foundDate" cssClass="invalid-feedback"/>

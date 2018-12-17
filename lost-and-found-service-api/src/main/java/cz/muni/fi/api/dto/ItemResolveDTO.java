@@ -1,43 +1,46 @@
 package cz.muni.fi.api.dto;
 
+import cz.muni.fi.api.enums.Status;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
 import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Objects;
 
 /**
- * Data Transfer Object for Item create lost
+ * Data Transfer Object for Item resolve
  * @author Terézia Slanináková
  */
-public class ItemCreateLostDTO {
+public class ItemResolveDTO {
+    private Long id;
 
-    @NotNull
     @Size(min = 3, max = 50)
     private String name;
 
-    @NotNull
     @Size(max = 50)
     private String type;
 
-    @NotNull
     @Size(max = 150)
     private String characteristics;
 
-    @NotNull
-    @PastOrPresent(message="Date cannot be in the future")
+    @PastOrPresent(message="Date cannot be set in the future")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate lostDate;
+    private LocalDate date;
 
-    @NotNull
-    private Long lostLocationId;
+    private Long locationId;
 
-    // TODO
-    // private UserDTO owner;
+    private Long ownerId;
+
+    private Status status;
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
 
     public String getName() {
         return name;
@@ -63,20 +66,37 @@ public class ItemCreateLostDTO {
         this.characteristics = characteristics;
     }
 
-    public LocalDate getLostDate() {
-        return this.lostDate;
+    public LocalDate getDate() {
+        return this.date;
     }
 
-    public void setLostDate(LocalDate lostDate) {
-        this.lostDate = lostDate;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
-    public Long getLostLocationId() {
-        return this.lostLocationId;
+    public Status getStatus() {
+        return this.status;
     }
 
-    public void setLostLocationId(Long lostLocationId) {
-        this.lostLocationId = lostLocationId;
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public Long getLocationId() {
+        return this.locationId;
+    }
+
+    public void setLocationId(Long locationId) {
+        this.locationId = locationId;
+    }
+
+
+    public Long getOwnerId() {
+        return this.ownerId;
+    }
+
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
     }
 
     @Override
@@ -84,7 +104,7 @@ public class ItemCreateLostDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ItemCreateLostDTO that = (ItemCreateLostDTO) o;
+        ItemResolveDTO that = (ItemResolveDTO) o;
 
         return Objects.equals(this.name, that.getName())
                 && Objects.equals(this.characteristics, that.characteristics)
@@ -99,12 +119,10 @@ public class ItemCreateLostDTO {
 
     @Override
     public String toString() {
-        return "ItemCreateLostDTO{" +
+        return "ItemCreateFoundDTO{" +
                 "name='" + name + '\'' +
                 ", type='" + type + '\'' +
                 ", characteristics='" + characteristics + '\'' +
-                ", lostDate=" + lostDate +
-                ", lostLocationId=" + lostLocationId +
                 '}';
     }
 }
