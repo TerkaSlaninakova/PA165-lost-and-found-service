@@ -8,9 +8,20 @@
     <version>1.0-SNAPSHOT</version>
     <name>lost-and-found-service</name>
 
-    <!-- Spring Boot Starter Parent as parent project - this project inherits versions of dependencies and plugins -->
-    <!-- see https://docs.spring.io/spring-boot/docs/current/reference/html/using-boot-build-systems.html#using-boot-maven-parent-pom -->
-    <!-- update Spring by changing the version here to the current release displayed at https://projects.spring.io/spring-boot/ -->
+    <developers>
+        <developer>
+            <name>Slanináková, Terézia</name>
+            <email>445526@mail.muni.cz</email>
+        </developer>
+        <developer>
+            <name>Poláček, Jakub</name>
+            <email>456491@mail.muni.cz</email>
+        </developer>
+        <developer>
+            <name>Nemec, Augustín</name>
+            <email>gustonem@mail.muni.cz</email>
+        </developer>
+    </developers>
 
     <parent>
         <groupId>org.springframework.boot</groupId>

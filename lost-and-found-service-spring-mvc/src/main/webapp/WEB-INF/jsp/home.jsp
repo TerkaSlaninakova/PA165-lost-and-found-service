@@ -5,10 +5,8 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<my:pagetemplate title="Home">
+<my:pagetemplate title="Welcome to Lost&Found Service!">
 <jsp:attribute name="body">
-    <div class="jumbotron">
-        <h1>Default homepage</h1>
-    </div>
+    <p><fmt:message key="home.description"/></p>
 </jsp:attribute>
 </my:pagetemplate>

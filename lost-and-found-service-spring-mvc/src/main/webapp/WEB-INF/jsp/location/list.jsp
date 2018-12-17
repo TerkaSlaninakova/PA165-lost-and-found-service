@@ -16,7 +16,7 @@
     </my:a>
         </c:when>
         <c:otherwise>
-            <h2>Only admin can create and edit locations</h2>
+            <p>Only admin can create and edit locations</p>
         </c:otherwise>
     </c:choose>
 
@@ -25,8 +25,8 @@
         <tr>
             <th>id</th>
             <th>name</th>
-            <th>edit</th>
-            <th>delete</th>
+            <th></th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -38,24 +38,18 @@
                         <c:choose>
                          <c:when test="${admin}">
                              <a href="${pageContext.request.contextPath}/location/edit/${location.id}/" class="btn btn-primary">
-                                 <i class="fas fa-edit"></i>
+                                 Edit
                              </a>
                          </c:when>
-                         <c:otherwise>
-                             (can't acess)
-                         </c:otherwise>
                      </c:choose>
                 </a></td>
                 <td>
                      <c:choose>
                          <c:when test="${admin}">
                     <a href="${pageContext.request.contextPath}/location/delete/${location.id}/" class="btn btn-danger">
-                        <i class="fas fa-trash-alt"></i>
+                        Delete
                     </a>
                          </c:when>
-                         <c:otherwise>
-                             (can't acess)
-                         </c:otherwise>
                      </c:choose>
                 </a></td>
             </tr>

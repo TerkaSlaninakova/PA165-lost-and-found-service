@@ -59,7 +59,9 @@ public class LocationController {
         }
 
         UserDTO user = (UserDTO) session.getAttribute("authenticated");
-
+        if (user != null) {
+            model.addAttribute("authenticatedUser", user.getEmail());
+        }
         model.addAttribute("admin", user.getIsAdmin());
         model.addAttribute("locations", locationFacade.getAllLocations());
         return "location/list";

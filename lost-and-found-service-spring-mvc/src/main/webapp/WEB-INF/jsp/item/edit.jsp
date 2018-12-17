@@ -67,7 +67,7 @@
             <c:when test="${!item.categories.contains(category)}">
             <td><c:out value="${category.name}"/></td>
             <td>
-                <a href="${pageContext.request.contextPath}/item/edit/${item.id}/category/set/${category.id}/"
+                <a href="${pageContext.request.contextPath}/item/edit/${item.id}/category/set/${category.id}"
                    class="btn btn-success">
                     Set to item
                 </a>
@@ -76,7 +76,7 @@
                 <c:when test="${item.categories.contains(category)}">
             <td><c:out value="${category.name}"/></td>
             <td>
-                <a href="${pageContext.request.contextPath}/item/edit/${item.id}/category/remove/${category.id}/"
+                <a href="${pageContext.request.contextPath}/item/edit/${item.id}/category/remove/${category.id}"
                    class="btn btn-warning">
                     Remove from item
                 </a>

@@ -38,6 +38,11 @@
                 <li><my:a href="/item"><f:message key="item"/></my:a></li>
                 <li><my:a href="/user"><f:message key="user"/></my:a></li>
             </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <c:if test="${not empty authenticatedUser}">
+                    <li><my:a href="/logout/logout">Logout (${authenticatedUser})</my:a></li>
+                </c:if>
+            </ul>
         </div>
     </div>
 </nav>
@@ -47,21 +52,6 @@
     <c:if test="${not empty title}">
         <div class="page-header">
             <h1><c:out value="${title}"/></h1>
-        </div>
-    </c:if>
-
-    <!-- authenticated user info -->
-    <c:if test="${not empty authenticatedUser}">
-        <div class="row">
-            <div class="col-xs-6 col-sm-8 col-md-9 col-lg-10"></div>
-            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <c:out value="${authenticatedUser}"/>
-                        <li><my:a href="/logout/logout">Logout</my:a></li>
-                    </div>
-                </div>
-            </div>
         </div>
     </c:if>
 

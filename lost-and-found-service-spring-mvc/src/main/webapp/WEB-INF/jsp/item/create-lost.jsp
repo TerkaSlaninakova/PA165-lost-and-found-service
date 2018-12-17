@@ -12,28 +12,31 @@
                modelAttribute="itemCreateLost" cssClass="form-horizontal">
         <div class="form-group">
             <form:label path="name" cssClass="col-sm-2 control-label">Name</form:label>
-            <div class="col-sm-10">
+
+            <div class="col-sm-5">
                 <form:input path="name" cssClass="form-control" required="true"/>
                 <form:errors path="name" cssClass="help-block"/>
             </div>
         </div>
         <div class="form-group">
             <form:label path="characteristics" cssClass="col-sm-2 control-label">Characteristics</form:label>
-            <div class="col-sm-10">
+          
+            <div class="col-sm-5">
                 <form:input path="characteristics" cssClass="form-control" required="true"/>
                 <form:errors path="characteristics" cssClass="help-block"/>
             </div>
         </div>
         <div class="form-group">
             <form:label path="type" cssClass="col-sm-2 control-label">Type</form:label>
-            <div class="col-sm-10">
+
+            <div class="col-sm-5">
                 <form:input path="type" cssClass="form-control" required="true"/>
                 <form:errors path="type" cssClass="help-block"/>
             </div>
         </div>
         <div class="form-group">
             <form:label path="lostLocationId" cssClass="col-sm-2 control-label">Location</form:label>
-            <div class="col-sm-10">
+            <div class="col-sm-5">
             <form:select name="lostLocationId" path="lostLocationId" cssClass="form-control">
                     <c:forEach items="${locations}" var="location">
                         <form:option value="${location.id}">
@@ -46,7 +49,7 @@
         </div>
         <div class="form-group">
             <form:label path="ownerId" cssClass="col-sm-2 control-label">Owner</form:label>
-            <div class="col-sm-10">
+            <div class="col-sm-5">
             <form:select name="ownerId" path="ownerId" cssClass="form-control">
                     <c:forEach items="${users}" var="user">
                         <form:option value="${user.id}">
