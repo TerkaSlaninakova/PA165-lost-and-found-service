@@ -125,6 +125,7 @@ public class UserController {
         }
 
         UserDTO user = userFacade.getUserById(id);
+        user.setPassword("");
         if (user == null) {
             log.warn("Tried to update nonexisting user");
             return "redirect:" + uriBuilder.path("/user/list").build().toUriString();
@@ -181,9 +182,17 @@ public class UserController {
             if (itemFacade.getAllItems().stream()
                     .noneMatch(itemDTO ->
                             toDelete.equals(itemDTO.getOwner()))) {
-                userFacade.deleteUser(toDelete);
-                redirectAttributes.addFlashAttribute("alert_success", "User was deleted");
-                return "redirect:" + uriBuilder.path("/user/list").build().toUriString();
+
+                UserDTO loggedUser = UserDTO.class.cast(session.getAttribute("authenticated"));
+                if (loggedUser.equals(toDelete)) {
+                    redirectAttributes.addFlashAttribute(
+                            "alert_warning",
+                            "User cannot delete himself");
+                } else {
+                    userFacade.deleteUser(toDelete);
+                    redirectAttributes.addFlashAttribute("alert_success", "User was deleted");
+                    return "redirect:" + uriBuilder.path("/user/list").build().toUriString();
+                }
             } else {
                 redirectAttributes.addFlashAttribute(
                         "alert_warning",
