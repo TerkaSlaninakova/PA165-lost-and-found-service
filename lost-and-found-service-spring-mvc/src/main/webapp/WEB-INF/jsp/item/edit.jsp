@@ -51,5 +51,10 @@
         </a>
     </c:when>
     </c:choose>
+
+    <a href="${pageContext.request.contextPath}/item/${item.id}/edit/category"
+       class="btn btn-primary">
+        <i class="fas fa-trash-alt">"Set category"</i>
+    </a>
 </jsp:attribute>
 </my:pagetemplate>

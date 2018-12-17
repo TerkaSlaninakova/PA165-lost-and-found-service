@@ -10,25 +10,28 @@
 
     <form:form method="post" action="${pageContext.request.contextPath}/item/create-lost"
                modelAttribute="itemCreateLost" cssClass="form-horizontal">
-        <div class="form-group ${name_error?'has-error':''}">
+        <div class="form-group">
             <form:label path="name" cssClass="col-sm-2 control-label">Name</form:label>
             <div class="col-sm-10">
                 <form:input path="name" cssClass="form-control"/>
                 <form:errors path="name" cssClass="help-block"/>
             </div>
-
+        </div>
+        <div class="form-group">
             <form:label path="characteristics" cssClass="col-sm-2 control-label">Characteristics</form:label>
             <div class="col-sm-10">
                 <form:input path="characteristics" cssClass="form-control"/>
                 <form:errors path="characteristics" cssClass="help-block"/>
             </div>
-
+        </div>
+        <div class="form-group">
             <form:label path="type" cssClass="col-sm-2 control-label">Type</form:label>
             <div class="col-sm-10">
                 <form:input path="type" cssClass="form-control"/>
                 <form:errors path="type" cssClass="help-block"/>
             </div>
-
+        </div>
+        <div class="form-group">
             <form:label path="lostLocationId" cssClass="col-sm-2 control-label">Location</form:label>
             <div class="col-sm-10">
             <form:select name="lostLocationId" path="lostLocationId" cssClass="form-control">
@@ -38,7 +41,14 @@
                         </form:option>
                     </c:forEach>
             </form:select>
-                <p class="help-block"><form:errors path="lostLocationId" cssClass="error"/></p>
+                    <form:errors path="lostLocationId" cssClass="help-block"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <form:label path="lostDate" cssClass="col-sm-2 control-label">Lost Date</form:label>
+            <div class="form-group col-md-3">
+                <form:input  type="date" path="lostDate" ></form:input>
+                <form:errors path="lostDate" cssClass="invalid-feedback"/>
             </div>
 
         </div>

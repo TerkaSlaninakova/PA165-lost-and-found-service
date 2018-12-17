@@ -1,8 +1,13 @@
 package cz.muni.fi.api.dto;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -23,7 +28,9 @@ public class ItemCreateLostDTO {
     @Size(max = 150)
     private String characteristics;
 
-    //@NotNull
+    @NotNull
+    @PastOrPresent(message="Date cannot be in the future")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate lostDate;
 
     @NotNull

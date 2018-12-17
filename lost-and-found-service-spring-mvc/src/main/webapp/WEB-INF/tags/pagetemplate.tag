@@ -31,15 +31,19 @@
             </button>
             <a class="navbar-brand" href="${pageContext.request.contextPath}"><f:message key="navigation.project"/></a>
         </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><my:a href="/category"><f:message key="category"/></my:a></li>
+                <li><my:a href="/location"><f:message key="location"/></my:a></li>
+                <li><my:a href="/item"><f:message key="item"/></my:a></li>
+            </ul>
+        </div>
     </div>
 </nav>
 
 <div class="container">
     <h2><f:message key="navigation.home"/></h2>
     <p><f:message key="home.description"/></p>
-    <p><a href="/pa165/category">category</a></p>
-    <p><a href="/pa165/location">location</a></p>
-    <p><a href="/pa165/item">item</a></p>
     <!-- page title -->
     <c:if test="${not empty title}">
         <div class="page-header">

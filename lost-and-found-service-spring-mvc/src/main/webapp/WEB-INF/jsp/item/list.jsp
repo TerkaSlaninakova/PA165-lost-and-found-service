@@ -10,18 +10,17 @@
 
     <my:a href="/item/new-found" class="btn btn-primary">
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-        New item found
+        Add found item
     </my:a>
 
     <my:a href="/item/new-lost" class="btn btn-primary">
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-        New item lost
+        Add lost item
     </my:a>
 
     <table class="table">
         <thead>
         <tr>
-            <th>id</th>
             <th>name</th>
             <th>characteristics</th>
             <th>found location</th>
@@ -30,6 +29,7 @@
             <th>lost date</th>
             <th>owner</th>
             <th>status</th>
+            <th>details</th>
             <th>edit</th>
             <th>delete</th>
         </tr>
@@ -37,15 +37,27 @@
         <tbody>
         <c:forEach items="${items}" var="item">
             <tr>
-                <td>${item.id}</td>
-                <td>${item.name}</td>
-                <td>${item.characteristics}</td>
-                <td>${item.foundLocation.description}</td>
+                <td>
+                    <a href="${pageContext.request.contextPath}/item/${item.id}">
+                        <c:out value="${item.name}"/>
+                    </a>
+                </td>
+                <td><c:out value="${item.characteristics}"/></td>
+                <td>
+                    <c:if test="${item.foundLocation != null}">
+                    <a href="${pageContext.request.contextPath}/location/${item.foundLocation.id}">
+                        <c:out value="${item.foundLocation.description}"/>
+                    </a>
+                    </c:if>
+                </td>
                 <td>${item.foundDate.toString()}</td>
-                <td>${item.lostLocation.description}</td>
+                <td>
+                    <c:out value="${item.lostLocation.description}"/>
+                </td>
                 <td>${item.lostDate.toString()}</td>
                 <td>${item.owner.name}</td>
                 <td>${item.status.toString()}</td>
+                <td>TBD</td>
                 <td><a href="${pageContext.request.contextPath}/item/${item.id}/update" class="btn btn-primary">
                     <i class="fas fa-edit"></i>
                 </a></td>
@@ -56,7 +68,6 @@
         </c:forEach>
         </tbody>
     </table>
-
 
 </jsp:attribute>
 </my:pagetemplate>

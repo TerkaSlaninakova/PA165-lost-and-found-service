@@ -40,9 +40,7 @@ public class ItemFacadeImpl implements ItemFacade {
     @Override
     public void addItemLost(ItemCreateLostDTO itemCreateDTO) {
         ItemDTO itemDTO = beanMappingService.mapTo(itemCreateDTO, ItemDTO.class);
-        itemDTO.setLostLocation(locationFacade.getLocationById(itemCreateDTO.getLostLocationId()));
         itemDTO.setStatus(Status.CLAIM_RECEIVED_LOST);
-        itemDTO.setLostDate(LocalDate.now());
 
         addItem(itemDTO);
     }
@@ -50,15 +48,13 @@ public class ItemFacadeImpl implements ItemFacade {
     @Override
     public void addItemFound(ItemCreateFoundDTO itemCreateDTO) {
         ItemDTO itemDTO = beanMappingService.mapTo(itemCreateDTO, ItemDTO.class);
-        itemDTO.setFoundLocation(locationFacade.getLocationById(itemCreateDTO.getFoundLocationId()));
         itemDTO.setStatus(Status.CLAIM_RECEIVED_FOUND);
-        itemDTO.setFoundDate(LocalDate.now());
 
         addItem(itemDTO);
     }
 
     private void addItem(ItemDTO itemDTO) {
-        itemDTO.setCategories(new ArrayList<>());
+        //itemDTO.setCategories(new ArrayList<>());
         itemService.addItem(beanMappingService.mapTo(itemDTO, Item.class));
     }
 

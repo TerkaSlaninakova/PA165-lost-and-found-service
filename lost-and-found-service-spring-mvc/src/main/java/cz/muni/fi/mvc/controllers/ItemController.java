@@ -4,6 +4,7 @@ import cz.muni.fi.api.dto.ItemCreateFoundDTO;
 import cz.muni.fi.api.dto.ItemCreateLostDTO;
 import cz.muni.fi.api.dto.ItemDTO;
 import cz.muni.fi.api.enums.Status;
+import cz.muni.fi.api.facade.CategoryFacade;
 import cz.muni.fi.api.facade.ItemFacade;
 import cz.muni.fi.api.facade.LocationFacade;
 import cz.muni.fi.service.exceptions.ServiceException;
@@ -38,6 +39,9 @@ public class ItemController {
     @Autowired
     private LocationFacade locationFacade;
 
+    @Autowired
+    private CategoryFacade categoryFacade;
+
     /**
      * Shows a list of products with the ability to add, delete or edit.
      *
@@ -48,6 +52,9 @@ public class ItemController {
     public String list(Model model) {
         model.addAttribute("items", itemFacade.getAllItems());
         model.addAttribute("statuses", Status.values());
+        model.addAttribute("categories", categoryFacade.getAllCategories());
+        model.addAttribute("itemsByCategory", itemFacade.getItemsByCategory(categoryFacade.getCategoryById(1L).getName())); // TODO
+
         return "item/list";
     }
 
@@ -198,7 +205,7 @@ public class ItemController {
     }
 
     /**
-     * Archive item
+     * Search by category
      *
      * @param id of the item
      */
@@ -226,6 +233,22 @@ public class ItemController {
         model.addAttribute("item", item);
         model.addAttribute("name", item.getName());
         return "redirect:"  + uriBuilder.path("/item/"+ item.getId() +"/edit/").build().toUriString();
+    }
+
+    @RequestMapping(value = {"/{id}/edit/category"}, method = RequestMethod.GET)
+    public String addCategory(@PathVariable Long id,
+                          Model model,
+                          RedirectAttributes redirectAttributes,
+                          UriComponentsBuilder uriBuilder) {
+        log.debug("Adding category to item id: " + id);
+        try {
+            itemFacade.addCategoryToItem(id, categoryFacade.getCategoryById(1L).getId()); // TODO: change
+            redirectAttributes.addFlashAttribute("alert_success", "Item was associated with category");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute(
+                    "alert_warning", "Item failed to be associated with category. Reason: " + e.getMessage());
+        }
+        return "redirect:"  + uriBuilder.path("/item/"+ id +"/edit/").build().toUriString();
     }
 
     /**
