@@ -245,13 +245,15 @@ public class ItemController {
         return "redirect:" + uriBuilder.path("/item/list").build().toUriString();
     }
 
+
+
     /**
      * Update item
      *
      * @param id of the item
      */
-    @RequestMapping(value = {"/edit/{id}/", "/edit/{id}"}, method = RequestMethod.GET)
-    public String update(@PathVariable Long id, Model model, UriComponentsBuilder uriBuilder) {
+    @RequestMapping(value = {"/detail/{id}/", "/detail/{id}"}, method = RequestMethod.GET)
+    public String detail(@PathVariable Long id, Model model, UriComponentsBuilder uriBuilder) {
         log.debug("Start update item id: " + id);
 
         UserDTO loggedUser = UserDTO.class.cast(session.getAttribute("authenticated"));
@@ -269,6 +271,40 @@ public class ItemController {
         model.addAttribute("statuses", Status.values());
         model.addAttribute("archived", item.getArchive() != null);
         model.addAttribute("categories", categoryFacade.getAllCategories());
+
+        return "/item/detail";
+    }
+
+    /**
+     * Update item
+     *
+     * @param id of the item
+     */
+    @RequestMapping(value = {"/edit/{id}/", "/edit/{id}"}, method = RequestMethod.GET)
+    public String update(@PathVariable Long id, Model model, UriComponentsBuilder uriBuilder) {
+        log.debug("Start update item id: " + id);
+
+        UserDTO loggedUser = UserDTO.class.cast(session.getAttribute("authenticated"));
+        if (loggedUser != null) {
+            model.addAttribute("authenticatedUser", loggedUser.getEmail());
+        }
+
+        if (!isOwnerOrAdminByItemId(id)) {
+            log.debug("Droided.");
+            return "redirect:" + uriBuilder.path("/adminOnly").build().toUriString();
+        }
+
+        ItemDTO item = itemFacade.getItemById(id);
+        if (item == null) {
+            log.warn("Tried to update non-existing item");
+            return "redirect:" + uriBuilder.path("/item/list").build().toUriString();
+        }
+        model.addAttribute("item", item);
+        model.addAttribute("name", item.getName());
+        model.addAttribute("statuses", Status.values());
+        model.addAttribute("archived", item.getArchive() != null);
+        model.addAttribute("categories", categoryFacade.getAllCategories());
+
         return "/item/edit";
     }
 

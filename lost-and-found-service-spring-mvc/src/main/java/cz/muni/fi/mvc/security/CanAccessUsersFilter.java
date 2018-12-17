@@ -40,7 +40,7 @@ public class CanAccessUsersFilter implements Filter {
 
         UserDTO user = (UserDTO) request.getSession().getAttribute("authenticated");
 
-        if (user.getIsAdmin()) {
+        if (user == null || user.getIsAdmin()) {
             filterChain.doFilter(request, response);
         } else {
             response401(response);
