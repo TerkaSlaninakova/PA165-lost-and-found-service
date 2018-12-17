@@ -41,26 +41,32 @@ public class LoginController {
                         RedirectAttributes redirectAttributes,
                         UriComponentsBuilder uriBuilder
                         ) {
-        UserDTO user = userFacade.getUserByEmail(email);
+        try {
+            UserDTO user = userFacade.getUserByEmail(email);
+            if (user == null) {
+                redirectAttributes.addFlashAttribute(
+                        "alert_danger",
+                        "Incorrect e-mail or password.");
+                return "redirect:" + uriBuilder.path("/login").build().toUriString();
+            }
 
-        if (user == null) {
-            redirectAttributes.addFlashAttribute(
-                    "alert_danger",
-                    "Incorrect e-mail or password.");
-            return "redirect:" + uriBuilder.path("/login").build().toUriString();
-        }
+            else if (userFacade.authenticate(user, password)) {
+                model.addAttribute("authenticatedUser", user.getEmail());
+                session.setAttribute("authenticated", user);
+                session.setAttribute("admin", user.getIsAdmin());
 
-        else if (userFacade.authenticate(user, password)) {
-            model.addAttribute("authenticatedUser", user.getEmail());
-            session.setAttribute("authenticated", user);
-            session.setAttribute("admin", user.getIsAdmin());
-
-            redirectAttributes.addFlashAttribute(
-                    "alert_success",
-                    "Successful login.");
-            return "redirect:" + uriBuilder.path("/home").build().toUriString();
-        }
-        else {
+                redirectAttributes.addFlashAttribute(
+                        "alert_success",
+                        "Successful login.");
+                return "redirect:" + uriBuilder.path("/home").build().toUriString();
+            }
+            else {
+                redirectAttributes.addFlashAttribute(
+                        "alert_danger",
+                        "Incorrect e-mail or password.");
+                return "redirect:" + uriBuilder.path("/login").build().toUriString();
+            }
+        } catch (Exception e) {
             redirectAttributes.addFlashAttribute(
                     "alert_danger",
                     "Incorrect e-mail or password.");

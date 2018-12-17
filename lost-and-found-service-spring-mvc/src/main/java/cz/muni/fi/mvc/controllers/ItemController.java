@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -50,6 +51,9 @@ public class ItemController {
     @Autowired
     private CategoryFacade categoryFacade;
 
+    @Autowired
+    private HttpSession session;
+
     /**
      * Shows a list of items
      *
@@ -58,6 +62,12 @@ public class ItemController {
      */
     @RequestMapping(value = {"", "/", "/all", "/list"}, method = RequestMethod.GET)
     public String list(Model model) {
+
+        UserDTO loggedUser = UserDTO.class.cast(session.getAttribute("authenticated"));
+        if (loggedUser != null) {
+            model.addAttribute("authenticatedUser", loggedUser.getEmail());
+        }
+
         model.addAttribute("items", itemFacade.getAllItems());
         model.addAttribute("search", new ItemSearchDTO());
         model.addAttribute("statuses", Status.values());
@@ -69,6 +79,12 @@ public class ItemController {
     @RequestMapping(value = {"/all"}, method = RequestMethod.POST)
     public String search(Model model, @Valid @ModelAttribute("search") ItemSearchDTO search) {
         log.debug("search: " + search.toString());
+
+        UserDTO loggedUser = UserDTO.class.cast(session.getAttribute("authenticated"));
+        if (loggedUser != null) {
+            model.addAttribute("authenticatedUser", loggedUser.getEmail());
+        }
+
         List<ItemDTO> items = itemFacade.getAllItems();
         if (search.getStatus() != null && search.getStatus().toString() != ""){
             items = itemFacade.getAllItems().stream().filter(item -> item.getStatus() == search.getStatus()).collect(Collectors.toList());
@@ -93,6 +109,12 @@ public class ItemController {
     @RequestMapping(value = {"/new-lost", "/create-lost"}, method = RequestMethod.GET)
     public String newItemLost(Model model) {
         log.debug("Creating item");
+
+        UserDTO loggedUser = UserDTO.class.cast(session.getAttribute("authenticated"));
+        if (loggedUser != null) {
+            model.addAttribute("authenticatedUser", loggedUser.getEmail());
+        }
+
         model.addAttribute("itemCreateLost", new ItemCreateLostDTO());
         model.addAttribute("locations", locationFacade.getAllLocations());
         model.addAttribute("users", userFacade.getAllUsers());
@@ -108,6 +130,12 @@ public class ItemController {
     @RequestMapping(value = {"/new-found", "/create-found"}, method = RequestMethod.GET)
     public String newItemFound(Model model) {
         log.debug("Creating item");
+
+        UserDTO loggedUser = UserDTO.class.cast(session.getAttribute("authenticated"));
+        if (loggedUser != null) {
+            model.addAttribute("authenticatedUser", loggedUser.getEmail());
+        }
+
         model.addAttribute("itemCreateFound", new ItemCreateFoundDTO());
         model.addAttribute("locations", locationFacade.getAllLocations());
         return "item/create-found";
@@ -199,6 +227,12 @@ public class ItemController {
     @RequestMapping(value = {"/edit/{id}/"}, method = RequestMethod.GET)
     public String update(@PathVariable Long id, Model model, UriComponentsBuilder uriBuilder) {
         log.debug("Start update item id: " + id);
+
+        UserDTO loggedUser = UserDTO.class.cast(session.getAttribute("authenticated"));
+        if (loggedUser != null) {
+            model.addAttribute("authenticatedUser", loggedUser.getEmail());
+        }
+
         ItemDTO item = itemFacade.getItemById(id);
         if (item == null) {
             log.warn("Tried to update non-existing item");
@@ -220,6 +254,12 @@ public class ItemController {
     @RequestMapping(value = {"/resolve/{id}/"}, method = RequestMethod.GET)
     public String resolve(@PathVariable Long id, Model model, UriComponentsBuilder uriBuilder) {
         log.debug("Start update item id: " + id);
+
+        UserDTO loggedUser = UserDTO.class.cast(session.getAttribute("authenticated"));
+        if (loggedUser != null) {
+            model.addAttribute("authenticatedUser", loggedUser.getEmail());
+        }
+
         ItemResolveDTO item = new ItemResolveDTO();
         item.setId(id);
         item.setStatus(itemFacade.getItemById(id).getStatus());
