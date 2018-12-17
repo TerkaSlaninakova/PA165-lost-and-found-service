@@ -19,8 +19,9 @@
             <th>id</th>
             <th>name</th>
             <th>email</th>
-            <%--<th>edit</th>--%>
-            <%--<th>delete</th>--%>
+            <th>is admin</th>
+            <th></th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -29,12 +30,25 @@
                 <td>${user.id}</td>
                 <td><c:out value="${user.name}"/></td>
                 <td><c:out value="${user.email}"/></td>
-                <%--<td><a href="${pageContext.request.contextPath}/user/${user.id}/update" class="btn btn-primary">--%>
-                    <%--<i class="fas fa-edit"></i>--%>
-                <%--</a></td>--%>
-                <%--<td><a href="${pageContext.request.contextPath}/user/${user.id}/delete" class="btn btn-danger">--%>
-                    <%--<i class="fas fa-trash-alt"></i>--%>
-                <%--</a></td>--%>
+                <%--<td><c:out value="${user.isAdmin}"/></td>--%>
+                <td>
+                    <c:choose>
+                             <c:when test="${user.isAdmin}">
+                                 yes
+                             </c:when>
+                             <c:otherwise>
+                                 no
+                             </c:otherwise>
+                    </c:choose>
+                </td>
+                <td>
+                    <a href="${pageContext.request.contextPath}/user/edit/${user.id}/" class="btn btn-primary">
+                        Edit
+                    </a>
+                </td>
+                <td><a href="${pageContext.request.contextPath}/user/delete/${user.id}/" class="btn btn-danger">
+                    Remove
+                </a></td>
             </tr>
         </c:forEach>
         </tbody>
