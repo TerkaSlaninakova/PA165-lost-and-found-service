@@ -29,7 +29,7 @@
     </br>
 
 
-    <h2>Categories</h2>
+    <h3>Categories</h3>
         <c:forEach items="${categories}" var="category">
                 <c:choose>
                     <c:when test="${item.categories.contains(category)}">

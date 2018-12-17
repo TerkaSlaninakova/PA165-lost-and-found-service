@@ -104,8 +104,6 @@
                             </a>
                         </c:when>
                     </c:choose>
-                </td>
-                <td>
                     <a href="${pageContext.request.contextPath}/item/detail/${item.id}/" class="btn btn-primary">
                         Detail
                     </a>
@@ -122,15 +120,6 @@
                                 Remove
                             </a>
                         </c:when>
-                    </c:choose>
-                </td>
-                <td>
-                    <c:choose>
-                    <c:when test="${requestScope[idAsString]}">
-                    <a href="${pageContext.request.contextPath}/item/delete/${item.id}/" class="btn btn-danger">
-                        Remove
-                    </a>
-                    </c:when>
                     </c:choose>
                 </td>
             </tr>
