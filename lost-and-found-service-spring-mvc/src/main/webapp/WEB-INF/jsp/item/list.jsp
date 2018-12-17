@@ -79,14 +79,14 @@
             <c:set var="idAsString">${item.id}</c:set>
             <tr>
                 <td>
-                    <a href="${pageContext.request.contextPath}/item/${item.id}">
+                    <a href="${pageContext.request.contextPath}/item/detail/${item.id}/">
                         <c:out value="${item.name}"/>
                     </a>
                 </td>
                 <td><c:out value="${item.characteristics}"/></td>
                 <td>
                     <c:if test="${item.foundLocation != null}">
-                    <a href="${pageContext.request.contextPath}/location/edit/${item.foundLocation.id}">
+                    <a href="${pageContext.request.contextPath}/location/edit/${item.foundLocation.id}/">
                         <c:out value="${item.foundLocation.description}"/>
                     </a>
                     </c:if>
