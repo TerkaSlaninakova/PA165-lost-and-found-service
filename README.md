@@ -1,6 +1,19 @@
 # Project for PA165 - [Lost-&-found service](https://is.muni.cz/auth/rozpis/tema?fakulta=1433;studium=822684;kod=PA165;predmet=1144638;sorter=vedouci;balik=336601;tema=336641;uplne_info=1;obdobi=7403)
 The application allows to manage a Lost & Found service. Users can report their lost items with the possibility to give the type of item and the main characteristics. They can also upload a imageMimeType of how the item looked like. The responsible people for the website have the possibility to search the items added by users and set their statuses (e.g. claim received, in progress, found, etc...). They can also define categories for new items to be added. All found items need to be archived with the possibility to add the location where they were lost & then found. Once items have been confirmed missing, other users can see the list of missing items and contribute to return to the owner.
 
+## How to run
+- web app
+```
+mvn clean install
+cd lost-and-found-service-spring-mvc
+mvn cargo:run
+```
+- rest API
+```
+mvn clean install
+cd lost-and-found-service-rest
+mvn cargo:run
+```
 
 ## TODOs
 
@@ -9,18 +22,13 @@ The application allows to manage a Lost & Found service. Users can report their 
 * [ ] Web layer
    * [ ] User interface (uses REST or facade layer)
       * [ ] Item @Terka
-          * [ ] Controllers
-          * [ ] Views
           - Create
-            * [ ] lost/found - proper location,date,status display @Terka
-                * [ ] - Implement Date picking
-                * [ ] - Implement owner adding
+                * [ ] - Implement owner adding @Terka
           - Update
-            * [ ] - Use list for enum, maybe enable admins to change owners / locations
-          - Resolve
+            * [ ] - Use list for enum, maybe enable admins to change owners / locations @Terka
           - Archive
             * [ ] - Disable editing when archived
-          - Image
+          * [ ] Image
       * [x] Location @Jakub
           * [x] Controllers
           * [x] Views           
@@ -31,7 +39,7 @@ The application allows to manage a Lost & Found service. Users can report their 
           * [ ] Controllers
           * [ ] Views
           * [ ] Login form (registration not reqiured)
-      - Different views for admin / user { after views are finished}
+      * [] Different views for admin / user @Kubo
 * [x] REST layer - @Gusto
    - must be accessible at http://localhost:8080/pa165/rest
    - at least one entity exposed
