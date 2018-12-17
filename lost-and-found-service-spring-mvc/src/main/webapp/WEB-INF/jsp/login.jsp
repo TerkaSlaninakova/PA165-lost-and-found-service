@@ -9,8 +9,7 @@
 <jsp:attribute name="body">
     <div class="container">
 
-        <form id="loginform" class="form-signin" action="<c:url value='login/check' />" method="POST">
-            <h2 class="form-signin-heading">Please sign in</h2>
+        <form id="loginform" class="form-group" action="<c:url value='login/check' />" method="POST">
             <label for="inputEmail" class="sr-only">Login</label>
             <input name="email" type="text" id="inputEmail" class="form-control" placeholder="Email" required autofocus>
             <label for="inputPassword" class="sr-only">Password</label>

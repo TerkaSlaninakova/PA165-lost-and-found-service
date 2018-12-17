@@ -5,33 +5,35 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<my:pagetemplate title="New item">
+<my:pagetemplate title="Report found item">
 <jsp:attribute name="body">
 
     <form:form method="post" action="${pageContext.request.contextPath}/item/create-found"
                modelAttribute="itemCreateFound" cssClass="form-horizontal">
         <div class="form-group">
             <form:label path="name" cssClass="col-sm-2 control-label">Name</form:label>
-            <div class="col-sm-10">
+            <div class="col-sm-5">
                 <form:input path="name" cssClass="form-control"/>
                 <form:errors path="name" cssClass="error"/>
             </div>
         </div>
         <div class="form-group">
             <form:label path="characteristics" cssClass="col-sm-2 control-label">Characteristics</form:label>
-            <form:input path="characteristics" cssClass="form-control"/>
-            <form:errors path="characteristics" cssClass="help-block"/>
+            <div class="col-sm-5">
+                <form:input path="characteristics" cssClass="form-control"/>
+                <form:errors path="characteristics" cssClass="help-block"/>
+            </div>
         </div>
          <div class="form-group">
             <form:label path="type" cssClass="col-sm-2 control-label">Type</form:label>
-            <div class="col-sm-10">
+            <div class="col-sm-5">
                 <form:input path="type" cssClass="form-control"/>
                 <form:errors path="type" cssClass="help-block"/>
             </div>
          </div>
          <div class="form-group">
             <form:label path="foundLocationId" cssClass="col-sm-2 control-label">Location</form:label>
-            <div class="col-sm-10">
+            <div class="col-sm-5">
             <form:select multiple="true" name="foundLocationId" path="foundLocationId" cssClass="form-control">
                     <c:forEach items="${locations}" var="location">
                         <form:option value="${location.id}">

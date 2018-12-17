@@ -8,21 +8,22 @@
 <my:pagetemplate title="Items">
 <jsp:attribute name="body">
 
-    <my:a href="/item/new-found" class="btn btn-primary">
+    <my:a href="/item/create-found" class="btn btn-primary">
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
         Add found item
     </my:a>
 
-    <my:a href="/item/new-lost" class="btn btn-primary">
+    <my:a href="/item/create-lost" class="btn btn-primary">
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
         Add lost item
     </my:a>
 
+    <h3> Filter Items </h3>
     <form:form method="post" action="${pageContext.request.contextPath}/item/all"
                    modelAttribute="search" id="searchItems" cssClass="form">
-        <div class="form-group">
-            <form:label path="status" cssClass="col-sm-2 control-label">Status</form:label>
-            <div class="col-sm-2">
+        <div class="form-group row">
+            <form:label path="status" cssClass="col-sm-1 control-label">Status</form:label>
+            <div class="col-md-3 col-sm-3">
             <form:select name="status" path="status" cssClass="form-control">
                 <form:option value="${null}">
                     <c:out value="ALL"/>
@@ -36,9 +37,9 @@
                 <p class="help-block"><form:errors path="status" cssClass="error"/></p>
             </div>
         </div>
-        <div class="form-group">
-            <form:label path="categoryName" cssClass="col-sm-2 control-label">Category</form:label>
-            <div class="col-sm-2">
+        <div class="form-group row">
+            <form:label path="categoryName" cssClass="col-sm-1 control-label">Category</form:label>
+            <div class="col-md-3 col-sm-3">
             <form:select name="categoryName" path="categoryName" cssClass="form-control">
                 <form:option value="">
                     <c:out value="ALL"/>
@@ -52,7 +53,11 @@
                 <p class="help-block"><form:errors path="categoryName" cssClass="error"/></p>
             </div>
         </div>
+        <div class="form-group row">
+            <div class="col-md-3 col-sm-3">
         <button class="btn btn-primary" type="submit">Search</button>
+            </div>
+        </div>
     </form:form>
 
     <table class="table table-bordered">
@@ -99,9 +104,18 @@
                             </a>
                         </c:when>
                     </c:choose>
-                    <a href="${pageContext.request.contextPath}/item/edit/${item.id}/" class="btn btn-primary">
+                </td>
+                <td>
+                    <a href="${pageContext.request.contextPath}/item/detail/${item.id}/" class="btn btn-primary">
                         Detail
                     </a>
+                    <c:choose>
+                    <c:when test="${requestScope[idAsString]}">
+                    <a href="${pageContext.request.contextPath}/item/edit/${item.id}/" class="btn btn-primary">
+                        Edit
+                    </a>
+                    </c:when>
+                    </c:choose>
                     <c:choose>
                         <c:when test="${requestScope[idAsString]}">
                             <a href="${pageContext.request.contextPath}/item/delete/${item.id}/" class="btn btn-danger">
@@ -110,11 +124,19 @@
                         </c:when>
                     </c:choose>
                 </td>
+                <td>
+                    <c:choose>
+                    <c:when test="${requestScope[idAsString]}">
+                    <a href="${pageContext.request.contextPath}/item/delete/${item.id}/" class="btn btn-danger">
+                        Remove
+                    </a>
+                    </c:when>
+                    </c:choose>
+                </td>
             </tr>
         </c:forEach>
         </tbody>
     </table>
-
 
 </jsp:attribute>
 </my:pagetemplate>
