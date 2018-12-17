@@ -13,13 +13,13 @@
         <div class="form-group ${name_error?'has-error':''}">
             <form:label path="name" cssClass="col-sm-2 control-label">Name</form:label>
             <div class="col-sm-10">
-                <form:input path="name" cssClass="form-control"/>
+                <form:input path="name" cssClass="form-control" required="true"/>
                 <form:errors path="name" cssClass="help-block"/>
             </div>
 
             <form:label path="attribute" cssClass="col-sm-2 control-label">Attribute</form:label>
             <div class="col-sm-10">
-                <form:input path="attribute" cssClass="form-control"/>
+                <form:input path="attribute" cssClass="form-control" required="true"/>
                 <form:errors path="attribute" cssClass="help-block"/>
             </div>
         </div>
