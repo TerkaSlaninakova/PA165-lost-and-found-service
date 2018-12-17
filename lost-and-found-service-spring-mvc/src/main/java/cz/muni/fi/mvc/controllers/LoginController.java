@@ -53,6 +53,7 @@ public class LoginController {
         else if (userFacade.authenticate(user, password)) {
             model.addAttribute("authenticatedUser", user.getEmail());
             session.setAttribute("authenticated", user);
+            session.setAttribute("admin", user.getIsAdmin());
 
             redirectAttributes.addFlashAttribute(
                     "alert_success",

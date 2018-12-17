@@ -1,6 +1,7 @@
 package cz.muni.fi.mvc.controllers;
 
 import cz.muni.fi.api.dto.LocationDTO;
+import cz.muni.fi.api.dto.UserDTO;
 import cz.muni.fi.api.facade.ItemFacade;
 import cz.muni.fi.api.facade.LocationFacade;
 import cz.muni.fi.service.exceptions.ServiceException;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 /**
@@ -39,6 +41,9 @@ public class LocationController {
     @Autowired
     private ItemFacade itemFacade;
 
+    @Autowired
+    private HttpSession session;
+
     /**
      * Shows a list of products with the ability to add, delete or edit.
      *
@@ -47,6 +52,10 @@ public class LocationController {
      */
     @RequestMapping(value = {"", "/", "/all", "list"}, method = RequestMethod.GET)
     public String list(Model model) {
+
+        UserDTO user = (UserDTO) session.getAttribute("authenticated");
+
+        model.addAttribute("admin", user.getIsAdmin());
         model.addAttribute("locations", locationFacade.getAllLocations());
         return "location/list";
     }

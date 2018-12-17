@@ -10,6 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
 
+/**
+ *
+ * @auhor Jakub Polacek
+ */
 @WebFilter(urlPatterns = {"/category/edit/*", "/category/delete/*", "/category/new/*", "/category/create/*"})
 public class CanManageCategoriesFilter implements Filter {
 
@@ -36,7 +40,7 @@ public class CanManageCategoriesFilter implements Filter {
 
         UserDTO user = (UserDTO) request.getSession().getAttribute("authenticated");
 
-        if (user.getIsAdmin()) { // change from admin to normal alter
+        if (user.getIsAdmin()) {
             filterChain.doFilter(request, response);
         } else {
             response401(response);

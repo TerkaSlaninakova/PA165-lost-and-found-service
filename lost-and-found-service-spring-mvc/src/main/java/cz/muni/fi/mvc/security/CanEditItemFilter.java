@@ -1,5 +1,6 @@
 package cz.muni.fi.mvc.security;
 
+import cz.muni.fi.api.dto.ItemDTO;
 import cz.muni.fi.api.dto.UserDTO;
 import cz.muni.fi.api.facade.ItemFacade;
 import org.slf4j.Logger;
@@ -12,6 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
 
+/**
+ *
+ * @auhor Jakub Polacek
+ */
 @WebFilter(urlPatterns = {"/item/edit/*"})
 public class CanEditItemFilter implements Filter {
 
@@ -56,9 +61,18 @@ public class CanEditItemFilter implements Filter {
         // TODO: FIX
 
         log.debug(url);
-        log.debug(id.toString());
 
-        /*ItemDTO item = itemFacade.getItemById(id    );
+        log.debug(String.valueOf(itemFacade == null)); // nechapem preco mi to tuna nevie dat itemFacade
+
+        if (itemFacade != null) {
+            if (id != null) {
+                log.debug(id.toString());
+                ItemDTO item = itemFacade.getItemById(id);
+            } else {
+                log.debug("ID JE NULL ");
+            }
+        }
+        /*
         if (item == null) {
             response404(response);
             return;
@@ -69,7 +83,7 @@ public class CanEditItemFilter implements Filter {
 
         //Boolean owner = Objects.equals(item.getOwner().getId(), user.getId());
 
-        if (user.getIsAdmin()) { // change from admin to normal alter
+        if (user.getIsAdmin()) {
             filterChain.doFilter(request, response);
         } else {
             response401(response);

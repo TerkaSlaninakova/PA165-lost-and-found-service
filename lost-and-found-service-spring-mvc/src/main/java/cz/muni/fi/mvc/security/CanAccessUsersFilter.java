@@ -10,6 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
 
+/**
+ *
+ * @auhor Jakub Polacek
+ */
 @WebFilter(urlPatterns = {"/user/*"})
 public class CanAccessUsersFilter implements Filter {
 
