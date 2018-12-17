@@ -74,6 +74,9 @@
         </thead>
         <tbody>
         <c:forEach items="${items}" var="item">
+
+            <c:set var="idAsString">${item.id}</c:set>
+
             <tr>
                 <td>
                     <a href="${pageContext.request.contextPath}/item/${item.id}">
@@ -106,12 +109,21 @@
                 </td>
                 <td>
                     <a href="${pageContext.request.contextPath}/item/edit/${item.id}/" class="btn btn-primary">
-                        Edit
+                        Detail
                     </a>
                 </td>
-                <td><a href="${pageContext.request.contextPath}/item/delete/${item.id}/" class="btn btn-danger">
-                    Remove
-                </a></td>
+                <td>
+                    <c:choose>
+                        <c:when test="${requestScope[idAsString]}">
+                            <a href="${pageContext.request.contextPath}/item/delete/${item.id}/" class="btn btn-danger">
+                                Remove
+                            </a>
+                        </c:when>
+                        <c:otherwise>
+                            (Can't access)
+                        </c:otherwise>
+                    </c:choose>
+                   </td>
             </tr>
         </c:forEach>
         </tbody>

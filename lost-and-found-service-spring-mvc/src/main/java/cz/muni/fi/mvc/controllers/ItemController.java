@@ -22,8 +22,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -50,6 +52,25 @@ public class ItemController {
     @Autowired
     private CategoryFacade categoryFacade;
 
+    @Autowired
+    private HttpSession session;
+
+    /**
+     * Check if user is admin or owner of given item and add it as attribute to model
+     */
+    private void ownerOrAdmin(ItemDTO item, Model model) {
+        UserDTO user = (UserDTO) session.getAttribute("authenticated");
+
+        model.addAttribute(
+                String.valueOf(item.getId()),
+                String.valueOf(user.getIsAdmin() || Objects.equals(itemFacade.getOwnerId(item.getId()), user.getId())));
+    }
+
+    private boolean isOwnerOrAdminByItemId(Long itemId) {
+        UserDTO user = (UserDTO) session.getAttribute("authenticated");
+        return user.getIsAdmin() || Objects.equals(itemFacade.getOwnerId(itemId), user.getId());
+    }
+
     /**
      * Shows a list of items
      *
@@ -62,6 +83,10 @@ public class ItemController {
         model.addAttribute("search", new ItemSearchDTO());
         model.addAttribute("statuses", Status.values());
         model.addAttribute("categories", categoryFacade.getAllCategories());
+
+        for (ItemDTO item: itemFacade.getAllItems()) {
+            ownerOrAdmin(item, model);
+        }
 
         return "item/list";
     }
@@ -80,6 +105,10 @@ public class ItemController {
         model.addAttribute("items", items);
         model.addAttribute("statuses", Status.values());
         model.addAttribute("categories", categoryFacade.getAllCategories());
+
+        for (ItemDTO item: itemFacade.getAllItems()) {
+            ownerOrAdmin(item, model);
+        }
 
         return "item/list";
     }
@@ -136,7 +165,7 @@ public class ItemController {
                 model.addAttribute(fe.getField() + "_error", true);
                 log.trace("FieldError: {}", fe);
             }
-            return "item/create-found";
+            return "redirect:"  + uriBuilder.path("/item/create-found").build().toUriString();
         }
         try{
             itemFacade.addItemFound(formBean);
@@ -174,7 +203,7 @@ public class ItemController {
                 model.addAttribute(fe.getField() + "_error", true);
                 log.debug("FieldError: {}", fe);
             }
-            return "item/create-lost";
+            return "redirect:"  + uriBuilder.path("/item/create-lost").build().toUriString();
         }
         UserDTO user =  userFacade.getUserById(formBean.getOwnerId());
         log.debug("user={}) ",user.toString());
@@ -196,7 +225,7 @@ public class ItemController {
      *
      * @param id of the item
      */
-    @RequestMapping(value = {"/edit/{id}/"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/edit/{id}/", "/edit/{id}"}, method = RequestMethod.GET)
     public String update(@PathVariable Long id, Model model, UriComponentsBuilder uriBuilder) {
         log.debug("Start update item id: " + id);
         ItemDTO item = itemFacade.getItemById(id);
@@ -212,67 +241,6 @@ public class ItemController {
         return "/item/edit";
     }
 
-    /**
-     * Resolve item
-     *
-     * @param id of the item
-     */
-    @RequestMapping(value = {"/resolve/{id}/"}, method = RequestMethod.GET)
-    public String resolve(@PathVariable Long id, Model model, UriComponentsBuilder uriBuilder) {
-        log.debug("Start update item id: " + id);
-        ItemResolveDTO item = new ItemResolveDTO();
-        item.setId(id);
-        item.setStatus(itemFacade.getItemById(id).getStatus());
-        if (item == null) {
-            log.warn("Tried to resolve non-existing item");
-            return "redirect:" + uriBuilder.path("/item/list").build().toUriString();
-        }
-        model.addAttribute("item", item);
-        model.addAttribute("users", userFacade.getAllUsers());
-        model.addAttribute("locations", locationFacade.getAllLocations());
-        return "item/resolve";
-    }
-
-    /**
-     * Resolve item (Post request)
-     *
-     * @param id    of the item
-     * @param itemResolveDto to be resolved
-     */
-    @RequestMapping(value = {"/resolve/{id}/"}, method = RequestMethod.POST)
-    public String postResolve(@PathVariable Long id,
-                              RedirectAttributes redirectAttributes,
-                              UriComponentsBuilder uriBuilder,
-                              @ModelAttribute("item") ItemResolveDTO itemResolveDto,
-                              BindingResult bindingResult) {
-        log.debug("Resolving item: " + itemResolveDto.toString());
-        ItemDTO item = itemFacade.getItemById(id);
-        if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute(
-                    "alert_warning",
-                    "Item update failed. Incorrect values.");
-
-            return "/item/list";
-        }
-        try {
-            if(item.getStatus() == Status.CLAIM_RECEIVED_LOST){
-                itemFacade.resolveLostItem(item, itemResolveDto.getDate(), locationFacade.getLocationById(itemResolveDto.getLocationId()));
-            }
-            if(item.getStatus() == Status.CLAIM_RECEIVED_FOUND){
-                itemFacade.resolveFoundItem(item, itemResolveDto.getDate(), locationFacade.getLocationById(itemResolveDto.getLocationId()), userFacade.getUserById(itemResolveDto.getOwnerId()));
-            }
-            redirectAttributes.addFlashAttribute(
-                    "alert_success",
-                    "Item was updated.");
-        } catch (ServiceException e) {
-            redirectAttributes.addFlashAttribute(
-                    "alert_danger",
-                    "Item update failed for unknown reasons.");
-        }
-
-        return "redirect:"  + uriBuilder.path("/item/list").build().toUriString();
-    }
-
 
     /**
      * Processes item update request
@@ -280,13 +248,20 @@ public class ItemController {
      * @param id    of the item
      * @param item to be updated
      */
-    @RequestMapping(value = {"/edit/{id}/"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/edit/{id}/", "/edit/{id}"}, method = RequestMethod.POST)
     public String postUpdate(@PathVariable Long id,
                              RedirectAttributes redirectAttributes,
                              UriComponentsBuilder uriBuilder,
                              @ModelAttribute("item") ItemDTO item,
                              BindingResult bindingResult) {
         log.debug("Updating item id: " + id);
+
+        if (!isOwnerOrAdminByItemId(id)) {
+            log.debug("Droided.");
+            return "redirect:" + uriBuilder.path("/adminOnly").build().toUriString();
+        }
+
+
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute(
                     "alert_warning",
@@ -294,6 +269,8 @@ public class ItemController {
 
             return "/item/edit";
         }
+
+
         try {
             itemFacade.updateItem(item);
             redirectAttributes.addFlashAttribute(
@@ -306,6 +283,150 @@ public class ItemController {
         }
 
         return "redirect:"  + uriBuilder.path("/item/list").build().toUriString();
+    }
+
+
+    /**
+     * Resolve item
+     *
+     * @param id of the item
+     */
+    @RequestMapping(value = {"/resolve/{id}/", "/resolve/{id}"}, method = RequestMethod.GET)
+    public String resolve(@PathVariable Long id, Model model, UriComponentsBuilder uriBuilder) {
+        log.debug("Start update item id: " + id);
+        ItemResolveDTO item = new ItemResolveDTO();
+        item.setId(id);
+        item.setStatus(itemFacade.getItemById(id).getStatus());
+        if (item == null) {
+            log.warn("Tried to resolve non-existing item");
+            return "redirect:" + uriBuilder.path("/item/list").build().toUriString();
+        }
+
+        if (!isOwnerOrAdminByItemId(id)) {
+            return "redirect:" + uriBuilder.path("/adminOnly").build().toUriString();
+        }
+
+        model.addAttribute("item", item);
+        model.addAttribute("users", userFacade.getAllUsers());
+        model.addAttribute("locations", locationFacade.getAllLocations());
+        return "item/resolve";
+    }
+
+
+    /**
+     * Resolve item (Post request)
+     *
+     * @param id    of the item
+     * @param itemResolveDto to be resolved
+     */
+    @RequestMapping(value = {"/resolve/{id}/", "/resolve/{id}"}, method = RequestMethod.POST)
+    public String postResolve(@PathVariable Long id,
+                              RedirectAttributes redirectAttributes,
+                              UriComponentsBuilder uriBuilder,
+                              @ModelAttribute("item") ItemResolveDTO itemResolveDto,
+                              BindingResult bindingResult) {
+        log.debug("Resolving item: " + itemResolveDto.toString());
+        ItemDTO item = itemFacade.getItemById(id);
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute(
+                    "alert_warning",
+                    "Item resolving failed. Incorrect values.");
+
+            return "redirect:"  + uriBuilder.path("/item/list").build().toUriString();
+        }
+
+        if (!isOwnerOrAdminByItemId(id)) {
+            return "redirect:" + uriBuilder.path("/adminOnly").build().toUriString();
+        }
+
+        try {
+            if(item.getStatus() == Status.CLAIM_RECEIVED_LOST){
+                itemFacade.resolveLostItem(item, itemResolveDto.getDate(), locationFacade.getLocationById(itemResolveDto.getLocationId()));
+            }
+            if(item.getStatus() == Status.CLAIM_RECEIVED_FOUND){
+                itemFacade.resolveFoundItem(item, itemResolveDto.getDate(), locationFacade.getLocationById(itemResolveDto.getLocationId()), userFacade.getUserById(itemResolveDto.getOwnerId()));
+            }
+            redirectAttributes.addFlashAttribute(
+                    "alert_success",
+                    "Item was resolved.");
+        } catch (ServiceException e) {
+            redirectAttributes.addFlashAttribute(
+                    "alert_danger",
+                    "Item resolving failed for unknown reasons.");
+        }
+
+        return "redirect:"  + uriBuilder.path("/item/list").build().toUriString();
+    }
+
+
+
+    /**
+     * Add item to category
+     *
+     * @param id of the item
+     */
+    @RequestMapping(value = {"/edit/{id}/category/set/{categoryId}"}, method = RequestMethod.GET)
+    public String addToCategory(@PathVariable Long id, @PathVariable Long categoryId,
+                                RedirectAttributes redirectAttributes,
+                                UriComponentsBuilder uriBuilder) {
+        log.debug("Adding category to item id: " + id);
+
+        ItemDTO item = itemFacade.getItemById(id);
+        if (item == null) {
+            log.warn("Tried to change category on non-existing item.");
+            redirectAttributes.addFlashAttribute(
+                    "alert_danger",
+                    "Tried to change category on non-existing item.");
+            return "redirect:" + uriBuilder.path("/item/list").build().toUriString();
+        }
+
+        if (!isOwnerOrAdminByItemId(id)) {
+            return "redirect:" + uriBuilder.path("/adminOnly").build().toUriString();
+        }
+
+
+        try {
+            itemFacade.addCategoryToItem(id, categoryId);
+            redirectAttributes.addFlashAttribute("alert_success", "Item was associated with category");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute(
+                    "alert_warning", "Item failed to be associated with category. Reason: " + e.getMessage());
+        }
+        return "redirect:"  + uriBuilder.path("/item/edit/" + id).build().toUriString();
+    }
+
+    /**
+     * Remove item from category
+     *
+     * @param id of the item
+     */
+    @RequestMapping(value = {"/edit/{id}/category/remove/{categoryId}"}, method = RequestMethod.GET)
+    public String removeFromCategory(@PathVariable Long id, @PathVariable Long categoryId,
+                                     RedirectAttributes redirectAttributes,
+                                     UriComponentsBuilder uriBuilder) {
+        log.debug("Removed category from item id: " + id);
+
+        ItemDTO item = itemFacade.getItemById(id);
+        if (item == null) {
+            log.warn("Tried to change category on non-existing item.");
+            redirectAttributes.addFlashAttribute(
+                    "alert_danger",
+                    "Tried to change category on non-existing item.");
+            return "redirect:" + uriBuilder.path("/item/list").build().toUriString();
+        }
+
+        if (!isOwnerOrAdminByItemId(id)) {
+            return "redirect:" + uriBuilder.path("/adminOnly").build().toUriString();
+        }
+
+        try {
+            itemFacade.removeCategoryFromItem(id, categoryId);
+            redirectAttributes.addFlashAttribute("alert_success", "Item was disassociated with category");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute(
+                    "alert_warning", "Item failed to be removed from category. Reason: " + e.getMessage());
+        }
+        return "redirect:"  + uriBuilder.path("/item/edit/" + id).build().toUriString();
     }
 
     /**
@@ -327,6 +448,11 @@ public class ItemController {
                     "Item failed to be archived. It probably doesn't exist or is already archived.");
             return "redirect:" + uriBuilder.path("/item/list").build().toUriString();
         }
+
+        if (!isOwnerOrAdminByItemId(id)) {
+            return "redirect:" + uriBuilder.path("/adminOnly").build().toUriString();
+        }
+
         try {
             itemFacade.archiveItem(item);
             redirectAttributes.addFlashAttribute("alert_success", "Item was archived");
@@ -337,46 +463,6 @@ public class ItemController {
         model.addAttribute("item", item);
         model.addAttribute("name", item.getName());
         return "redirect:"  + uriBuilder.path("/item/edit/" + item.getId() ).build().toUriString();
-    }
-
-    /**
-     * Add item to category
-     *
-     * @param id of the item
-     */
-    @RequestMapping(value = {"/edit/{id}/category/set/{categoryId}"}, method = RequestMethod.GET)
-    public String addToCategory(@PathVariable Long id, @PathVariable Long categoryId,
-                                RedirectAttributes redirectAttributes,
-                                UriComponentsBuilder uriBuilder) {
-        log.debug("Adding category to item id: " + id);
-        try {
-            itemFacade.addCategoryToItem(id, categoryId);
-            redirectAttributes.addFlashAttribute("alert_success", "Item was associated with category");
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute(
-                    "alert_warning", "Item failed to be associated with category. Reason: " + e.getMessage());
-        }
-        return "redirect:"  + uriBuilder.path("/item/edit/" + id).build().toUriString();
-    }
-
-    /**
-     * Remove item from category
-     *
-     * @param id of the item
-     */
-    @RequestMapping(value = {"/edit/{id}/category/remove/{categoryId}"}, method = RequestMethod.GET)
-    public String removeFromCategory(@PathVariable Long id, @PathVariable Long categoryId,
-                                     RedirectAttributes redirectAttributes,
-                                     UriComponentsBuilder uriBuilder) {
-        log.debug("Removed category from item id: " + id);
-        try {
-            itemFacade.removeCategoryFromItem(id, categoryId);
-            redirectAttributes.addFlashAttribute("alert_success", "Item was disassociated with category");
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute(
-                    "alert_warning", "Item failed to be removed from category. Reason: " + e.getMessage());
-        }
-        return "redirect:"  + uriBuilder.path("/item/edit/" + id).build().toUriString();
     }
 
     /**
@@ -398,6 +484,12 @@ public class ItemController {
             return "redirect:" + uriBuilder.path("/item/list").build().toUriString();
         }
 
+        // moze accesnut aj normalny user a pozriet si ho
+
+        if (!isOwnerOrAdminByItemId(item.getId())) {
+            return "redirect:" + uriBuilder.path("/adminOnly").build().toUriString();
+        }
+
         model.addAttribute("archive", item.getArchive());
         model.addAttribute("name", item.getName());
         return "/item/archive-text";
@@ -411,8 +503,23 @@ public class ItemController {
     @RequestMapping(value = {"/delete/{id}"}, method = RequestMethod.GET)
     public String deleteItem(@PathVariable Long id, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
         log.debug("Deleting item: " + id);
+
+        ItemDTO item = itemFacade.getItemById(id);
+
+        if (item == null) {
+            log.warn("Tried to delete nonexistent item.");
+            redirectAttributes.addFlashAttribute(
+                    "alert_danger", "Failed to get item archive.");
+            return "redirect:" + uriBuilder.path("/item/list").build().toUriString();
+        }
+
+
+        if (!isOwnerOrAdminByItemId(item.getId())) {
+            return "redirect:" + uriBuilder.path("/adminOnly").build().toUriString();
+        }
+
         try {
-            itemFacade.deleteItem(itemFacade.getItemById(id));
+            itemFacade.deleteItem(item);
             redirectAttributes.addFlashAttribute("alert_success", "Item was deleted");
         } catch (ServiceException e) {
             redirectAttributes.addFlashAttribute("alert_danger", "Item failed to be deleted");

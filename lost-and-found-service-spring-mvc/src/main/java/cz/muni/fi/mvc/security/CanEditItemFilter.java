@@ -1,13 +1,9 @@
 package cz.muni.fi.mvc.security;
 
-import cz.muni.fi.api.dto.ItemDTO;
 import cz.muni.fi.api.dto.UserDTO;
-import cz.muni.fi.api.facade.ItemFacade;
 import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.DatatypeConverter;
@@ -17,13 +13,11 @@ import java.io.IOException;
  *
  * @auhor Jakub Polacek
  */
-@WebFilter(urlPatterns = {"/item/edit/*"})
+//@WebFilter(urlPatterns = {"/item/edit/*"})
 public class CanEditItemFilter implements Filter {
 
     final static Logger log = org.slf4j.LoggerFactory.getLogger(CanEditItemFilter.class);
 
-    @Autowired
-    private ItemFacade itemFacade;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -32,12 +26,7 @@ public class CanEditItemFilter implements Filter {
 
     private void response401(HttpServletResponse response) throws IOException {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        response.getWriter().println("<html><body><h1>401 Unauthorized</h1> You are unauthorized for this page </body></html>");
-    }
-
-    private void response404(HttpServletResponse response) throws IOException {
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        response.getWriter().println("<html><body><h1>404 Item not found</h1> Given item doesn't exist </body></html>");
+        response.sendRedirect("/pa165/adminOnly");
     }
 
 
@@ -57,37 +46,11 @@ public class CanEditItemFilter implements Filter {
         Long id = Long.valueOf(url.replaceAll("\\D+", "").substring(7));
         // ugly hack na 8080 a 165 z localhost a pa respectivelly
 
-
         // TODO: FIX
 
-        log.debug(url);
 
-        log.debug(String.valueOf(itemFacade == null)); // nechapem preco mi to tuna nevie dat itemFacade
+        filterChain.doFilter(request, response);
 
-        if (itemFacade != null) {
-            if (id != null) {
-                log.debug(id.toString());
-                ItemDTO item = itemFacade.getItemById(id);
-            } else {
-                log.debug("ID JE NULL ");
-            }
-        }
-        /*
-        if (item == null) {
-            response404(response);
-            return;
-        }
-
-        log.debug(item.getOwner().toString());
-        */
-
-        //Boolean owner = Objects.equals(item.getOwner().getId(), user.getId());
-
-        if (user.getIsAdmin()) {
-            filterChain.doFilter(request, response);
-        } else {
-            response401(response);
-        }
     }
 
     @Override

@@ -134,4 +134,11 @@ public interface ItemFacade {
      * @param itemChangeDTO change picture of item
      */
     void changeImage(ItemChangeImageDTO itemChangeDTO);
+
+    /**
+     * Get id of items owner
+     * @param itemId itemId of item to get owner id of
+     * @return id of owner
+     */
+    Long getOwnerId(Long itemId);
 }

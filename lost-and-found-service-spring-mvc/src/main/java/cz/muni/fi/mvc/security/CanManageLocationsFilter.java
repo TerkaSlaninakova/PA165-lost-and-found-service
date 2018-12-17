@@ -26,7 +26,7 @@ public class CanManageLocationsFilter implements Filter {
 
     private void response401(HttpServletResponse response) throws IOException {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        response.getWriter().println("<html><body><h1>401 Unauthorized</h1> You are unauthorized for this page </body></html>");
+        response.sendRedirect("/pa165/adminOnly");
     }
 
     private String[] parseAuthHeader(String auth) {

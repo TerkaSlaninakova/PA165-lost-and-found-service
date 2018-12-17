@@ -23,12 +23,6 @@ public class ProtectFilter implements Filter {
 
     }
 
-    private void response401(HttpServletResponse response) throws IOException {
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        response.setHeader("WWW-Authenticate", "Basic realm=\"type email and password for admin user\"");
-        response.getWriter().println("<html><body><h1>401 Unauthorized</h1> You are unauthorized for this page </body></html>");
-    }
-
     private String[] parseAuthHeader(String auth) {
         return new String(DatatypeConverter.parseBase64Binary(auth.split(" ")[1])).split(":", 2);
     }
