@@ -28,7 +28,7 @@ public class ItemCreateFoundDTO {
     private String characteristics;
 
     @NotNull
-    @PastOrPresent(message="Date cannot be in the tfuture")
+    @PastOrPresent(message="Date cannot be in the future")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate foundDate;
 

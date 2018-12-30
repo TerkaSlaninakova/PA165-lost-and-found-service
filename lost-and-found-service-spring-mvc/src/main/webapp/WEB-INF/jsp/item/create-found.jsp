@@ -34,23 +34,23 @@
                 <form:errors path="type" cssClass="help-block"/>
             </div>
          </div>
-         <div class="form-group">
-            <form:label path="foundLocationId" cssClass="col-sm-2 control-label">Location</form:label>
-            <div class="col-sm-5">
-            <form:select multiple="true" name="foundLocationId" path="foundLocationId" cssClass="form-control">
-                    <c:forEach items="${locations}" var="location">
-                        <form:option value="${location.id}">
-                            <c:out value="${location.description}"/>
-                        </form:option>
-                    </c:forEach>
-            </form:select>
-                <form:errors path="foundLocationId" cssClass="help-block"/>
-            </div>
-         </div>
+        <div class="form-group">
+                <form:label path="foundLocationId" cssClass="col-sm-2 control-label">Location</form:label>
+                <div class="col-sm-5">
+                <form:select name="foundLocationId" path="foundLocationId" cssClass="form-control">
+                        <c:forEach items="${locations}" var="location">
+                            <form:option value="${location.id}">
+                                <c:out value="${location.description}"/>
+                            </form:option>
+                        </c:forEach>
+                </form:select>
+                    <form:errors path="foundLocationId" cssClass="help-block"/>
+                </div>
+        </div>
         <div class="form-group">
             <form:label path="foundDate" cssClass="col-sm-2 control-label">Found Date</form:label>
             <div class="form-group col-md-3">
-                <form:input  type="date" path="foundDate" ></form:input>
+                <form:input  type="date" path="foundDate" required="true"></form:input>
                 <form:errors path="foundDate" cssClass="invalid-feedback"/>
             </div>
         </div>

@@ -15,14 +15,26 @@
     <label>Characteristic:</label>
     <c:out value="${item.characteristics}"/>
     </br>
+    <c:if test="${item.status == 'RESOLVED' || item.status == 'CLAIM_RECEIVED_FOUND'}">
     <label>Found date:</label>
     <c:out value="${item.foundDate}"/>
     </br>
+    </c:if>
+    <c:if test="${item.status == 'RESOLVED' || item.status == 'CLAIM_RECEIVED_LOST'}">
     <label>Lost date:</label>
     <c:out value="${item.lostDate}"/>
     </br>
+    </c:if>
     <label>Status:</label>
-    <c:out value="${item.status}"/>
+    <c:if test="${item.status == 'RESOLVED'}">
+        <fmt:message key="item.status.resolved"/>
+    </c:if>
+    <c:if test="${item.status == 'CLAIM_RECEIVED_FOUND'}">
+        <fmt:message key="item.status.found"/>
+    </c:if>
+    <c:if test="${item.status == 'CLAIM_RECEIVED_LOST'}">
+        <fmt:message key="item.status.lost"/>
+    </c:if>
     </br>
     <label>Owner:</label>
     <c:out value="${item.owner.name}"/>

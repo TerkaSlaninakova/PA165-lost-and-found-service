@@ -30,7 +30,15 @@
                 </form:option>
                 <c:forEach items="${statuses}" var="stat">
                     <form:option value="${stat}">
-                            <c:out value="${stat}"/>
+                        <c:if test="${stat== 'RESOLVED'}">
+                            <fmt:message key="item.status.resolved"/>
+                        </c:if>
+                        <c:if test="${stat == 'CLAIM_RECEIVED_FOUND'}">
+                            <fmt:message key="item.status.found"/>
+                        </c:if>
+                        <c:if test="${stat == 'CLAIM_RECEIVED_LOST'}">
+                            <fmt:message key="item.status.lost"/>
+                        </c:if>
                     </form:option>
                 </c:forEach>
             </form:select>
@@ -95,7 +103,17 @@
                 <td><c:out value="${item.lostLocation.description}"/></td>
                 <td>${item.lostDate.toString()}</td>
                 <td>${item.owner.name}</td>
-                <td>${item.status.toString()}</td>
+                <td>
+                    <c:if test="${item.status.toString() == 'RESOLVED'}">
+                        <fmt:message key="item.status.resolved"/>
+                    </c:if>
+                    <c:if test="${item.status.toString() == 'CLAIM_RECEIVED_FOUND'}">
+                        <fmt:message key="item.status.found"/>
+                    </c:if>
+                    <c:if test="${item.status.toString() == 'CLAIM_RECEIVED_LOST'}">
+                        <fmt:message key="item.status.lost"/>
+                    </c:if>
+                </td>
                 <td>
                     <c:choose>
                         <c:when test="${item.status != 'RESOLVED'}">
