@@ -5,7 +5,7 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<my:pagetemplate title="Edit location">
+<my:pagetemplate title="Edit User">
 <jsp:attribute name="body">
 
     <form:form method="post" action="${pageContext.request.contextPath}/user/edit/${user.id}/"

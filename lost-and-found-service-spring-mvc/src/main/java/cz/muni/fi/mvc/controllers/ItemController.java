@@ -25,6 +25,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.security.auth.kerberos.KerberosTicket;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import javax.validation.constraints.PastOrPresent;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -185,11 +186,12 @@ public class ItemController {
         log.debug("Create(formBean={}) ", formBean);
         if (bindingResult.hasErrors()) {
             for (ObjectError ge : bindingResult.getGlobalErrors()) {
-                log.trace("ObjectError: {}", ge);
+                log.debug("ObjectError: {}", ge);
             }
             for (FieldError fe : bindingResult.getFieldErrors()) {
                 model.addAttribute(fe.getField() + "_error", true);
-                log.trace("FieldError: {}", fe);
+                log.debug("FieldError: {}", fe);
+                redirectAttributes.addFlashAttribute("alert_danger", fe.getDefaultMessage());
             }
             return "redirect:"  + uriBuilder.path("/item/create-found").build().toUriString();
         }
@@ -228,6 +230,7 @@ public class ItemController {
             for (FieldError fe : bindingResult.getFieldErrors()) {
                 model.addAttribute(fe.getField() + "_error", true);
                 log.debug("FieldError: {}", fe);
+                redirectAttributes.addFlashAttribute("alert_danger", fe.getDefaultMessage());
             }
             return "redirect:"  + uriBuilder.path("/item/create-lost").build().toUriString();
         }
