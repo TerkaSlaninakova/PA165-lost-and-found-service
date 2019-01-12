@@ -18,11 +18,11 @@ curl -i -X DELETE http://localhost:8080/pa165/rest/items/{id}
 ```
 #### Create lost Item:
 ```
-curl -i -X POST -H "Content-Type: application/json" --data '{"name":"test","type":"test","characteristics":"test"}' http://localhost:8080/pa165/rest/items/createLost
+curl -i -X POST -H "Content-Type: application/json" --data '{"name":"test","type":"test","characteristics":"test", "lostLocationId":"1", "ownerId":"1"}' http://localhost:8080/pa165/rest/items/createLost
 ```
 #### Create founded Item:
 ```
-curl -i -X POST -H "Content-Type: application/json" --data '{"name":"test","type":"test","characteristics":"test"}' http://localhost:8080/pa165/rest/items/createFound
+curl -i -X POST -H "Content-Type: application/json" --data '{"name":"test","type":"test","characteristics":"test", "foundLocationId":"1"}' http://localhost:8080/pa165/rest/items/createFound
 ```
 #### Add category to Item:
 ```
