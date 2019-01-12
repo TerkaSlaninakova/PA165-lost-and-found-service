@@ -3,6 +3,7 @@ package cz.muni.fi.rest.controllers;
 import cz.muni.fi.api.dto.*;
 import cz.muni.fi.api.facade.ItemFacade;
 
+import cz.muni.fi.api.facade.UserFacade;
 import cz.muni.fi.persistence.entity.Item;
 import cz.muni.fi.rest.Exceptions.ResourceAlreadyExistingException;
 import cz.muni.fi.rest.Exceptions.ResourceNotFoundException;
@@ -28,6 +29,9 @@ public class ItemsController {
 
     @Inject
     private ItemFacade itemFacade;
+
+    @Inject
+    private UserFacade userFacade;
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public final List<ItemDTO> getItems() {
@@ -67,9 +71,10 @@ public class ItemsController {
     @RequestMapping(value = "/createLost", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public final void createLostItem(@RequestBody ItemCreateLostDTO item, @RequestBody UserDTO user) {
+    public final void createLostItem(@RequestBody ItemCreateLostDTO item) {
 
         try {
+            UserDTO user = userFacade.getUserById(item.getOwnerId());
             itemFacade.addItemLost(item, user);
         } catch (Exception ex) {
             throw new ResourceAlreadyExistingException(ex.getMessage());
